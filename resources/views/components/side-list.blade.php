@@ -1,4 +1,4 @@
-<div class="flex flex-col w-72 flex-shrink-0 pr-0 h-[calc((100vh-4rem)-1px)]">
+<div class="flex flex-col w-72 flex-shrink-0 pr-0 h-[calc((100vh-4rem)-1px)] hidden sm:block">
     <div class="bg-gray-50 dark:bg-gray-800 h-full p-6 rounded-none">
 
         <x-side-list-logo />
