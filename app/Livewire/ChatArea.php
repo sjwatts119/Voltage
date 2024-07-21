@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Conversation;
 use App\Models\User;
 use Livewire\Component;
 
@@ -12,30 +13,21 @@ class ChatArea extends Component
 
     public $messageInput = '';
 
-    public function mount()
+    public $conversation;
+
+    public function getListeners()
     {
-        $this->messages = [
-            [
-                'message' => 'This is a message from the logged in user',
-                'time' => time(),
-                'user' => auth()->user()->name,
-            ],
-            [
-                'message' => 'This is a message from another user',
-                'time' => time(),
-                'user' => 'other',
-            ],
-            [
-                'message' => 'This is a message from the logged in user 222222222222',
-                'time' => time(),
-                'user' => auth()->user()->name,
-            ],
-            [
-                'message' => 'This is a message from another user 22222',
-                'time' => time(),
-                'user' => 'other',
-            ],
-        ];
+        return ['loadConversation' => 'loadConversation'];
+    }
+
+    public function loadConversation($id) : void
+    {
+        $this->conversation = Conversation::find($id);
+    }
+
+    public function mount() : void
+    {
+        $this->conversation = Conversation::first();
     }
 
     public function sendMessage() : void

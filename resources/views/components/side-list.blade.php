@@ -10,7 +10,7 @@
             </div>
             <div class="flex flex-col space-y-1 mt-4 overflow-y-auto">
                 @foreach($conversations as $conversation)
-                    <x-side-list-conversation :conversation="$conversation" />
+                    <livewire:side-list-conversation :conversation="$conversation" />
                 @endforeach
             </div>
         </div>
