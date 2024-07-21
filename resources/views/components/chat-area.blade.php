@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-auto h-[calc(100vh-4rem)]">
+<div class="flex flex-col flex-auto h-[calc((100vh-4rem)-1px)]">
     <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-white dark:bg-gray-900 h-full p-4">
         <div class="flex flex-col h-full overflow-x-auto mb-4">
             <div class="flex flex-col h-full">
