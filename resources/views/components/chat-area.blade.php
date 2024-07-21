@@ -9,8 +9,8 @@
                         $authId = auth()->id();
                     @endphp
 
-                    @foreach($conversation->messages as $message)
-                        @if($message->user_id === $authId)
+                    @foreach($messages as $message)
+                        @if($message['user_id'] === $authId)
                             <x-message-user :message="$message" />
                         @else
                             <x-message-not-user :message="$message" />
@@ -22,3 +22,4 @@
         <x-chat-area-inputs />
     </div>
 </div>
+

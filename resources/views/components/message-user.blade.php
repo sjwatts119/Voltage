@@ -5,7 +5,7 @@
             <div class="break-words">{{$message['message']}}</div>
         </div>
         <div class="relative mr-3 text-xs dark:text-slate-400 py-2">
-            <div>{{date('H:i' , $message['time'])}}</div>
+            <div>{{$message['created_at']}}</div>
         </div>
     </div>
 </div>
