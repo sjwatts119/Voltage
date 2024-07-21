@@ -18,4 +18,7 @@ export default {
     },
 
     plugins: [forms],
+
+    //darkMode: 'selector',
+    // ...
 };
