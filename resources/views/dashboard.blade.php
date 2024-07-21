@@ -1,10 +1,5 @@
 <x-app-layout>
 
-    <div class="flex antialiased text-gray-800">
-        <div class="flex flex-row h-full w-full overflow-x-hidden">
-            <x-side-list :conversations="$conversations" />
-            <livewire:chat-area />
-        </div>
-    </div>
+    <livewire:chat />
 
 </x-app-layout>
