@@ -1,4 +1,4 @@
-<div class="flex flex-row items-center h-16 rounded-xl bg-white dark:bg-gray-800 w-full px-4">
+<div class="flex flex-row items-center h-16 py-7 rounded-2xl bg-white dark:bg-gray-800 w-full px-4">
     <div>
         <button class="flex items-center justify-center text-gray-400 hover:text-gray-600">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

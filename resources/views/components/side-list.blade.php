@@ -1,5 +1,5 @@
 <div class="flex flex-col w-72 flex-shrink-0 pr-0 h-[calc((100vh-4rem)-1px)]">
-    <div class="bg-white dark:bg-gray-800 h-full p-6 rounded-none">
+    <div class="bg-gray-50 dark:bg-gray-800 h-full p-6 rounded-none">
 
         <x-side-list-logo />
 
@@ -12,7 +12,7 @@
                 @for($i = 0; $i < 20; $i++)
                     {{--if on first iteration, give class bg-gray-100 TEMPORARY FOR TESTING FIXME--}}
                     @if($i == 0)
-                        <x-side-list-user class="bg-gray-100 dark:bg-gray-900" />
+                        <x-side-list-user class="bg-gray-200 dark:bg-gray-900 shadow-md" />
                     @else
                         <x-side-list-user />
                     @endif
