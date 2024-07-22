@@ -2,9 +2,7 @@
     @if($activeConversation->name)
         <div class="flex items-center justify-between h-full w-full pl-8">
             <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center h-8 w-8 bg-purple-200 rounded-full">
-                    g
-                </div>
+                <x-conversation-icon :currentConversation="$activeConversation" />
                 <div class="text-lg font-semibold dark:text-gray-300">
                     {{ $activeConversation->name }}
                 </div>

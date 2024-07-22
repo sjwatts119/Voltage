@@ -7,9 +7,7 @@
 @endphp
 
 <x-conversation-button :conversationId="$currentConversation->id" :buttonClass="$buttonClass">
-    <div class="flex items-center justify-center h-8 w-8 bg-purple-200 rounded-full">
-        s
-    </div>
+    <x-conversation-icon :currentConversation="$currentConversation" />
     <div class="ml-2 text-sm font-semibold dark:text-gray-300">
         @if($currentConversation->name)
             {{ $currentConversation->name }}
