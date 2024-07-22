@@ -23,7 +23,7 @@ class Chat extends Component
     {
         // Assuming the user is authenticated INSECURE FIXME
         $this->conversations = auth()->user()->conversations;
-        $this->loadConversation($this->conversations->first()->id);
+        //$this->loadConversation($this->conversations->first()->id);
     }
 
     public function loadConversation($id): void
@@ -32,6 +32,7 @@ class Chat extends Component
         $this->conversation = Conversation::with('messages')->findOrFail($id);
         // We should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
         $this->messages = new Collection($this->conversation->messages);
+        $this->messageInput = '';
     }
 
     public function sendMessage(): void
@@ -47,6 +48,13 @@ class Chat extends Component
         MessageSent::dispatch($newMessage);
 
         // Clear the input field
+        $this->messageInput = '';
+    }
+
+    public function closeChat(): void
+    {
+        $this->conversation = null;
+        $this->messages = null;
         $this->messageInput = '';
     }
 
