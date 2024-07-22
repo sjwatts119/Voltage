@@ -8,13 +8,19 @@
                         @php
                             // Store the authenticated user's id, so we don't have to call auth() loads of times
                             $authId = auth()->id();
+
+                            // Get the current user
+                            $currentUser = App\Models\User::find($authId);
+
+                            // Get other participants of the conversation
+                            $otherParticipants = App\Models\Conversation::getParticipants($activeConversation->id)->where('id', '!=', $authId);
                         @endphp
 
                         @foreach($messages as $message)
                             @if($message['user_id'] === $authId)
-                                <x-message-user :message="$message" />
+                                <x-message-user :message="$message" :user="$currentUser"/>
                             @else
-                                <x-message-not-user :message="$message" />
+                                <x-message-not-user :message="$message" :participants="$otherParticipants"/>
                             @endif
                         @endforeach
                     </div>

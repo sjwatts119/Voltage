@@ -20,5 +20,10 @@ class Conversation extends Model
     {
         return $this->hasMany(Message::class);
     }
+
+    public static function getParticipants($id){
+        //retrieve all conversation participants according to the conversation id passed
+        return Conversation::find($id)->users;
+    }
 }
 

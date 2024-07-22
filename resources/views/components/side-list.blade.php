@@ -14,6 +14,8 @@
                     <x-side-list-conversation :activeConversation="$activeConversation" :currentConversation="$currentConversation" />
                 @endforeach
             </div>
+            {{--at the bottom of this element, we should have an element to show the user's profile picture and name--}}
+
         </div>
     </div>
 </div>
