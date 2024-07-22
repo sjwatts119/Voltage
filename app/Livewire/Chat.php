@@ -17,6 +17,8 @@ class Chat extends Component
     public $conversation;
     public $messages;
 
+    public $tempCounter;
+
     protected $listeners = ['messageReceived' => 'handleMessageReceived'];
 
     public function mount(): void
@@ -24,6 +26,8 @@ class Chat extends Component
         //Assuming the user is authenticated INSECURE FIXME
         $this->conversations = auth()->user()->conversations;
         $this->loadConversation($this->conversations->first()->id);
+
+        $this->tempCounter = 0;
     }
 
     public function loadConversation($id): void
@@ -52,8 +56,8 @@ class Chat extends Component
 
     #[NoReturn] #[On('echo:conversation.{conversation.id},.App\\Events\\MessageSent')]
     public function receivedMessage($message): void {
-        //did the user send this message? we don't want to display it twice
-        if($message['message']['user_id'] == auth()->id()) {
+        // Did the user send this message? We don't want to display it twice
+        if ($message['message']['user_id'] == auth()->id()) {
             return;
         }
 
@@ -62,18 +66,25 @@ class Chat extends Component
 
         // Ensure the message array contains the required keys
         if (isset($messageData['user_id']) && isset($messageData['message'])) {
-            // Convert the incoming array to a Message model instance
-            $newMessage = new Message([
-                'user_id' => $messageData['user_id'],
-                'message' => $messageData['message'],
-                'conversation_id' => $messageData['conversation_id'],
-                'created_at' => $messageData['created_at'],
-                'updated_at' => $messageData['updated_at'],
-                'id' => $messageData['id'],
-            ]);
+            // Check if the message already exists in the collection to avoid duplicates
+            $existingMessage = $this->messages->firstWhere('id', $messageData['id']);
+            if (!$existingMessage) {
+                // Create an array to represent the message
+                $newMessage = [
+                    'user_id' => $messageData['user_id'],
+                    'message' => $messageData['message'],
+                    'conversation_id' => $messageData['conversation_id'],
+                    'created_at' => $messageData['created_at'],
+                    'updated_at' => $messageData['updated_at'],
+                    'id' => $messageData['id'],
+                ];
 
-            // Append the new message to the $messages collection without modifying the database
-            $this->messages->push($newMessage);
+                // Append the new message to the $messages collection
+                $this->messages->push($newMessage);
+
+                // Increment the temporary counter
+                $this->tempCounter++;
+            }
         }
     }
 
