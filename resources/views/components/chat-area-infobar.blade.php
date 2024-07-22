@@ -1,4 +1,4 @@
-<div class="h-16 bg-gray-200 dark:bg-gray-800 w-full shadow-xl">
+<div class="h-16 bg-white dark:bg-gray-800 w-full border-b dark:border-none dark:shadow-xl">
     <div class="flex items-center justify-between h-full w-full pl-8 ">
         <div class="flex items-center space-x-3">
             {{--add back arrow icon button to close chat here--}}

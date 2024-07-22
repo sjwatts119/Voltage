@@ -1,6 +1,6 @@
 {{--if there is a conversation, hide the list--}}
 <div class="flex flex-col w-72 flex-shrink-0 pr-0 h-[calc((100vh-4rem)-1px)] {{ $activeConversation ? 'hidden sm:block' : 'w-full sm:w-72' }}">
-    <div class="bg-gray-50 dark:bg-gray-800 h-full p-6 rounded-none sm:border-r border-gray-100 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 h-full p-6 rounded-none sm:border-r border-gray-100 dark:border-gray-700">
 
         <x-side-list-logo />
 
