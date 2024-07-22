@@ -10,8 +10,11 @@ class Message extends Model
     use HasFactory;
 
     public $fillable = [
+        'user_id',
         'message',
-        'time',
-        'user_id'
+        'conversation_id',
+        'created_at',
+        'updated_at',
+        'id',
     ];
 }

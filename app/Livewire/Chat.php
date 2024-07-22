@@ -5,8 +5,10 @@ namespace App\Livewire;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
+use JetBrains\PhpStorm\NoReturn;
 use Livewire\Component;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 
 class Chat extends Component
 {
@@ -28,7 +30,8 @@ class Chat extends Component
     {
         //Securely load the conversation
         $this->conversation = Conversation::with('messages')->findOrFail($id);
-        $this->messages = collect($this->conversation->messages)->sortBy('created_at');
+        //we should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
+        $this->messages = new Collection($this->conversation->messages);
     }
 
     public function sendMessage(): void
@@ -47,9 +50,31 @@ class Chat extends Component
         $this->messageInput = '';
     }
 
-    public function handleMessageReceived($message): void
-    {
-        $this->messages->push(new Message($message));
+    #[NoReturn] #[On('echo:conversation.{conversation.id},.App\\Events\\MessageSent')]
+    public function receivedMessage($message): void {
+        //did the user send this message? we don't want to display it twice
+        if($message['message']['user_id'] == auth()->id()) {
+            return;
+        }
+
+        // Access the nested message array
+        $messageData = $message['message'];
+
+        // Ensure the message array contains the required keys
+        if (isset($messageData['user_id']) && isset($messageData['message'])) {
+            // Convert the incoming array to a Message model instance
+            $newMessage = new Message([
+                'user_id' => $messageData['user_id'],
+                'message' => $messageData['message'],
+                'conversation_id' => $messageData['conversation_id'],
+                'created_at' => $messageData['created_at'],
+                'updated_at' => $messageData['updated_at'],
+                'id' => $messageData['id'],
+            ]);
+
+            // Append the new message to the $messages collection without modifying the database
+            $this->messages->push($newMessage);
+        }
     }
 
     public function render()
