@@ -1,13 +1,17 @@
 @if($activeConversation)
-    <div class="flex flex-col flex-auto h-[calc((100vh-4rem)-1px)]">
-        <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full p-4">
-            <div class="flex flex-col-reverse h-full overflow-x-auto mb-4">
-
-                <div class="flex flex-col-reverse h-full">
-                    <div class="grid grid-cols-12 gap-y-2">
+    <div class="flex flex-col h-[calc((100vh-4rem)-1px)] w-full">
+        <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full w-full">
+            <div class="flex flex-col h-full w-full">
+                <!-- New bar area -->
+                <div class="h-12 bg-gray-200 dark:bg-gray-800 w-full">
+                    <!-- Your new bar content here -->
+                </div>
+                <!-- Chat area -->
+                <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full p-4">
+                    <div class="grid grid-cols-12 gap-y-2 w-full">
                         @php
-                            //store the authenticated user's id, so we don't have to call auth() loads of times
-                                $authId = auth()->id();
+                            // Store the authenticated user's id, so we don't have to call auth() loads of times
+                            $authId = auth()->id();
                         @endphp
 
                         @foreach($messages as $message)
@@ -19,20 +23,20 @@
                         @endforeach
                     </div>
                 </div>
+                <x-chat-area-inputs />
             </div>
-            <x-chat-area-inputs />
         </div>
     </div>
 @else
-    <div class="flex flex-col flex-auto h-[calc((100vh-4rem)-1px)]">
-        <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full p-4">
-            <div class="flex flex-col-reverse h-full overflow-x-auto mb-4">
+    <div class="flex flex-col h-[calc(100vh-4rem)] w-full">
+        <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full w-full p-4">
+            <div class="flex flex-col h-full overflow-x-auto mb-4 w-full">
                 <div class="mx-auto my-auto p-6">
-                    <div class="text-2xl font-bold text-center dark:text-gray-500">Select a conversation to start messaging.</div>
+                    <div class="text-2xl font-bold text-center dark:text-gray-500">
+                        Select a conversation to start messaging.
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 @endif
-
-

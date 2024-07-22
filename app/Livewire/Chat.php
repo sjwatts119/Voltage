@@ -37,7 +37,7 @@ class Chat extends Component
 
     public function sendMessage(): void
     {
-        // validate messageInput
+        // Validate messageInput
         if(empty($this->messageInput)) {
             return;
         }
