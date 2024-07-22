@@ -11,9 +11,7 @@
     @else
         <div class="flex items-center justify-between h-full w-full pl-8">
             <div class="flex items-center space-x-3">
-                <div class="flex items-center justify-center h-8 w-8 bg-purple-200 rounded-full">
-                    s
-                </div>
+                <x-conversation-icon :currentConversation="$activeConversation" />
                 @foreach($activeConversation->users as $user)
                     @if($user->id !== auth()->id())
                         <div class="text-lg font-semibold dark:text-gray-300">
