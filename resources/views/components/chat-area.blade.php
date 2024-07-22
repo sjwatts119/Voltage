@@ -24,7 +24,7 @@
         </div>
     </div>
 @else
-    <div class="flex flex-col h-[calc(100vh-4rem)] w-full">
+    <div class="flex flex-col h-[calc(100vh-4rem)] w-full hidden sm:block">
         <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full w-full p-4">
             <div class="flex flex-col h-full overflow-x-auto mb-4 w-full">
                 <div class="mx-auto my-auto p-6">
