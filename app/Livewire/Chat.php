@@ -37,6 +37,11 @@ class Chat extends Component
 
     public function sendMessage(): void
     {
+        // validate messageInput
+        if(empty($this->messageInput)) {
+            return;
+        }
+
         $newMessage = $this->activeConversation->messages()->create([
             'user_id' => auth()->id(),
             'message' => $this->messageInput,
