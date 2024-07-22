@@ -26,6 +26,11 @@ class MessageSent implements ShouldBroadcastNow
         //we need to construct this with a model of the message which will be broadcasted
     }
 
+    public function broadcastAs()
+    {
+        return 'NewMessage';
+    }
+
     /**
      * Get the channels the event should broadcast on.
      *
@@ -34,7 +39,7 @@ class MessageSent implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new Channel('conversation.' . $this->message->conversation_id),
+            new Channel('Voltage-Conversation'),
         ];
     }
 }

@@ -17,24 +17,20 @@ class Chat extends Component
     public $conversation;
     public $messages;
 
-    public $tempCounter;
-
     protected $listeners = ['messageReceived' => 'handleMessageReceived'];
 
     public function mount(): void
     {
-        //Assuming the user is authenticated INSECURE FIXME
+        // Assuming the user is authenticated INSECURE FIXME
         $this->conversations = auth()->user()->conversations;
         $this->loadConversation($this->conversations->first()->id);
-
-        $this->tempCounter = 0;
     }
 
     public function loadConversation($id): void
     {
-        //Securely load the conversation
+        // Securely load the conversation
         $this->conversation = Conversation::with('messages')->findOrFail($id);
-        //we should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
+        // We should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
         $this->messages = new Collection($this->conversation->messages);
     }
 
@@ -47,15 +43,21 @@ class Chat extends Component
 
         $this->messages->push($newMessage);
 
-        //Broadcast the message
+        // Broadcast the message
         MessageSent::dispatch($newMessage);
 
-        //Clear the input field
+        // Clear the input field
         $this->messageInput = '';
     }
 
-    #[NoReturn] #[On('echo:conversation.{conversation.id},.App\\Events\\MessageSent')]
+    #[NoReturn] #[On('echo:Voltage-Conversation,.NewMessage')]
     public function receivedMessage($message): void {
+
+        // Is the message for this conversation? if not return
+        if ($message['message']['conversation_id'] != $this->conversation->id) {
+            return;
+        }
+
         // Did the user send this message? We don't want to display it twice
         if ($message['message']['user_id'] == auth()->id()) {
             return;
@@ -81,9 +83,6 @@ class Chat extends Component
 
                 // Append the new message to the $messages collection
                 $this->messages->push($newMessage);
-
-                // Increment the temporary counter
-                $this->tempCounter++;
             }
         }
     }
