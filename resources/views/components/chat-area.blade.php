@@ -2,11 +2,7 @@
     <div class="flex flex-col h-[calc((100vh-4rem)-1px)] w-full">
         <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full w-full">
             <div class="flex flex-col h-full w-full">
-                <!-- New bar area -->
-                <div class="h-12 bg-gray-200 dark:bg-gray-800 w-full">
-                    <!-- Your new bar content here -->
-                </div>
-                <!-- Chat area -->
+                <x-chat-area-infobar :activeConversation="$activeConversation" />
                 <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full p-4">
                     <div class="grid grid-cols-12 gap-y-2 w-full">
                         @php
