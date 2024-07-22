@@ -1,7 +1,7 @@
 <div class="flex antialiased text-gray-800">
     <div class="flex flex-row h-full w-full overflow-x-hidden">
-        <x-side-list :conversations="$conversations" />
-        <x-chat-area :messages="$messages" :conversation="$conversation" />
+        <x-side-list :conversations="$conversations" :activeConversation="$activeConversation"  />
+        <x-chat-area :messages="$messages" :activeConversation="$activeConversation" />
     </div>
 </div>
 

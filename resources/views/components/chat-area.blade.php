@@ -1,4 +1,4 @@
-@if($conversation)
+@if($activeConversation)
     <div class="flex flex-col flex-auto h-[calc((100vh-4rem)-1px)]">
         <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full p-4">
             <div class="flex flex-col-reverse h-full overflow-x-auto mb-4">

@@ -14,7 +14,7 @@ class Chat extends Component
 {
     public $messageInput = '';
     public $conversations;
-    public $conversation;
+    public $activeConversation;
     public $messages;
 
     protected $listeners = ['messageReceived' => 'handleMessageReceived'];
@@ -29,15 +29,15 @@ class Chat extends Component
     public function loadConversation($id): void
     {
         // Securely load the conversation
-        $this->conversation = Conversation::with('messages')->findOrFail($id);
+        $this->activeConversation = Conversation::with('messages')->findOrFail($id);
         // We should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
-        $this->messages = new Collection($this->conversation->messages);
+        $this->messages = new Collection($this->activeConversation->messages);
         $this->messageInput = '';
     }
 
     public function sendMessage(): void
     {
-        $newMessage = $this->conversation->messages()->create([
+        $newMessage = $this->activeConversation->messages()->create([
             'user_id' => auth()->id(),
             'message' => $this->messageInput,
         ]);
@@ -53,7 +53,7 @@ class Chat extends Component
 
     public function closeChat(): void
     {
-        $this->conversation = null;
+        $this->activeConversation = null;
         $this->messages = null;
         $this->messageInput = '';
     }
@@ -62,7 +62,7 @@ class Chat extends Component
     public function receivedMessage($message): void {
 
         // Is the message for this conversation? if not return
-        if ($message['message']['conversation_id'] != $this->conversation->id) {
+        if ($message['message']['conversation_id'] != $this->activeConversation->id) {
             return;
         }
 

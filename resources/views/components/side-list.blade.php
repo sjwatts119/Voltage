@@ -9,8 +9,8 @@
                 <span class="flex items-center justify-center bg-gray-300 text-black text-sm h-4 rounded-full w-fit-content p-2 py-3">{{$conversations->count()}}</span>
             </div>
             <div class="flex flex-col space-y-1 mt-4 overflow-y-auto">
-                @foreach($conversations as $conversation)
-                    <x-side-list-conversation :conversation="$conversation" />
+                @foreach($conversations as $currentConversation)
+                    <x-side-list-conversation :activeConversation="$activeConversation" :currentConversation="$currentConversation" />
                 @endforeach
             </div>
         </div>
