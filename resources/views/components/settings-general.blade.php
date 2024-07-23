@@ -1,4 +1,4 @@
-<div class="lg:max-h-[75vh] p-16 md:overflow-y-auto">
+<div class="lg:max-h-[75vh] p-8 md:p-16 md:overflow-y-auto">
     <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
 
     <div>

@@ -1,6 +1,6 @@
 <div class="container rounded-2xl max-w-2xl">
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl">
-        <div class="h-32 overflow-hidden">
+        <div class="h-28 overflow-hidden">
             {{--this will be done with spatie so this isn't correct but it's just a placeholder for now--}}
             @if($user->profile->banner)
                 <img class="w-full" src="" alt="" />
@@ -9,16 +9,25 @@
             @endif
         </div>
         <div class="flex justify-center px-5 -mt-12">
-            <x-profile-icon :user="$user" />
+            <div class="h-24 w-24 bg-white dark:bg-gray-800 p-2 rounded-full">
+                <div class="h-20 w-20 flex items-center justify-center rounded-full {{ $user->image ? '' : 'bg-purple-400' }}">
+                    @if($user->image)
+                        <img src="{{ $user->image }}" alt="User Image" class="rounded-full">
+                    @else
+                        <div class="text-4xl">{{ $user->name[0] }}</div>
+                    @endif
+                </div>
+            </div>
+
         </div>
         <div class="">
-            <div class="text-left px-12 mb-28">
-                <h2 class="text-gray-800 dark:text-gray-200 text-4xl font-bold">{{  $user->name }}</h2>
+            <div class="text-left px-12 mb-20">
+                <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-bold">{{  $user->name }}</h2>
                 <div class="flex items-start">
-                    <a class="text-gray-400 text-lg hover:text-purple-500 mr-1">{{ $user->username }}</a>
+                    <a class="text-gray-400 text-md hover:text-purple-500 mr-1">{{ $user->username }}</a>
                     @if($user->profile->pronouns)
-                        <span class="text-gray-400 text-lg">·</span>
-                        <p class="text-gray-400 text-lg ml-1">{{ $user->profile->pronouns }}</p>
+                        <span class="text-gray-400 text-md">·</span>
+                        <p class="text-gray-400 text-sm ml-1">{{ $user->profile->pronouns }}</p>
                     @endif
                 </div>
 
