@@ -4,27 +4,34 @@
     <div class="flex flex-col xl:flex-row xl:space-x-8 space-y-6 xl:space-y-0">
         <div class="xl:w-1/2 flex flex-col items-center">
 
-            {{--make three dummy text inputs for now--}}
             <div class="mx-auto space-y-6 w-full">
                 <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded-lg">
                     <div class="max-w-xl mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
                         <input type="text" name="name" id="name" wire:model.live="name" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
                     <div class="max-w-xl mb-4">
                         <label for="pronouns" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Pronouns</label>
                         <input type="text" name="pronouns" id="pronouns" wire:model.live="pronouns" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        @error('pronouns') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    <div class="max-w-xl">
+                    <div class="max-w-xl mb-4">
                         <label for="bio" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bio</label>
                         <textarea name="bio" id="bio" wire:model.live="bio" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
+                        @error('bio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    {{--add save button--}}
                     <div class="mt-4">
                         <button wire:click="saveProfile()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg">Save</button>
                     </div>
+                    @if (session()->has('success'))
+                        <div class="text-green-500 text-sm mt-4">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                 </div>
             </div>
+
         </div>
 
         <div class="xl:w-1/2">

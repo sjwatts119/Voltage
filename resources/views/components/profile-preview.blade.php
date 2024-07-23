@@ -14,15 +14,14 @@
                     @if($user->image)
                         <img src="{{ $user->image }}" alt="User Image" class="rounded-full">
                     @else
-                        <div class="text-4xl">{{ $user->name[0] }}</div>
+                        <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
                     @endif
                 </div>
             </div>
-
         </div>
         <div class="">
             <div class="text-left px-12 mb-20">
-                <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-bold">{{ $name }}</h2>
+                <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-bold">{{ $name ? $name : '' }}</h2>
                 <div class="flex items-start">
                     <a class="text-gray-400 text-sm hover:text-purple-500 mr-1">{{ $user->username }}</a>
                     @if($pronouns)
@@ -34,7 +33,7 @@
                 {{--page divider--}}
                 <div class="border-t border-gray-100 dark:border-gray-700 my-4"></div>
 
-                <p class="mt-2 text-gray-500 text-sm mt-4">
+                <p class="mt-2 text-gray-500 text-sm mt-4 break-words">
                     @if($bio)
                         {{ $bio }}
                     @else
