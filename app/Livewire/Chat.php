@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
+use Carbon\Carbon;
 use JetBrains\PhpStorm\NoReturn;
 use Livewire\Component;
 use Illuminate\Support\Collection;
@@ -89,8 +90,8 @@ class Chat extends Component
                     'user_id' => $messageData['user_id'],
                     'message' => $messageData['message'],
                     'conversation_id' => $messageData['conversation_id'],
-                    'created_at' => $messageData['created_at'],
-                    'updated_at' => $messageData['updated_at'],
+                    'created_at' => Carbon::parse($messageData['created_at']),
+                    'updated_at' => Carbon::parse($messageData['updated_at']),
                     'id' => $messageData['id'],
                 ];
 
