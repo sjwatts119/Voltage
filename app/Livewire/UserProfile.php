@@ -3,26 +3,12 @@
 namespace App\Livewire;
 
 use App\Models\User;
-use Livewire\Component;
+use LivewireUI\Modal\ModalComponent;
 
-class UserProfile extends Component
+class UserProfile extends ModalComponent
 {
-    public $user;
-    public $showModal = false;
 
-    protected $listeners = ['showUserProfile'];
-
-    public function showUserProfile($userId)
-    {
-        $this->user = User::find($userId);
-        $this->showModal = true;
-    }
-
-    public function closeModal()
-    {
-        $this->showModal = false;
-    }
-
+    public User $user;
     public function render()
     {
         return view('livewire.user-profile');

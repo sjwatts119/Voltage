@@ -1,18 +1,23 @@
-<div x-data="{ showModal: @entangle('showModal') }">
-    <!-- Modal Background -->
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" x-show="showModal">
-        <!-- Modal Content -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full mx-auto mt-20"
-             @click.away="showModal = false">
-            <div class="px-4 py-5 sm:p-6">
-                @if($user)
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ $user->name }}</h2>
-                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">Username: {{ $user->username }}</h2>
-                    <p class="text-gray-900 dark:text-gray-100">Email: {{ $user->email }}</p>
-                    <p class="text-gray-900 dark:text-gray-100">Joined: {{ $user->created_at->format('M d, Y') }}</p>
-                @endif
-                <button wire:click="closeModal" class="mt-5 bg-red-500 text-white px-4 py-2 rounded">Close</button>
+<div class="container rounded-2xl">
+    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl">
+        <div class="h-32 sm:h-52 overflow-hidden" >
+            <img class="w-full" src="https://images.unsplash.com/photo-1605379399642-870262d3d051?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80" alt="" />
+        </div>
+        <div class="flex justify-center px-5 -mt-12">
+            <x-profile-icon :user="$user" />
+        </div>
+        <div class="">
+            <div class="text-left px-12 mb-28">
+                <h2 class="text-gray-800 dark:text-gray-200 text-4xl font-bold">{{  $user->name }}</h2>
+                <div class="flex items-start">
+                    <a class="text-gray-400 text-lg mt-1 hover:text-purple-500 mr-1">{{ $user->username }}</a>
+                    <span class="text-gray-400 text-lg">.</span>
+                    <p class="text-gray-400 text-lg mt-1 ml-1">{{ $user->profile->pronouns }}</p>
+                </div>
+                <p class="mt-2 text-gray-500 text-md mt-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
             </div>
         </div>
     </div>
 </div>
+
+
