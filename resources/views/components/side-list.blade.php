@@ -19,7 +19,7 @@
         <div class="border-t border-gray-100 dark:border-gray-700"></div>
         {{--user profile--}}
             <div class="flex flex-row items-center justify-between">
-                <button wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ auth()->user() }} }})" class="focus:outline-none hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl p-2 w-full mt-3">
+                <button wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ auth()->user() }} }})" class="focus:outline-none hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl p-2 w-full mt-3 transition">
                     <div class="flex items-center">
                         <x-user-icon :user="auth()->user()" />
                         <div class="ml-5 text-sm dark:text-gray-200 text-gray-800 text-left">
