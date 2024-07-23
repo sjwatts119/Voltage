@@ -15,10 +15,10 @@
             <div class="text-left px-12 mb-28">
                 <h2 class="text-gray-800 dark:text-gray-200 text-4xl font-bold">{{  $user->name }}</h2>
                 <div class="flex items-start">
-                    <a class="text-gray-400 text-lg mt-1 hover:text-purple-500 mr-1">{{ $user->username }}</a>
+                    <a class="text-gray-400 text-lg hover:text-purple-500 mr-1">{{ $user->username }}</a>
                     @if($user->profile->pronouns)
-                        <span class="text-gray-400 text-lg">.</span>
-                        <p class="text-gray-400 text-lg mt-1 ml-1">{{ $user->profile->pronouns }}</p>
+                        <span class="text-gray-400 text-lg">·</span>
+                        <p class="text-gray-400 text-lg ml-1">{{ $user->profile->pronouns }}</p>
                     @endif
                 </div>
 
