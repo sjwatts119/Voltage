@@ -22,6 +22,6 @@ export default {
 
     plugins: [forms],
 
-    //darkMode: 'selector',
+    darkMode: 'selector',
     // ...
 };

@@ -32,13 +32,13 @@
         <div class="flex-grow bg-white dark:bg-gray-900 overflow-hidden shadow-xl">
             @switch($currentTab)
                 @case('general')
-                    <x-settings-general />
+                    <x-settings-general :user="$user"/>
                     @break
                 @case('profile')
-                    <x-settings-profile />
+                    <x-settings-profile :user="$user"/>
                     @break
                 @case('account')
-                    <x-settings-account />
+                    <x-settings-account :user="$user"/>
                     @break
             @endswitch
         </div>
