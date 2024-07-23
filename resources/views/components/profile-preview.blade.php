@@ -22,12 +22,12 @@
         </div>
         <div class="">
             <div class="text-left px-12 mb-20">
-                <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-bold">{{  $user->name }}</h2>
+                <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-bold">{{ $name }}</h2>
                 <div class="flex items-start">
                     <a class="text-gray-400 text-sm hover:text-purple-500 mr-1">{{ $user->username }}</a>
-                    @if($user->profile->pronouns)
+                    @if($pronouns)
                         <span class="text-gray-400 text-sm">·</span>
-                        <p class="text-gray-400 text-sm ml-1">{{ $user->profile->pronouns }}</p>
+                        <p class="text-gray-400 text-sm ml-1">{{ $pronouns }}</p>
                     @endif
                 </div>
 
@@ -35,8 +35,8 @@
                 <div class="border-t border-gray-100 dark:border-gray-700 my-4"></div>
 
                 <p class="mt-2 text-gray-500 text-sm mt-4">
-                    @if($user->profile->bio)
-                        {{ $user->profile->bio }}
+                    @if($bio)
+                        {{ $bio }}
                     @else
                         This user has not set a bio.
                     @endif
