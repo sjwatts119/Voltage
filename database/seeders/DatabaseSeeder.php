@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()
             ->hasProfile(1)
+            ->hasSettings(1)
             ->create([
             'name' => 'Test User',
             'username' => 'testuser',
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()
             ->hasProfile(1)
+            ->hasSettings(1)
             ->create([
             'name' => 'Sam',
             'username' => 'sam',
@@ -33,6 +35,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()
             ->hasProfile(1)
+            ->hasSettings(1)
             ->create([
             'name' => 'Other 1',
             'username' => 'other1',
@@ -41,6 +44,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()
             ->hasProfile(1)
+            ->hasSettings(1)
             ->create([
             'name' => 'Other 2',
             'username' => 'other2',

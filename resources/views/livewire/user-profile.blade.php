@@ -1,4 +1,4 @@
-<div class="container rounded-2xl">
+<div class="container rounded-2xl max-w-2xl">
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl">
         <div class="h-32 sm:h-52 overflow-hidden">
             {{--this will be done with spatie so this isn't correct but it's just a placeholder for now--}}
