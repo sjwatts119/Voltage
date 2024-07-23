@@ -1,4 +1,4 @@
-<div class="container rounded-2xl max-w-6xl max-h-[75vh]">
+<div class="container rounded-2xl overflow-auto max-w-6xl max-h-[75vh]">
     <div class="flex flex-row">
         {{-- Sidebar --}}
         <div class="min-w-72 bg-white dark:bg-gray-800 overflow-hidden shadow-xl">
