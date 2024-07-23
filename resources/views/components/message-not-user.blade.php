@@ -11,7 +11,7 @@
             <div class="break-words">{{$message['message']}}</div>
         </div>
         <div class="relative ml-3 text-xs dark:text-slate-400 py-2">
-            <div>{{$message['created_at']}}</div>
+            <div>{{$message['created_at']->format('H:i · d-m')}}</div>
         </div>
     </div>
 </div>
