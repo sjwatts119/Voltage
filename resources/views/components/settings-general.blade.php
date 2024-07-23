@@ -1,5 +1,19 @@
-<div class="p-16">
+<div class="lg:max-h-[75vh] p-16 md:overflow-y-auto">
     <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">General Settings</h1>
+
     <div>
         <label class="inline-flex items-center cursor-pointer">
             <input type="checkbox" value="" class="sr-only peer" wire:change="toggleDarkMode($event.target.checked)" {{ $user->settings->dark_mode ? 'checked' : ''}}>

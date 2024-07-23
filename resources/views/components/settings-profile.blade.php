@@ -1,6 +1,6 @@
-<div class="max-h-[75vh] p-2 md:p-8 lg:p-16">
-    <div class="flex flex-col sm:flex-row">
-        <div class="sm:w-1/2">
+<div class="lg:max-h-[75vh] md:overflow-y-auto p-4 lg:p-8 xl:p-16">
+    <div class="flex flex-col xl:flex-row">
+        <div class="xl:w-1/2">
             {{-- within here, we will have two areas. One for modifiying the profile stuff, and a preview of the profile where we display the x-user-profile liveview view --}}
             <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">Profile Settings</h1>
 
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <div class="sm:w-1/2">
+        <div class="xl:w-1/2">
             <div class="overflow-hidden rounded-2xl">
                 {{-- Preview the profile here --}}
                 <livewire:profile-preview />
