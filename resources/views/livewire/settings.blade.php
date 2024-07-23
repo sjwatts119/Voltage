@@ -1,7 +1,7 @@
 <div class="container rounded-2xl overflow-auto max-w-6xl h-[75vh]">
     <div class="flex flex-col lg:flex-row">
         {{-- Sidebar --}}
-        <div class="min-w-52 xl:min-w-72 bg-white dark:bg-gray-800 shadow-xl">
+        <div class="min-w-52 xl:min-w-72 bg-white dark:bg-gray-800">
             <div class="flex flex-col items-center justify-center hidden lg:block h-[75vh] p-8 py-16 overflow-hidden">
                 <div class="text-center">
                     <div class="flex items-center justify-center w-8 h-8 rounded-full mx-auto">
@@ -49,7 +49,7 @@
             </div>
         </div>
         {{-- Main Content --}}
-        <div class="flex-grow bg-white dark:bg-gray-900 overflow-auto shadow-xl">
+        <div class="flex-grow bg-gray-100 dark:bg-gray-900 overflow-auto">
             @switch($currentTab)
                 @case('general')
                     <div class="min-h-[75vh] ">

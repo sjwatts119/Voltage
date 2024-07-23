@@ -24,7 +24,7 @@
         </div>
 
         <div class="xl:w-1/2">
-            <div class="overflow-hidden rounded-lg">
+            <div class="overflow-hidden rounded-lg shadow">
                 {{-- Preview the profile here --}}
                 <livewire:profile-preview />
             </div>

@@ -24,9 +24,9 @@
             <div class="text-left px-12 mb-20">
                 <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-bold">{{  $user->name }}</h2>
                 <div class="flex items-start">
-                    <a class="text-gray-400 text-md hover:text-purple-500 mr-1">{{ $user->username }}</a>
+                    <a class="text-gray-400 text-sm hover:text-purple-500 mr-1">{{ $user->username }}</a>
                     @if($user->profile->pronouns)
-                        <span class="text-gray-400 text-md">·</span>
+                        <span class="text-gray-400 text-sm">·</span>
                         <p class="text-gray-400 text-sm ml-1">{{ $user->profile->pronouns }}</p>
                     @endif
                 </div>
