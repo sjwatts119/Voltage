@@ -34,7 +34,7 @@
                 {{--page divider--}}
                 <div class="border-t border-gray-100 dark:border-gray-700 my-4"></div>
 
-                <p class="mt-2 text-gray-500 text-md mt-4">
+                <p class="mt-2 text-gray-500 text-sm mt-4">
                     @if($user->profile->bio)
                         {{ $user->profile->bio }}
                     @else
