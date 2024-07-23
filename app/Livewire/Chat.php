@@ -101,6 +101,12 @@ class Chat extends Component
         }
     }
 
+    #[On('refresh-chat')]
+    public function refresh(): void
+    {
+        $this->dispatch('$refresh');
+    }
+
     public function render()
     {
         return view('livewire.pages.chat');

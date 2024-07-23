@@ -33,6 +33,9 @@ class SettingsProfile extends Component
 
         //dispatch livewire event
         $this->dispatch('profile-updated');
+
+        //dispatch refresh-chat
+        $this->dispatch('refresh-chat');
     }
 
     public function mount() : void
