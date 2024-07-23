@@ -58,7 +58,7 @@
                     @break
                 @case('profile')
                     <div class="min-h-[75vh] ">
-                        <x-settings-profile :user="$user"/>
+                        <livewire:settings-profile :user="$user"/>
                     </div>
                     @break
                 @case('account')

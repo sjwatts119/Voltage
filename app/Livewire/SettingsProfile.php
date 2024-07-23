@@ -5,7 +5,7 @@ namespace App\Livewire;
 use App\Models\User;
 use Livewire\Component;
 
-class ProfilePreview extends Component
+class SettingsProfile extends Component
 {
     public User $user;
 
@@ -13,9 +13,8 @@ class ProfilePreview extends Component
     {
         $this->user = auth()->user();
     }
-
     public function render()
     {
-        return view('livewire.profile-preview');
+        return view('livewire.settings-profile');
     }
 }
