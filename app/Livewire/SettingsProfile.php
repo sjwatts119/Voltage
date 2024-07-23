@@ -31,7 +31,8 @@ class SettingsProfile extends Component
             'bio' => $this->bio,
         ]);
 
-        session()->flash('success', 'Profile updated successfully');
+        //dispatch livewire event
+        $this->dispatch('profile-updated');
     }
 
     public function mount() : void

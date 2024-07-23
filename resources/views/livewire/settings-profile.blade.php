@@ -21,14 +21,12 @@
                         <textarea name="bio" id="bio" wire:model.live="bio" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
                         @error('bio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </div>
-                    <div class="mt-4">
-                        <button wire:click="saveProfile()" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg">Save</button>
+                    <div class="flex items-center gap-4 mt-4">
+                        <x-primary-button wire:click="saveProfile()" class="">Save</x-primary-button>
+                        <x-action-message class="" on="profile-updated">
+                            {{ __('Saved.') }}
+                        </x-action-message>
                     </div>
-                    @if (session()->has('success'))
-                        <div class="text-green-500 text-sm mt-4">
-                            {{ session('success') }}
-                        </div>
-                    @endif
                 </div>
             </div>
 
