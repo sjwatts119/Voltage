@@ -4,7 +4,7 @@
 
         <x-side-list-logo />
 
-        <div class="flex flex-col mt-8 flex-grow overflow-hidden h-[calc(100%-5rem)]">
+        <div class="flex flex-col mt-8 flex-grow overflow-hidden h-[calc(100%-9rem)]">
             <div class="flex flex-row items-center justify-between text-md dark:text-gray-200 text-gray-800">
                 <span class="">Your Conversations</span>
                 <span class="flex items-center justify-center bg-gray-300 text-black text-sm h-4 rounded-full w-fit-content p-2 py-3">{{$conversations->count()}}</span>
@@ -14,8 +14,18 @@
                     <x-side-list-conversation :activeConversation="$activeConversation" :currentConversation="$currentConversation" />
                 @endforeach
             </div>
-            {{--at the bottom of this element, we should have an element to show the user's profile picture and name--}}
-
+        </div>
+        {{--dividing line--}}
+        <div class="border-t border-gray-100 dark:border-gray-700"></div>
+        {{--user profile--}}
+        <div class="flex flex-row items-center justify-between mt-6 ml-2">
+            <div class="flex items-center">
+                <x-user-icon :user="auth()->user()" />
+                <div class="ml-3 text-sm dark:text-gray-200 text-gray-800">
+                    <div>{{auth()->user()->name}}</div>
+                    <div class="text-xs dark:text-gray-400 text-gray-600">{{auth()->user()->username}}</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

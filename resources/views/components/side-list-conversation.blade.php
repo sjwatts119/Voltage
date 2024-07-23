@@ -8,7 +8,7 @@
 
 <x-conversation-button :conversationId="$currentConversation->id" :buttonClass="$buttonClass">
     <x-conversation-icon :currentConversation="$currentConversation" />
-    <div class="ml-2 text-sm font-semibold dark:text-gray-300">
+    <div class="ml-2 text-md font-semibold dark:text-gray-300">
         @if($currentConversation->name)
             {{ $currentConversation->name }}
         @else
