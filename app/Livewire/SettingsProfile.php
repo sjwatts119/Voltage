@@ -3,14 +3,20 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class SettingsProfile extends Component
 {
+    use WithFileUploads;
+
     public User $user;
     public string $name;
     public string $pronouns;
     public string $bio;
+    #[Validate('image|max:1024')]
+    public $profilePicture;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -31,11 +37,19 @@ class SettingsProfile extends Component
             'bio' => $this->bio,
         ]);
 
+        //is there a new profile picture?
+        if($this->profilePicture) {
+            $this->user->profile->update([
+                'profile_photo' => $this->profilePicture->store('profile-pictures', 'public'),
+            ]);
+        }
+
         //dispatch livewire event
         $this->dispatch('profile-updated');
 
         //dispatch refresh-chat
         $this->dispatch('refresh-chat');
+
     }
 
     public function mount() : void

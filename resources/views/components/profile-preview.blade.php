@@ -10,11 +10,20 @@
         </div>
         <div class="flex justify-center px-5 -mt-12">
             <div class="h-24 w-24 bg-white dark:bg-gray-800 p-2 rounded-full">
-                <div class="h-20 w-20 flex items-center justify-center rounded-full {{ $user->image ? '' : 'bg-purple-400' }}">
-                    @if($user->image)
-                        <img src="{{ $user->image }}" alt="User Image" class="rounded-full">
+                <div class="h-20 w-20 flex items-center justify-center rounded-full {{ $user->image ? '' : 'bg-purple-400' }} relative">
+                    <label class="absolute inset-0 cursor-pointer">
+                        <input type="file" wire:model="profilePicture"  class="hidden">
+                        <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200 rounded-full"></div>
+                    </label>
+                    {{--this must take priority as the user has uploaded a new image so we show that--}}
+                    @if($profilePicture)
+                        <img src="{{ $profilePicture->temporaryUrl() }}" alt="User Image" class="rounded-full h-full">
                     @else
-                        <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
+                        @if($user->profile->profile_photo)
+                            <img src="{{ asset($user->profile->profile_photo) }}" alt="User Image" class="h-full">
+                        @else
+                            <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
+                        @endif
                     @endif
                 </div>
             </div>

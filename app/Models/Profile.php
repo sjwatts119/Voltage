@@ -13,6 +13,7 @@ class Profile extends Model
     protected $fillable = [
         'pronouns',
         'bio',
+        'profile_photo',
     ];
 
     public function user() : BelongsTo
