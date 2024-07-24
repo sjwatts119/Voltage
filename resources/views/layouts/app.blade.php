@@ -23,7 +23,7 @@
           @light-mode.window="darkMode = false"
           class="font-sans antialiased">
 
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-[100dvh] bg-gray-100 dark:bg-gray-900">
             <livewire:layout.navigation />
             <!-- Page Content -->
             <main>
