@@ -68,7 +68,7 @@ class Chat extends Component
     public function receivedMessage($message): void {
 
         // Is the message for this conversation? if not return
-        if ($message['message']['conversation_id'] != $this->activeConversation->id) {
+        if (!$this->activeConversation || $message['message']['conversation_id'] != $this->activeConversation->id) {
             return;
         }
 
