@@ -26,6 +26,30 @@ class SettingsProfile extends Component
         'bio' => 'nullable|string|max:255',
     ];
 
+    public function updatedBannerPicture() : void
+    {
+        try{
+            $this->validateOnly('bannerPicture');
+        } catch (\Throwable $th) {
+            $this->bannerPicture = null;
+
+            //fire event
+            $this->dispatch('upload-error', message: $th->getMessage());
+        }
+    }
+
+    public function updatedProfilePicture() : void
+    {
+        try{
+            $this->validateOnly('profilePicture');
+        } catch (\Throwable $th) {
+            $this->profilePicture = null;
+
+            //fire event
+            $this->dispatch('upload-error', message: $th->getMessage());
+        }
+    }
+
     public function hasChanges() : bool
     {
         return $this->user->name !== $this->name

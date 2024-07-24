@@ -25,6 +25,8 @@
                         <x-action-message class="" on="profile-updated">
                             {{ __('Saved.') }}
                         </x-action-message>
+
+                        <x-error-message class="text-red-500" on="upload-error"></x-error-message>
                     </div>
                 </div>
             </div>
