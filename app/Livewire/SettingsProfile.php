@@ -26,8 +26,31 @@ class SettingsProfile extends Component
         'bio' => 'nullable|string|max:255',
     ];
 
+    public function hasChanges() : bool
+    {
+        return $this->user->name !== $this->name
+            || $this->user->profile->pronouns !== $this->pronouns
+            || $this->user->profile->bio !== $this->bio
+            || $this->profilePicture
+            || $this->bannerPicture;
+    }
+
+    public function discardChanges() : void
+    {
+        $this->name = $this->user->name;
+        $this->pronouns = $this->user->profile->pronouns;
+        $this->bio = $this->user->profile->bio;
+        $this->profilePicture = null;
+        $this->bannerPicture = null;
+    }
+
     public function saveProfile() : void
     {
+        // This shouldn't be possible as the button is disabled, but just in case
+        if(!$this->hasChanges()) {
+            return;
+        }
+
         $this->validate();
 
         $this->user->update([

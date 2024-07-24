@@ -1,5 +1,5 @@
 <div class="container rounded-2xl max-w-2xl">
-    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl">
+    <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-xl">
         <div class="relative h-28 overflow-hidden flex items-center">
             <label class="absolute inset-0 cursor-pointer">
                 <input type="file" wire:model="bannerPicture" class="hidden">
@@ -8,17 +8,15 @@
             {{-- This will be done with Spatie, so this isn't correct, but it's just a placeholder for now --}}
             @if($bannerPicture)
                 <img class="w-full h-full object-cover" src="{{ $bannerPicture->temporaryUrl() }}" alt="Banner Image" />
+            @elseif($user->profile->banner_photo)
+                <img class="w-full h-full object-cover" src="{{ asset('storage/' . $user->profile->banner_photo) }}" alt="Banner Image" />
             @else
-                @if($user->profile->banner_photo)
-                    <img class="w-full h-full object-cover" src="{{ asset('storage/' . $user->profile->banner_photo) }}" alt="Banner Image" />
-                @else
-                    <div class="bg-gradient-to-r from-purple-500 to-indigo-500 w-full h-full"></div>
-                @endif
+                <div class="bg-gradient-to-r from-purple-500 to-indigo-500 w-full h-full"></div>
             @endif
         </div>
         <div class="flex justify-center px-5 -mt-12">
-            <div class="h-26 w-26 bg-white dark:bg-gray-800 p-1 rounded-full">
-                <div class="h-24 w-24 bg-white dark:bg-gray-800 p-2 rounded-full">
+            <div class="h-26 w-26 bg-white dark:bg-gray-900 p-1 rounded-full">
+                <div class="h-24 w-24 bg-white dark:bg-gray-900 p-2 rounded-full">
                     <div class="h-20 w-20 flex items-center justify-center rounded-full {{ $user->profile->profile_photo ? '' : 'bg-purple-400' }} relative">
                         <label class="absolute inset-0 cursor-pointer">
                             <input type="file" wire:model="profilePicture" class="hidden">
@@ -27,12 +25,10 @@
                         {{-- This must take priority as the user has uploaded a new image so we show that --}}
                         @if($profilePicture)
                             <img src="{{ $profilePicture->temporaryUrl() }}" alt="User Image" class="rounded-full h-full w-full object-cover">
+                        @elseif($user->profile->profile_photo)
+                            <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="rounded-full h-full w-full object-cover">
                         @else
-                            @if($user->profile->profile_photo)
-                                <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="rounded-full h-full w-full object-cover">
-                            @else
-                                <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
-                            @endif
+                            <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
                         @endif
                     </div>
                 </div>
