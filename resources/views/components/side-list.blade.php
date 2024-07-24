@@ -1,7 +1,12 @@
 {{--if there is a conversation, hide the list--}}
 <div class="flex flex-col w-72 flex-shrink-0 pr-0 h-[calc((100dvh-4rem)-1px)] {{ $activeConversation ? 'hidden sm:block' : 'w-full sm:w-72' }}">
     <div class="bg-white dark:bg-gray-800 h-full p-6 rounded-none sm:border-r border-gray-100 dark:border-gray-700">
-        <x-side-list-logo />
+        <button wire:click="closeChat()" class="flex flex-row items-center justify-center h-12 w-full sm:pr-5">
+            <div class="flex items-center justify-center py-1 text-white">
+                <x-application-logo class="block h-8 w-auto text-gray-800 dark:text-gray-200 antialiased" />
+            </div>
+            <div class="font-bold text-2xl dark:text-gray-100">Voltage</div>
+        </button>
         <div class="flex flex-col mt-8 flex-grow overflow-hidden h-[calc(100%-11rem)] sm:h-[calc(100%-9.9rem)] mb-5">
             <div class="flex flex-row items-center justify-between text-md dark:text-gray-200 text-gray-800">
                 <span class="">Your Conversations</span>
