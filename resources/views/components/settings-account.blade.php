@@ -1,5 +1,5 @@
-<div class="lg:max-h-[75dvh] md:overflow-y-auto p-4 md:p-16">
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mt-5 sm:mt-0 mb-5 sm:mb-10">Account Settings</h1>
+<div class="lg:max-h-[75dvh] md:overflow-y-auto p-4 md:p-16 md:pt-4 lg:pt-16">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mt-5 lg:mt-0 mb-5 lg:mb-10">Account Settings</h1>
     <div class="mx-auto space-y-6">
         <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded-lg">
             <div class="max-w-xl">

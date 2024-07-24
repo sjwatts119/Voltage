@@ -1,5 +1,5 @@
-<div class="lg:max-h-[75dvh] p-4 md:p-16 md:overflow-y-auto">
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mt-5 sm:mt-0 mb-5 sm:mb-10">General Settings</h1>
+<div class="lg:max-h-[75dvh] p-4 md:p-16 md:pt-4 lg:pt-16 md:overflow-y-auto">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mt-5 lg:mt-0 mb-5 lg:mb-10">General Settings</h1>
 
     <div class="w-full rounded-lg dark:bg-gray-800 p-8">
         <label class="inline-flex items-center cursor-pointer dark:bg-gray-800">
