@@ -20,7 +20,7 @@
                         <img src="{{ $profilePicture->temporaryUrl() }}" alt="User Image" class="rounded-full h-full">
                     @else
                         @if($user->profile->profile_photo)
-                            <img src="{{ asset($user->profile->profile_photo) }}" alt="User Image" class="h-full">
+                            <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="rounded-full h-full">
                         @else
                             <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
                         @endif
