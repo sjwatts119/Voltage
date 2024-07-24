@@ -1,4 +1,4 @@
-<div class="lg:max-h-[75vh] md:overflow-y-auto p-8 md:p-16">
+<div class="lg:max-h-[75dvh] md:overflow-y-auto p-8 md:p-16">
     <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-10">Account Settings</h1>
     <div class="mx-auto space-y-6">
         <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow rounded-lg">
