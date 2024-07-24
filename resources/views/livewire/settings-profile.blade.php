@@ -1,4 +1,4 @@
-<div class="lg:max-h-[75dvh] md:overflow-y-auto p-4 md:p-16 md:pt-4 lg:pt-16">
+<div class="lg:max-h-[75dvh] md:overflow-y-auto p-4 md:p-16 md:pt-4 lg:pt-16 mt-12 lg:mt-0">
     {{-- within here, we will have two areas. One for modifiying the profile stuff, and a preview of the profile where we display the x-user-profile liveview view --}}
     <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mt-5 lg:mt-0 mb-5 lg:mb-10">Profile Settings</h1>
     <div class="flex flex-col xl:flex-row xl:space-x-8 space-y-6 xl:space-y-0 p-4 sm:p-8 bg-white dark:bg-gray-800 rounded-lg">
