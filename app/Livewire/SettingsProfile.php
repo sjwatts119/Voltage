@@ -50,6 +50,9 @@ class SettingsProfile extends Component
         //dispatch refresh-chat
         $this->dispatch('refresh-chat');
 
+        //dispatch profile-updated with name
+        $this->dispatch('profile-updated', name: $this->user->name);
+
         //set $this->profilePicture to null
         $this->profilePicture = null;
 
