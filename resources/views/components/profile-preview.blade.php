@@ -17,10 +17,10 @@
                     </label>
                     {{--this must take priority as the user has uploaded a new image so we show that--}}
                     @if($profilePicture)
-                        <img src="{{ $profilePicture->temporaryUrl() }}" alt="User Image" class="rounded-full h-full">
+                        <img src="{{ $profilePicture->temporaryUrl() }}" alt="User Image" class="rounded-full h-full object-cover">
                     @else
                         @if($user->profile->profile_photo)
-                            <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="rounded-full h-full">
+                            <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="rounded-full h-full object-cover">
                         @else
                             <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
                         @endif

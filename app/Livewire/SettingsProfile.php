@@ -15,7 +15,7 @@ class SettingsProfile extends Component
     public string $name;
     public string $pronouns;
     public string $bio;
-    #[Validate('image|max:1024')]
+    #[Validate('nullable|image|max:1024')]
     public $profilePicture;
 
     protected $rules = [
@@ -50,6 +50,9 @@ class SettingsProfile extends Component
         //dispatch refresh-chat
         $this->dispatch('refresh-chat');
 
+        //set $this->profilePicture to null
+        $this->profilePicture = null;
+
     }
 
     public function mount() : void
@@ -58,6 +61,7 @@ class SettingsProfile extends Component
         $this->name = $this->user->name;
         $this->pronouns = $this->user->profile->pronouns;
         $this->bio = $this->user->profile->bio;
+        $this->profilePicture = null;
     }
 
     public function render()

@@ -19,7 +19,7 @@ class ProfileFactory extends Factory
     {
         return [
             'status' => $this->faker->sentence,
-            'bio' => $this->faker->paragraph,
+            'bio' => $this->faker->sentence,
             'pronouns' => $this->faker->randomElement(['he/him', 'she/her', 'they/them']),
         ];
     }
