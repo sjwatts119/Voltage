@@ -31,17 +31,17 @@
             </div>
             {{--make a slim nav which is just one row of nav texts for mobile--}}
             <div class="flex flex-row space-x-1 mx-4 mt-4 lg:hidden">
-                <button wire:click="changeTab('general')" class="flex flex-row items-center hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl rounded-b-none p-2 {{ $currentTab == 'general' ? 'bg-gray-200 dark:bg-gray-900' : '' }} transition">
+                <button wire:click="changeTab('general')" class="flex flex-row items-center hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl rounded-b-none p-2 {{ $currentTab == 'general' ? 'bg-gray-100 dark:bg-gray-900' : '' }} transition">
                     <div class="mx-2 text-md font-semibold dark:text-gray-300">
                         General
                     </div>
                 </button>
-                <button wire:click="changeTab('profile')" class="flex flex-row items-center hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl rounded-b-none p-2 {{ $currentTab == 'profile' ? 'bg-gray-200 dark:bg-gray-900' : '' }} transition">
+                <button wire:click="changeTab('profile')" class="flex flex-row items-center hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl rounded-b-none p-2 {{ $currentTab == 'profile' ? 'bg-gray-100 dark:bg-gray-900' : '' }} transition">
                     <div class="mx-2 text-md font-semibold dark:text-gray-300">
                         Profile
                     </div>
                 </button>
-                <button wire:click="changeTab('account')" class="flex flex-row items-center hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl rounded-b-none p-2 {{ $currentTab == 'account' ? 'bg-gray-200 dark:bg-gray-900' : '' }} transition">
+                <button wire:click="changeTab('account')" class="flex flex-row items-center hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl rounded-b-none p-2 {{ $currentTab == 'account' ? 'bg-gray-100 dark:bg-gray-900' : '' }} transition">
                     <div class="mx-2 text-md font-semibold dark:text-gray-300">
                         Account
                     </div>
