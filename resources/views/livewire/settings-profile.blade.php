@@ -34,7 +34,7 @@
 
         <div class="xl:w-1/2">
             <div class="overflow-hidden rounded-lg shadow">
-                <x-profile-preview :user="$user" :name="$name" :pronouns="$pronouns" :bio="$bio" :profilePicture="$profilePicture"/>
+                <x-profile-preview :user="$user" :name="$name" :pronouns="$pronouns" :bio="$bio" :profilePicture="$profilePicture" :bannerPicture="$bannerPicture"/>
             </div>
         </div>
     </div>

@@ -1,30 +1,40 @@
 <div class="container rounded-2xl max-w-2xl">
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-xl">
-        <div class="h-28 overflow-hidden">
-            {{--this will be done with spatie so this isn't correct but it's just a placeholder for now--}}
-            @if($user->profile->banner)
-                <img class="w-full" src="" alt="" />
+        <div class="relative h-28 overflow-hidden flex items-center">
+            <label class="absolute inset-0 cursor-pointer">
+                <input type="file" wire:model="bannerPicture" class="hidden">
+                <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200"></div>
+            </label>
+            {{-- This will be done with Spatie, so this isn't correct, but it's just a placeholder for now --}}
+            @if($bannerPicture)
+                <img class="w-full h-full object-cover" src="{{ $bannerPicture->temporaryUrl() }}" alt="Banner Image" />
             @else
-                <div class="bg-gradient-to-r from-purple-500 to-indigo-500 w-full h-full"></div>
+                @if($user->profile->banner_photo)
+                    <img class="w-full h-full object-cover" src="{{ asset('storage/' . $user->profile->banner_photo) }}" alt="Banner Image" />
+                @else
+                    <div class="bg-gradient-to-r from-purple-500 to-indigo-500 w-full h-full"></div>
+                @endif
             @endif
         </div>
         <div class="flex justify-center px-5 -mt-12">
-            <div class="h-24 w-24 bg-white dark:bg-gray-800 p-2 rounded-full">
-                <div class="h-20 w-20 flex items-center justify-center rounded-full {{ $user->image ? '' : 'bg-purple-400' }} relative">
-                    <label class="absolute inset-0 cursor-pointer">
-                        <input type="file" wire:model="profilePicture"  class="hidden">
-                        <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200 rounded-full"></div>
-                    </label>
-                    {{--this must take priority as the user has uploaded a new image so we show that--}}
-                    @if($profilePicture)
-                        <img src="{{ $profilePicture->temporaryUrl() }}" alt="User Image" class="rounded-full h-full object-cover">
-                    @else
-                        @if($user->profile->profile_photo)
-                            <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="rounded-full h-full object-cover">
+            <div class="h-26 w-26 bg-white dark:bg-gray-800 p-1 rounded-full">
+                <div class="h-24 w-24 bg-white dark:bg-gray-800 p-2 rounded-full">
+                    <div class="h-20 w-20 flex items-center justify-center rounded-full {{ $user->profile->profile_photo ? '' : 'bg-purple-400' }} relative">
+                        <label class="absolute inset-0 cursor-pointer">
+                            <input type="file" wire:model="profilePicture" class="hidden">
+                            <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200 rounded-full"></div>
+                        </label>
+                        {{-- This must take priority as the user has uploaded a new image so we show that --}}
+                        @if($profilePicture)
+                            <img src="{{ $profilePicture->temporaryUrl() }}" alt="User Image" class="rounded-full h-full object-cover">
                         @else
-                            <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
+                            @if($user->profile->profile_photo)
+                                <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="rounded-full h-full object-cover">
+                            @else
+                                <div class="text-4xl">{{ $name ? $name[0] : '' }}</div>
+                            @endif
                         @endif
-                    @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,7 +49,7 @@
                     @endif
                 </div>
 
-                {{--page divider--}}
+                {{-- Page divider --}}
                 <div class="border-t border-gray-100 dark:border-gray-700 my-4"></div>
 
                 <p class="mt-2 text-gray-500 text-sm mt-4 break-words">
@@ -53,5 +63,3 @@
         </div>
     </div>
 </div>
-
-

@@ -17,6 +17,8 @@ class SettingsProfile extends Component
     public string $bio;
     #[Validate('nullable|image|max:1024')]
     public $profilePicture;
+    #[Validate('nullable|image|max:3072')]
+    public $bannerPicture;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -40,7 +42,14 @@ class SettingsProfile extends Component
         //is there a new profile picture?
         if($this->profilePicture) {
             $this->user->profile->update([
-                'profile_photo' => $this->profilePicture->store('profile-pictures', 'public'),
+                'profile_photo' => $this->profilePicture->store('profile-pictures/' . $this->user->id, 'public'),
+            ]);
+        }
+
+        //is there a new banner picture?
+        if($this->bannerPicture) {
+            $this->user->profile->update([
+                'banner_photo' => $this->bannerPicture->store('banner-pictures/' . $this->user->id, 'public'),
             ]);
         }
 
@@ -55,6 +64,7 @@ class SettingsProfile extends Component
 
         //set $this->profilePicture to null
         $this->profilePicture = null;
+        $this->bannerPicture = null;
 
     }
 

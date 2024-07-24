@@ -14,6 +14,7 @@ class Profile extends Model
         'pronouns',
         'bio',
         'profile_photo',
+        'banner_photo',
     ];
 
     public function user() : BelongsTo
