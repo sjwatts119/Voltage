@@ -14,7 +14,10 @@ class CreateConversation extends ModalComponent
         $results = [];
 
         if(strlen($this->search) > 0) {
-            $results = User::where('name', 'like', '%' . $this->search . '%')->limit(10)->get();
+            $results = User::where('name', 'like', '%' . $this->search . '%')
+                ->orWhere('username', 'like', '%' . $this->search . '%')
+                ->limit(10)
+                ->get();
         }
 
         return view('livewire.create-conversation', [

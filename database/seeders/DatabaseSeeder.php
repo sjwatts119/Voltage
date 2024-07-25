@@ -50,5 +50,11 @@ class DatabaseSeeder extends Seeder
             'username' => 'other2',
             'email' => '2@example.com',
         ]);
+
+        //create 50 users with profiles and settings
+        User::factory(50)
+            ->hasProfile(1)
+            ->hasSettings(1)
+            ->create();
     }
 }
