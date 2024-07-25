@@ -27,10 +27,33 @@ class Chat extends Component
         //$this->loadConversation($this->conversations->first()->id);
     }
 
+    #[On('conversation.create')]
+    public function createConversation($userID) : void
+    {
+        // We need to make a temporary conversation that will be displayed until the real conversation is created.
+        // The real conversation is created when the first message is sent.
+        $newConversation = Conversation::create(['is_group' => false]);
+        $newConversation->users()->attach([auth()->id(), $userID]);
+
+        // We need to regather the user's conversations to include the new conversation in the sidelist
+        $this->conversations = auth()->user()->conversations;
+
+        // Load the conversation
+        $this->loadConversation($newConversation->id);
+
+        // Close the modal
+        $this->dispatch('closeModal');
+    }
+
     #[On('conversation.open')]
     public function loadConversation($id): void
     {
-        // Securely load the conversation
+        // For security, we should check if the conversation belongs to the user
+        if(!auth()->user()->conversations->contains($id)) {
+            return;
+        }
+
+        // Load the conversation
         $this->activeConversation = Conversation::with('messages')->findOrFail($id);
         // We should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
         $this->messages = new Collection($this->activeConversation->messages);

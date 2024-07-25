@@ -25,6 +25,9 @@ class CreateConversation extends ModalComponent
 
             $this->closeModal();
         }
+
+        // Fire an event with target user id to create the conversation.
+        $this->dispatch('conversation.create', $userId);
     }
 
     public function render()
