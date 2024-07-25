@@ -13,16 +13,16 @@
                     <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="w-12 h-12 rounded-full object-cover">
                 @else
                     <div class="w-12 h-12 bg-purple-400 rounded-full flex items-center justify-center">
-                        <div class="text-2xl font-sans text-gray-800">{{ $user->name[0] }}</div>
+                        <div class="text-xl font-sans text-gray-800">{{ $user->name[0] }}</div>
                     </div>
                 @endif
 
                 <div>
-                    <div class="text-lg font-semibold dark:text-gray-200">{{ $user->name }}</div>
-                    <div class="text-sm dark:text-gray-300">{{ $user->username }}</div>
+                    <div class="text-lg text-gray-800 dark:text-gray-200">{{ $user->name }}</div>
+                    <div class="text-sm font-sans text-gray-600 dark:text-gray-500">{{ $user->username }}</div>
                 </div>
             </div>
-            <button wire:click="createConversation({{ $user->id }})" class="flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg">
+            <button wire:click="createConversation({{ $user->id }})" class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-lg text-white border dark:border-gray-700 px-4 py-1.5 flex-shrink-0 transition">
                 Message
             </button>
         </div>
