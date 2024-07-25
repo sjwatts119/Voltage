@@ -34,6 +34,11 @@ class Chat extends Component
         // The real conversation is created when the first message is sent.
         // TODO
 
+        // Is the user trying to create a conversation with themselves? Shouldn't be possible but just in case
+        if($userID == auth()->id()) {
+            return;
+        }
+
         $newConversation = Conversation::create(['is_group' => false]);
         $newConversation->users()->attach([auth()->id(), $userID]);
 

@@ -39,6 +39,11 @@ class CreateConversation extends ModalComponent
                 ->orWhere('username', 'like', '%' . $this->search . '%')
                 ->limit(10)
                 ->get();
+
+            // Exclude the current user from the results
+            $results = $results->filter(function ($user) {
+                return $user->id !== auth()->id();
+            });
         }
 
         return view('livewire.create-conversation', [
