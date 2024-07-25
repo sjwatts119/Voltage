@@ -2,7 +2,7 @@
     <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-xl">
         <div class="relative h-28 overflow-hidden flex items-center">
             <label class="absolute inset-0 cursor-pointer">
-                <input type="file" wire:model="bannerPicture" accept="image/*" class="hidden">
+                <input type="file" wire:poll wire:model="bannerPicture" accept="image/*" class="hidden">
                 <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200"></div>
             </label>
             {{-- This will be done with Spatie, so this isn't correct, but it's just a placeholder for now --}}
@@ -19,7 +19,7 @@
                 <div class="h-24 w-24 bg-white dark:bg-gray-900 p-2 rounded-full">
                     <div class="h-20 w-20 flex items-center justify-center rounded-full {{ $user->profile->profile_photo ? '' : 'bg-purple-400' }} relative">
                         <label class="absolute inset-0 cursor-pointer">
-                            <input type="file" wire:model="profilePicture" accept="image/*" class="hidden">
+                            <input type="file" wire:poll wire:model="profilePicture" accept="image/*" class="hidden">
                             <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200 rounded-full"></div>
                         </label>
                         {{-- This must take priority as the user has uploaded a new image so we show that --}}
