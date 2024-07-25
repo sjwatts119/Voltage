@@ -8,6 +8,17 @@ use LivewireUI\Modal\ModalComponent;
 class CreateConversation extends ModalComponent
 {
     public $search = '';
+    public $chatType;
+
+    public function mount() : void
+    {
+        $this->chatType = 'start';
+    }
+
+    public function selectChatType($type)
+    {
+        $this->chatType = $type;
+    }
 
     public function createConversation($userId) : void
     {
