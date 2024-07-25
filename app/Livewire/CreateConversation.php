@@ -21,7 +21,7 @@ class CreateConversation extends ModalComponent
 
         if($existingConversation) {
             // Fire an event to open the conversation.
-            $this->dispatch('conversation.open', $existingConversation->id);
+            $this->dispatch('conversation.open', $existingConversation->id, false);
 
             $this->closeModal();
         }

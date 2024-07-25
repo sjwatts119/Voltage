@@ -28,29 +28,23 @@ class Chat extends Component
     }
 
     #[On('conversation.create')]
-    public function createConversation($userID, $group) : void
+    public function createConversation($userID) : void
     {
         // We need to make a temporary conversation that will be displayed until the real conversation is created.
         // The real conversation is created when the first message is sent.
         // TODO
 
-        if($group)
-        {
+        $newConversation = Conversation::create(['is_group' => false]);
+        $newConversation->users()->attach([auth()->id(), $userID]);
 
-        }
-        else{
-            $newConversation = Conversation::create(['is_group' => false]);
-            $newConversation->users()->attach([auth()->id(), $userID]);
+        // We need to regather the user's conversations to include the new conversation in the sidelist
+        $this->conversations = auth()->user()->conversations;
 
-            // We need to regather the user's conversations to include the new conversation in the sidelist
-            $this->conversations = auth()->user()->conversations;
+        // Load the conversation
+        $this->loadConversation($newConversation->id);
 
-            // Load the conversation
-            $this->loadConversation($newConversation->id);
-
-            // Close the modal
-            $this->dispatch('closeModal');
-        }
+        // Close the modal
+        $this->dispatch('closeModal');
     }
 
     #[On('conversation.open')]
