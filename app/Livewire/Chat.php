@@ -27,6 +27,7 @@ class Chat extends Component
         //$this->loadConversation($this->conversations->first()->id);
     }
 
+    #[On('conversation.open')]
     public function loadConversation($id): void
     {
         // Securely load the conversation

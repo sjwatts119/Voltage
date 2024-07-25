@@ -9,6 +9,24 @@ class CreateConversation extends ModalComponent
 {
     public $search = '';
 
+    public function createConversation($userId) : void
+    {
+        // Check if a non-group conversation already exists between the two users
+        $existingConversation = auth()->user()->conversations()
+            ->whereHas('users', function ($query) use ($userId) {
+                $query->where('users.id', $userId);
+            })
+            ->where('is_group', false)
+            ->first();
+
+        if($existingConversation) {
+            // Fire an event to open the conversation.
+            $this->dispatch('conversation.open', $existingConversation->id);
+
+            $this->closeModal();
+        }
+    }
+
     public function render()
     {
         $results = [];
