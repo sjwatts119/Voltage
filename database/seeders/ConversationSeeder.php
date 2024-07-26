@@ -26,51 +26,34 @@ class ConversationSeeder extends Seeder
         ]);
         $conversation1->users()->attach([$user1->id, $user2->id]);
         for ($i = 0; $i < 20; $i++) {
-            Message::create([
+            $message = Message::create([
                 'conversation_id' => $conversation1->id,
                 'user_id' => $i % 2 == 0 ? $user1->id : $user2->id,
                 'message' => 'Test message ' . ($i + 1),
             ]);
+            // Mark the message as read by the other user
+            $message->reads()->create([
+                'user_id' => $i % 2 == 0 ? $user2->id : $user1->id,
+                'read_at' => now(),
+            ]);
         }
 
-        //private conversation between user 2 and 3
+        //private conversation between user 1 and 2
         $conversation2 = Conversation::create([
             'is_group' => false,
         ]);
-        $conversation2->users()->attach([$user2->id, $user3->id]);
+        $conversation2->users()->attach([$user1->id, $user2->id]);
         for ($i = 0; $i < 15; $i++) {
-            Message::create([
+            $message = Message::create([
                 'conversation_id' => $conversation2->id,
-                'user_id' => $i % 2 == 0 ? $user2->id : $user3->id,
+                'user_id' => $i % 2 == 0 ? $user1->id : $user2->id,
                 'message' => 'Test message ' . ($i + 1),
             ]);
-        }
+            // Mark the message as NOT read by the other user
+            $message->reads()->create([
+                'user_id' => $i % 2 == 0 ? $user2->id : $user1->id,
+            ]);
 
-        //group convo with user 2, 3 and 4
-        $conversation3 = Conversation::create([
-            'is_group' => true,
-        ]);
-        $conversation3->users()->attach([$user2->id, $user3->id, $user4->id]);
-        for ($i = 0; $i < 10; $i++) {
-            Message::create([
-                'conversation_id' => $conversation3->id,
-                'user_id' => $i % 3 == 0 ? $user2->id : ($i % 3 == 1 ? $user3->id : $user4->id),
-                'message' => 'Test message ' . ($i + 1),
-            ]);
-        }
-
-        //group convo with user 1, 2, 3 and 4 with a name
-        $conversation4 = Conversation::create([
-            'name' => 'Group chat',
-            'is_group' => true,
-        ]);
-        $conversation4->users()->attach([$user1->id, $user2->id, $user3->id, $user4->id]);
-        for ($i = 0; $i < 15; $i++) {
-            Message::create([
-                'conversation_id' => $conversation4->id,
-                'user_id' => $i % 4 == 0 ? $user1->id : ($i % 4 == 1 ? $user2->id : ($i % 4 == 2 ? $user3->id : $user4->id)),
-                'message' => 'Test message ' . ($i + 1),
-            ]);
         }
     }
 }

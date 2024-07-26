@@ -57,7 +57,7 @@ class Conversation extends Model
         return Str::limit($friendlyName, $maxLength, '...');
     }
 
-    public function getFriendlyLastMessage() : string
+    public function getFriendlyLastMessage($maxLength) : string
     {
         // Get the last message in the conversation
         $lastMessage = $this->messages->last();
@@ -66,12 +66,32 @@ class Conversation extends Model
             return '';
         }
 
-        $name = $lastMessage->user->name;
-        $message = $lastMessage->message;
+        $message = $lastMessage->user->name  . ': ' . $lastMessage->message;
 
-        // If the name is too long, we should truncate it
-        return substr($name, 0, 10) . ': ' . Str::limit($message, 10, '...');
+        // Limit the string to $maxLength characters, appending "..." if it's longer
+        return Str::limit($message, $maxLength, '...');
+    }
 
+    public function getUnreadCount() : int
+    {
+        // Get the unread messages in the conversation
+        return $this->messages->reduce(function($carry, $message) {
+            return $carry + $message->reads->where('user_id', '!=', auth()->id())->whereNull('read_at')->count();
+        }, 0);
+    }
+
+    public function getFriendlyUnreadCount() : string
+    {
+        // Get the unread messages in the conversation
+        $unreadCount = $this->getUnreadCount();
+
+        // Return an empty string if there are no unread messages
+        if ($unreadCount === 0) {
+            return '';
+        }
+
+        // Return the unread count as a string
+        return $unreadCount > 9 ? '9+' : (string) $unreadCount;
     }
 
 }
