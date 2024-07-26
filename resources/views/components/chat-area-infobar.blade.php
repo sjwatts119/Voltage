@@ -8,16 +8,11 @@
                 </svg>
             </button>
             <x-conversation-icon :currentConversation="$activeConversation" />
-            <div class="text-lg font-semibold dark:text-gray-300">
-                @if($activeConversation->name)
-                    {{ $activeConversation->name }}
-                @else
-                    @foreach($activeConversation->users as $user)
-                        @if($user->id !== auth()->id())
-                            {{ $user->name }}
-                        @endif
-                    @endforeach
-                @endif
+            <div class="text-lg font-semibold dark:text-gray-300 hidden lg:block">
+                {{ $activeConversation->getFriendlyName($activeConversation->id, 60)}}
+            </div>
+            <div class="text-lg font-semibold dark:text-gray-300 lg:hidden">
+                {{ $activeConversation->getFriendlyName($activeConversation->id, 20)}}
             </div>
         </div>
     </div>

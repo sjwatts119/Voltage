@@ -9,14 +9,8 @@
 <x-conversation-button :conversationId="$currentConversation->id" :buttonClass="$buttonClass">
     <x-conversation-icon :currentConversation="$currentConversation" />
     <div class="ml-2 text-md font-semibold dark:text-gray-300">
-        @if($currentConversation->name)
-            {{ $currentConversation->name }}
-        @else
-            @foreach($currentConversation->users as $user)
-                @if($user->id !== auth()->id())
-                    {{ $user->name }}
-                @endif
-            @endforeach
+        @if($currentConversation)
+            {{ $currentConversation->getFriendlyName($currentConversation->id, 17) }}
         @endif
     </div>
 </x-conversation-button>
