@@ -46,6 +46,21 @@ class Chat extends Component
         // We should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
         $this->messages = new Collection($this->activeConversation->messages);
         $this->messageInput = '';
+
+        // Are there any unread messages in the conversation?
+        if($this->activeConversation->getUnreadCount() > 0) {
+
+            $unreadMessages = $this->messages->filter(function($message) {
+                return !$message->isRead();
+            });
+
+            if($unreadMessages) {
+                // Mark the unread messages as read
+                $unreadMessages->each(function($message) {
+                    $message->markAsRead();
+                });
+            }
+        }
     }
 
     public function sendMessage(): void
@@ -61,6 +76,9 @@ class Chat extends Component
         ]);
 
         $this->messages->push($newMessage);
+
+        // Mark the message as read for the sender
+        $newMessage->markAsRead();
 
         // Broadcast the message
         MessageSent::dispatch($newMessage);

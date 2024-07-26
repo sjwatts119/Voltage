@@ -76,7 +76,7 @@ class Conversation extends Model
     {
         // Get the unread messages in the conversation
         return $this->messages->reduce(function($carry, $message) {
-            return $carry + $message->reads->where('user_id', '!=', auth()->id())->whereNull('read_at')->count();
+            return $carry + $message->reads->where('user_id', '=', auth()->id())->whereNull('read_at')->count();
         }, 0);
     }
 

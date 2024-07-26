@@ -4,10 +4,6 @@
     $buttonClass = $isActiveConversation
         ? 'flex flex-row items-center hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl p-2 bg-gray-200 dark:bg-gray-900 transition'
         : 'flex flex-row items-center hover:bg-gray-300 dark:hover:bg-gray-950 rounded-xl p-2 transition';
-
-    // Determine if the current conversation has unread messages
-
-
 @endphp
 
 <x-conversation-button :conversationId="$currentConversation->id" :buttonClass="$buttonClass">
