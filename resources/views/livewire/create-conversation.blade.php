@@ -58,9 +58,14 @@
             @break
         @case('group')
             <div class="sticky top-0 z-10 flex items-center justify-between p-4 border-b dark:border-gray-700 dark:bg-gray-800 bg-white">
-                <input wire:model.live="search" type="text" class="w-4/5 px-4 py-2 text-sm dark:bg-gray-800 dark:text-gray-200 rounded-lg" placeholder="Search for users...">
-                <button wire:click="createGroupConversation()" class="w-1/5 ml-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                    Create ({{ count($selectedUsers) }} Users)
+                <input wire:model.live="search" type="text" class="w-full px-4 py-2 text-sm dark:bg-gray-800 dark:text-gray-200 rounded-lg" placeholder="Search for users...">
+                <button wire:click="createGroupConversation()" class="min-w-20 md:min-w-36 ml-4 bg-blue-500 hover:bg-blue-600 text-white font-sans text-sm py-2 px-4 rounded">
+                    <div class="hidden md:block">
+                        Create ({{ count($selectedUsers) }} Users)
+                    </div>
+                    <div class="md:hidden">
+                        Create
+                    </div>
                 </button>
             </div>
 
@@ -68,7 +73,7 @@
                 {{-- User List --}}
                 <div class="w-full">
                     @foreach($results as $user)
-                        <div class="flex items-center justify-between p-4 border-b dark:border-gray-700">
+                        <div class="flex items-center justify-between p-4 border-b dark:border-gray-700 cursor-pointer transition transform hover:bg-gray-100 dark:hover:bg-gray-700 {{ in_array($user->id, $selectedUserIds) ? 'bg-gray-200 dark:bg-gray-600' : '' }}" wire:click="{{ in_array($user->id, $selectedUserIds) ? 'removeUser(' . $user->id . ')' : 'addUser(' . $user->id . ')' }}">
                             <div class="flex items-center space-x-4">
                                 @if($user->profile->profile_photo)
                                     <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="w-12 h-12 rounded-full object-cover">
@@ -82,16 +87,7 @@
                                     <div class="text-sm font-sans text-gray-600 dark:text-gray-500">{{ $user->username }}</div>
                                 </div>
                             </div>
-                            {{-- if the user model is in the selectedUsers array, show the remove button, else show the add button --}}
-                            @if(in_array($user->id, $selectedUserIds))
-                                <button wire:click="removeUser({{ $user->id }})" class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-lg text-white border dark:border-gray-700 px-4 py-1.5 flex-shrink-0 transition">
-                                    -
-                                </button>
-                            @else
-                                <button wire:click="addUser({{ $user->id }})" class="flex items-center justify-center bg-green-500 hover:bg-green-600 rounded-lg text-white border dark:border-gray-700 px-4 py-1.5 flex-shrink-0 transition">
-                                    +
-                                </button>
-                            @endif
+                            <div class="w-20 text-4xl flex items-center justify-center rounded-lg text-white px-4 py-1.5 flex-shrink-0 transition">{{ in_array($user->id, $selectedUserIds) ? '-' : '+' }}</div>
                         </div>
                     @endforeach
                 </div>
