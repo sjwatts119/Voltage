@@ -17,4 +17,10 @@ class Message extends Model
         'updated_at',
         'id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

@@ -57,5 +57,25 @@ class Conversation extends Model
         return Str::limit($friendlyName, $maxLength, '...');
     }
 
+    public function getFriendlyLastMessage() : string
+    {
+        // Get the last message in the conversation
+        $lastMessage = $this->messages->last();
+
+        if(!$lastMessage) {
+            return '';
+        }
+
+        // We should generate a string with name: message
+        // This string should not exceed a total of 30 characters
+        $name = $lastMessage->user->name;
+        $message = $lastMessage->message;
+
+        // If the name is too long, we should truncate it
+
+        return substr($name, 0, 10) . ': ' . Str::limit($message, 10, '...');
+
+    }
+
 }
 

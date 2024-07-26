@@ -8,9 +8,18 @@
 
 <x-conversation-button :conversationId="$currentConversation->id" :buttonClass="$buttonClass">
     <x-conversation-icon :currentConversation="$currentConversation" />
-    <div class="ml-2 text-md font-semibold dark:text-gray-300">
-        @if($currentConversation)
-            {{ $currentConversation->getFriendlyName($currentConversation->id, 17) }}
-        @endif
+    <div class="flex flex-col text-left">
+        <div class="ml-2 text-md font-semibold dark:text-gray-300">
+            @if($currentConversation)
+                {{ $currentConversation->getFriendlyName($currentConversation->id, 17) }}
+            @endif
+        </div>
+        <div class="ml-2 text-sm dark:text-gray-400">
+            @if($currentConversation->messages->count())
+                {{ $currentConversation->getFriendlyLastMessage() }}
+            @else
+
+            @endif
+        </div>
     </div>
 </x-conversation-button>
