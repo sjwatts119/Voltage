@@ -121,6 +121,11 @@ class Chat extends Component
 
     public function render()
     {
+        // Show most recently active conversations first
+        $this->conversations = $this->conversations->sortByDesc(function($conversation) {
+            return $conversation->messages->last()->created_at ?? $conversation->created_at;
+        });
+
         return view('livewire.pages.chat');
     }
 }
