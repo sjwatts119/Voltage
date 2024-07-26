@@ -53,7 +53,7 @@ class Conversation extends Model
         // Get participant names as a comma-separated string
         $friendlyName = implode(', ', $participants->pluck('name')->toArray());
 
-        // Limit the string to 20 characters, appending "..." if it's longer than 17 characters
+        // Limit the string to $maxLength characters, appending "..." if it's longer
         return Str::limit($friendlyName, $maxLength, '...');
     }
 
@@ -66,13 +66,10 @@ class Conversation extends Model
             return '';
         }
 
-        // We should generate a string with name: message
-        // This string should not exceed a total of 30 characters
         $name = $lastMessage->user->name;
         $message = $lastMessage->message;
 
         // If the name is too long, we should truncate it
-
         return substr($name, 0, 10) . ': ' . Str::limit($message, 10, '...');
 
     }

@@ -6,18 +6,15 @@
                 <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full p-4">
                     <div class="grid grid-cols-12 gap-y-2 w-full">
                         @php
-                            // Store the authenticated user's id, so we don't have to call auth() loads of times
-                            $authId = auth()->id();
-
                             // Get the current user
-                            $currentUser = App\Models\User::find($authId);
+                            $currentUser = auth()->user();
 
                             // Get other participants of the conversation
-                            $otherParticipants = App\Models\Conversation::getParticipants($activeConversation->id)->where('id', '!=', $authId);
+                            $otherParticipants = App\Models\Conversation::getParticipants($activeConversation->id)->where('id', '!=', $currentUser->id);
                         @endphp
 
                         @foreach($messages as $message)
-                            @if($message['user_id'] === $authId)
+                            @if($message['user_id'] === $currentUser->id)
                                 <x-message-user :message="$message" :user="$currentUser"/>
                             @else
                                 <x-message-not-user :message="$message" :participants="$otherParticipants"/>
