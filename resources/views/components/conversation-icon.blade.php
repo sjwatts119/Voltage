@@ -14,9 +14,9 @@
             @continue
         @endif
 
-        <div class="flex items-center justify-center h-10 w-10 rounded-full {{ $user->image ? '' : 'bg-purple-200' }}">
+        <div class="flex items-center justify-center h-10 w-10 min-w-10 rounded-full {{ $user->image ? '' : 'bg-purple-200' }}">
             @if($user->profile->profile_photo)
-                <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="h-10 w-10 object-cover rounded-full">
+                <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="h-10 w-10 min-w-10 object-cover rounded-full">
             @else
                 {{ $user->name[0] }}
             @endif
