@@ -27,37 +27,18 @@ class Chat extends Component
         //$this->loadConversation($this->conversations->first()->id);
     }
 
-    #[On('conversation.create')]
-    public function createConversation($userID) : void
-    {
-        // We need to make a temporary conversation that will be displayed until the real conversation is created.
-        // The real conversation is created when the first message is sent.
-        // TODO
-
-        // Is the user trying to create a conversation with themselves? Shouldn't be possible but just in case
-        if($userID == auth()->id()) {
-            return;
-        }
-
-        $newConversation = Conversation::create(['is_group' => false]);
-        $newConversation->users()->attach([auth()->id(), $userID]);
-
-        // We need to regather the user's conversations to include the new conversation in the sidelist
-        $this->conversations = auth()->user()->conversations;
-
-        // Load the conversation
-        $this->loadConversation($newConversation->id);
-
-        // Close the modal
-        $this->dispatch('closeModal');
-    }
-
     #[On('conversation.open')]
     public function loadConversation($id): void
     {
         // For security, we should check if the conversation belongs to the user
         if(!auth()->user()->conversations->contains($id)) {
             return;
+        }
+
+        // Is the conversation with $id in the conversations collection?
+        if (!$this->conversations->contains($id)) {
+            // If not, load the new conversation from the database
+            $this->conversations->push(Conversation::with('messages')->findOrFail($id));
         }
 
         // Load the conversation
