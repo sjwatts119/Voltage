@@ -12,7 +12,7 @@
                 <span class="">Your Conversations</span>
                 <button wire:click="$dispatch('openModal', { component: 'CreateConversation' })" class=" transition text-gray-600 dark:text-gray-400 dark:hover:text-gray-200 hover:text-gray-800 flex items-center justify-center text-4xl rounded-full" alt="New Conversation">+</button>
             </div>
-            <div class="flex flex-col space-y-1 mt-4 overflow-y-auto">
+            <div class="flex flex-col space-y-1 mt-4 overflow-y-auto pr-1">
                 @foreach($conversations as $currentConversation)
                     <x-side-list-conversation :activeConversation="$activeConversation" :currentConversation="$currentConversation" />
                 @endforeach
