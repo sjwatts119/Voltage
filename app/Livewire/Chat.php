@@ -131,6 +131,18 @@ class Chat extends Component
         }
     }
 
+    #[On('echo:Voltage-Status,.CreatedConversation')]
+    public function addedToConversation($conversation): void
+    {
+        $conversation = Conversation::find($conversation['conversation']['id']);
+
+        // Check if the user has been added to the conversation
+        if (auth()->user()->conversations->contains($conversation)) {
+            // Refresh the conversations list
+            $this->conversations = auth()->user()->conversations;
+        }
+    }
+
     #[On('refresh-chat')]
     public function refresh(): void
     {

@@ -9,16 +9,16 @@
 <x-conversation-button :conversationId="$currentConversation->id" :buttonClass="$buttonClass">
     <x-conversation-icon :currentConversation="$currentConversation" />
     <div class="flex flex-col text-left max-w-[70%]">
+        @if($currentConversation)
         <div class="ml-2 text-md font-sans dark:text-gray-300 truncate">
-            @if($currentConversation)
                 {{ $currentConversation->getFriendlyName($currentConversation->id, 100) }}
-            @endif
         </div>
+        @endif
+        @if($currentConversation->messages->count())
         <div class="ml-2 text-sm font-sans dark:text-gray-400 truncate">
-            @if($currentConversation->messages->count())
                 {{ $currentConversation->getFriendlyLastMessage(100) }}
-            @endif
         </div>
+        @endif
     </div>
     @if($currentConversation->getFriendlyUnreadCount())
         <div class="ml-auto bg-red-500 text-white text-sans text-sm rounded-full w-6 h-6 min-w-6 flex items-center justify-center">

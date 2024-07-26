@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\CreatedConversation;
 use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -77,6 +78,9 @@ class CreateConversation extends ModalComponent
             $conversation->users()->attach($user);
         }
 
+        // Dispatch CreatedChat event to pusher
+        CreatedConversation::dispatch($conversation);
+
         $this->dispatch('conversation.open', $conversation->id);
 
         // Close the modal
@@ -107,6 +111,9 @@ class CreateConversation extends ModalComponent
 
             $newConversation = Conversation::create(['is_group' => false]);
             $newConversation->users()->attach([auth()->id(), $userId]);
+
+            // Dispatch CreatedChat event to pusher
+            CreatedConversation::dispatch($newConversation);
 
             // Fire an event to open the conversation.
             $this->dispatch('conversation.open', $newConversation->id);
