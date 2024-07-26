@@ -8,10 +8,10 @@
                 </svg>
             </button>
             <x-conversation-icon :currentConversation="$activeConversation" />
-            <div class="text-lg font-semibold dark:text-gray-300 hidden lg:block">
+            <div class="text-lg font-sans dark:text-gray-300 hidden lg:block">
                 {{ $activeConversation->getFriendlyName($activeConversation->id, 60)}}
             </div>
-            <div class="text-lg font-semibold dark:text-gray-300 lg:hidden">
+            <div class="text-lg font-sans dark:text-gray-300 lg:hidden">
                 {{ $activeConversation->getFriendlyName($activeConversation->id, 20)}}
             </div>
         </div>

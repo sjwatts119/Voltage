@@ -24,7 +24,23 @@
                             @endif
                         @endforeach
                     </div>
+
+                    @if($messages->count() === 0)
+                        <div class="mx-auto p-6">
+                            <div class="text-xl font-sans text-center dark:text-gray-500">
+                                No messages yet, start the conversation!
+                            </div>
+                        </div>
+                    @else
+                        {{-- conversation created date --}}
+                        <div class="flex justify-center text-xs dark:text-gray-400 text-gray-600 my-10">
+                            <div class="text-xl font-sans uit text-center dark:text-gray-500">
+                                Conversation Created on {{ $activeConversation->created_at->format('F j, Y') }}
+                            </div>
+                        </div>
+                    @endif
                 </div>
+
                 <x-chat-area-inputs />
             </div>
         </div>
