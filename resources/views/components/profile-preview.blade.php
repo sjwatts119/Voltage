@@ -2,10 +2,22 @@
     <div class="bg-white dark:bg-gray-900 overflow-hidden shadow-xl">
         <div class="relative h-28 overflow-hidden flex items-center">
             <label class="absolute inset-0 cursor-pointer">
-                <input type="file" wire:poll wire:model="bannerPicture" accept="image/*" class="hidden">
+                <div
+                    x-data="{ uploading: false, progress: 0 }"
+                    x-on:livewire-upload-start="uploading = true"
+                    x-on:livewire-upload-finish="uploading = false"
+                    x-on:livewire-upload-cancel="uploading = false"
+                    x-on:livewire-upload-error="uploading = false"
+                    x-on:livewire-upload-progress="progress = $event.detail.progress"
+                    class="w-full h-full relative"
+                >
+                    <div x-show="uploading" class="w-full h-full rounded-full">
+                        <div x-bind:style="{ width: progress + '%' }" class="bg-gradient-to-tr from-violet-500 to-orange-300 h-full transition-all duration-300"></div>
+                    </div>
+                    <input type="file" wire:poll wire:model="bannerPicture" accept="image/*" class="hidden">
+                </div>
                 <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200"></div>
             </label>
-            {{-- This will be done with Spatie, so this isn't correct, but it's just a placeholder for now --}}
             @if($bannerPicture)
                 <img class="w-full h-full object-cover" src="{{ $bannerPicture->temporaryUrl() }}" alt="Banner Image" />
             @elseif($user->profile->banner_photo)

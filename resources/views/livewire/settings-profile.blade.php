@@ -26,6 +26,7 @@
                         </x-action-message>
 
                         <x-error-message class="text-red-500 dark:text-red-500" on="upload-error"></x-error-message>
+
                     </div>
                 </div>
             </div>

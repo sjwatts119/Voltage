@@ -95,7 +95,8 @@ class Chat extends Component
     }
 
     #[NoReturn] #[On('echo:Voltage-Conversation,.NewMessage')]
-    public function receivedMessage($message): void {
+    public function receivedMessage($message): void
+    {
         // Check if the message belongs to the active conversation
         if (!$this->activeConversation || $message['conversation_id'] != $this->activeConversation->id) {
             return;
