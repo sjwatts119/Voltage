@@ -31,10 +31,24 @@
             <div class="h-26 w-26 bg-white dark:bg-gray-900 p-1 rounded-full">
                 <div class="h-24 w-24 bg-white dark:bg-gray-900 p-2 rounded-full">
                     <div class="h-20 w-20 flex items-center justify-center rounded-full {{ $user->profile->profile_photo ? '' : 'bg-purple-400' }} relative">
-                        <label class="absolute inset-0 cursor-pointer">
-                            <input type="file" wire:poll wire:model="profilePicture" accept="image/*" class="hidden">
+                        <label class="absolute inset-0 cursor-pointer rounded-full">
+                            <div
+                                x-data="{ uploading: false, progress: 0 }"
+                                x-on:livewire-upload-start="uploading = true"
+                                x-on:livewire-upload-finish="uploading = false"
+                                x-on:livewire-upload-cancel="uploading = false"
+                                x-on:livewire-upload-error="uploading = false"
+                                x-on:livewire-upload-progress="progress = $event.detail.progress"
+                                class="w-full h-full relative rounded-full"
+                            >
+                                <div x-show="uploading" class="w-full h-full rounded-full overflow-hidden relative">
+                                    <div x-bind:style="{ height: progress + '%' }" class="bg-gradient-to-tr from-violet-500 to-orange-300 w-full absolute bottom-0 transition-all duration-300"></div>
+                                </div>
+                                <input type="file" wire:poll wire:model="profilePicture" accept="image/*" class="hidden">
+                            </div>
                             <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200 rounded-full"></div>
                         </label>
+
                         {{-- This must take priority as the user has uploaded a new image so we show that --}}
                         @if($profilePicture)
                             <img src="{{ $profilePicture->temporaryUrl() }}" alt="User Image" class="rounded-full h-full w-full object-cover">
