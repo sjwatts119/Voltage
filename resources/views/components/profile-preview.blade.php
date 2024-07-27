@@ -11,13 +11,14 @@
                     x-on:livewire-upload-progress="progress = $event.detail.progress"
                     class="w-full h-full relative"
                 >
-                    <div x-show="uploading" class="w-full h-full rounded-full">
-                        <div x-bind:style="{ width: progress + '%' }" class="bg-gradient-to-tr from-violet-500 to-orange-300 h-full transition-all duration-300"></div>
+                    <div x-show="uploading" class="w-full h-full rounded-t-md overflow-hidden relative">
+                        <div x-bind:style="{ height: progress + '%' }" class="bg-gradient-to-tr from-violet-500 to-orange-300 w-full absolute bottom-0 transition-all duration-300"></div>
                     </div>
                     <input type="file" wire:poll wire:model="bannerPicture" accept="image/*" class="hidden">
                 </div>
                 <div class="absolute inset-0 bg-black opacity-0 hover:opacity-50 transition-opacity duration-200"></div>
             </label>
+
             @if($bannerPicture)
                 <img class="w-full h-full object-cover" src="{{ $bannerPicture->temporaryUrl() }}" alt="Banner Image" />
             @elseif($user->profile->banner_photo)
