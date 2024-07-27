@@ -80,8 +80,8 @@ class Chat extends Component
         // Mark the message as read for the sender
         $newMessage->markAsRead();
 
-        // Broadcast the message
-        MessageSent::dispatch($newMessage);
+        // Broadcast the message without including the message contents for security
+        MessageSent::dispatch($newMessage->id, $newMessage->conversation_id);
 
         // Clear the input field
         $this->messageInput = '';
@@ -96,39 +96,24 @@ class Chat extends Component
 
     #[NoReturn] #[On('echo:Voltage-Conversation,.NewMessage')]
     public function receivedMessage($message): void {
-
-        // Is the message for this conversation? if not return
-        if (!$this->activeConversation || $message['message']['conversation_id'] != $this->activeConversation->id) {
+        // Check if the message belongs to the active conversation
+        if (!$this->activeConversation || $message['conversation_id'] != $this->activeConversation->id) {
             return;
         }
 
-        // Did the user send this message? We don't want to display it twice
-        if ($message['message']['user_id'] == auth()->id()) {
+        // Get the new message from the database
+        $newMessage = Message::find($message['message_id']);
+
+        // Did the user send this message? If so, we don't need to append it as it would be displayed already
+        if ($newMessage->user_id == auth()->id()) {
             return;
         }
 
-        // Access the nested message array
-        $messageData = $message['message'];
+        // Append the new message to the messages collection
+        $this->messages->push($newMessage);
 
-        // Ensure the message array contains the required keys
-        if (isset($messageData['user_id']) && isset($messageData['message'])) {
-            // Check if the message already exists in the collection to avoid duplicates
-            $existingMessage = $this->messages->firstWhere('id', $messageData['id']);
-            if (!$existingMessage) {
-                // Create an array to represent the message
-                $newMessage = [
-                    'user_id' => $messageData['user_id'],
-                    'message' => $messageData['message'],
-                    'conversation_id' => $messageData['conversation_id'],
-                    'created_at' => Carbon::parse($messageData['created_at']),
-                    'updated_at' => Carbon::parse($messageData['updated_at']),
-                    'id' => $messageData['id'],
-                ];
-
-                // Append the new message to the $messages collection
-                $this->messages->push($newMessage);
-            }
-        }
+        //The message belongs to the chat which is currently open, so mark it as read
+        $newMessage->markAsRead();
     }
 
     #[On('echo:Voltage-Status,.CreatedConversation')]

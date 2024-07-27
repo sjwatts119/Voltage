@@ -21,10 +21,11 @@ class MessageSent implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(public Message $message)
+    public function __construct(public $message_id, public $conversation_id)
     {
-        //we need to construct this with a model of the message which will be broadcasted
+        // Constructor requires the message_id and conversation_id of the message to be sent
     }
+
 
     public function broadcastAs()
     {
