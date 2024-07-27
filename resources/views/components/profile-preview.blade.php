@@ -4,15 +4,15 @@
             <label class="absolute inset-0 cursor-pointer">
                 <div
                     x-data="{ uploading: false, progress: 0 }"
-                    x-on:livewire-upload-start="uploading = true"
-                    x-on:livewire-upload-finish="uploading = false"
-                    x-on:livewire-upload-cancel="uploading = false"
-                    x-on:livewire-upload-error="uploading = false"
+                    x-on:livewire-upload-start="uploading = true; progress = 0"
+                    x-on:livewire-upload-finish="uploading = false; progress = 0"
+                    x-on:livewire-upload-cancel="uploading = false; progress = 0"
+                    x-on:livewire-upload-error="uploading = false; progress = 0"
                     x-on:livewire-upload-progress="progress = $event.detail.progress"
                     class="w-full h-full relative"
                 >
                     <div x-show="uploading" class="w-full h-full rounded-t-md overflow-hidden relative">
-                        <div x-bind:style="{ height: progress + '%' }" class="bg-gradient-to-tr from-violet-500 to-orange-300 w-full absolute bottom-0 transition-all duration-300"></div>
+                        <div x-bind:style="{ height: progress + '%' }" class="bg-gradient-to-t from-violet-600/75 to-orange-300/75 w-full absolute bottom-0 transition-all duration-300"></div>
                     </div>
                     <input type="file" wire:poll wire:model="bannerPicture" accept="image/*" class="hidden">
                 </div>
@@ -34,15 +34,15 @@
                         <label class="absolute inset-0 cursor-pointer rounded-full">
                             <div
                                 x-data="{ uploading: false, progress: 0 }"
-                                x-on:livewire-upload-start="uploading = true"
-                                x-on:livewire-upload-finish="uploading = false"
-                                x-on:livewire-upload-cancel="uploading = false"
-                                x-on:livewire-upload-error="uploading = false"
+                                x-on:livewire-upload-start="uploading = true; progress = 0"
+                                x-on:livewire-upload-finish="uploading = false; progress = 0"
+                                x-on:livewire-upload-cancel="uploading = false; progress = 0"
+                                x-on:livewire-upload-error="uploading = false; progress = 0"
                                 x-on:livewire-upload-progress="progress = $event.detail.progress"
                                 class="w-full h-full relative rounded-full"
                             >
                                 <div x-show="uploading" class="w-full h-full rounded-full overflow-hidden relative">
-                                    <div x-bind:style="{ height: progress + '%' }" class="bg-gradient-to-tr from-violet-500 to-orange-300 w-full absolute bottom-0 transition-all duration-300"></div>
+                                    <div x-bind:style="{ height: progress + '%' }" class="bg-gradient-to-t from-violet-600/75 to-orange-300/75 w-full absolute bottom-0 transition-all duration-300"></div>
                                 </div>
                                 <input type="file" wire:poll wire:model="profilePicture" accept="image/*" class="hidden">
                             </div>
