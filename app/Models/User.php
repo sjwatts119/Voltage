@@ -48,6 +48,16 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function boot() : void {
+        parent::boot();
+
+        // Create a profile and settings for the user when they are created
+        static::created(function ($user) {
+            $user->profile()->create();
+            $user->settings()->create();
+        });
+    }
+
     public function conversations(): BelongsToMany
     {
         return $this->belongsToMany(Conversation::class, 'conversation_users');
