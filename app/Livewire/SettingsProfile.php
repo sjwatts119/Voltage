@@ -59,13 +59,29 @@ class SettingsProfile extends Component
             || $this->bannerPicture;
     }
 
-    public function discardChanges() : void
-    {
+    public function setUserDefaults () : void {
         $this->name = $this->user->name;
-        $this->pronouns = $this->user->profile->pronouns;
-        $this->bio = $this->user->profile->bio;
+
+        if(!$this->user->profile->pronouns) {
+            $this->pronouns = '';
+        }
+        else{
+            $this->pronouns = $this->user->profile->pronouns;
+        }
+        if(!$this->user->profile->bio) {
+            $this->bio = '';
+        }
+        else{
+            $this->bio = $this->user->profile->bio;
+        }
+
         $this->profilePicture = null;
         $this->bannerPicture = null;
+    }
+
+    public function discardChanges() : void
+    {
+        $this->setUserDefaults();
     }
 
     public function saveProfile() : void
@@ -118,10 +134,7 @@ class SettingsProfile extends Component
     public function mount() : void
     {
         $this->user = auth()->user();
-        $this->name = $this->user->name;
-        $this->pronouns = $this->user->profile->pronouns;
-        $this->bio = $this->user->profile->bio;
-        $this->profilePicture = null;
+        $this->setUserDefaults();
     }
 
     public function render()
