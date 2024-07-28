@@ -4,7 +4,7 @@
             <div class="flex flex-col h-full w-full">
                 <x-chat-area-infobar :activeConversation="$activeConversation" />
                 <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full p-4">
-                    <div class="grid grid-cols-12 gap-y-2 w-full">
+                    <div class="grid grid-cols-12 w-full">
                         @php
                             // Get the current user
                             $currentUser = auth()->user();
