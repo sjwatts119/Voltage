@@ -23,10 +23,10 @@
         </button>
     @endforeach
 @endif
-<div class="text-lg font-sans dark:text-gray-300 hidden lg:block">
+<button wire:click="$dispatch('openModal', { component: 'ChatInfo', arguments: { conversation: {{ $activeConversation->id }} }})" class="text-lg font-sans dark:text-gray-300 hidden lg:block hover:underline transition">
     {{ $activeConversation->getFriendlyName($activeConversation->id, 60)}}
-</div>
-<div class="text-lg font-sans dark:text-gray-300 lg:hidden">
+</button>
+<div wire:click="$dispatch('openModal', { component: 'ChatInfo', arguments: { conversation: {{ $activeConversation->id }} }})" class="text-lg font-sans dark:text-gray-300 lg:hidden hover:underline transition">
     {{ $activeConversation->getFriendlyName($activeConversation->id, 20)}}
 </div>
 
