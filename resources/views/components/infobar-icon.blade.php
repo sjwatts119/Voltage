@@ -1,6 +1,6 @@
-{{--requires $currentConversation --}}
+{{--requires $activeConversation --}}
 
-@if($currentConversation->is_group)
+@if($activeConversation->is_group)
     {{-- when group chats can have images, do this here --}}
     <div class="flex items-center justify-center h-10 w-10 bg-purple-400 rounded-full antialiased">
         <svg class="svg-icon w-6" viewBox="0 0 20 20">
@@ -9,20 +9,26 @@
     </div>
 @else
     {{-- check if chat user that isn't the logged in user has an image --}}
-    @foreach($currentConversation->users as $user)
+    @foreach($activeConversation->users as $user)
         @if($user->id === auth()->id())
             @continue
         @endif
 
-        <div class="flex items-center justify-center h-10 w-10 min-w-10 rounded-full {{ $user->image ? '' : 'bg-purple-400' }}">
+        <button wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $user->id }} }})" class="flex items-center justify-center h-10 w-10 min-w-10 rounded-full {{ $user->image ? '' : 'bg-purple-400' }}">
             @if($user->profile->profile_photo)
                 <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="h-10 w-10 min-w-10 object-cover rounded-full">
             @else
                 {{ $user->name[0] }}
             @endif
-        </div>
+        </button>
     @endforeach
 @endif
+<div class="text-lg font-sans dark:text-gray-300 hidden lg:block">
+    {{ $activeConversation->getFriendlyName($activeConversation->id, 60)}}
+</div>
+<div class="text-lg font-sans dark:text-gray-300 lg:hidden">
+    {{ $activeConversation->getFriendlyName($activeConversation->id, 20)}}
+</div>
 
 
 

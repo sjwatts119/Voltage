@@ -7,13 +7,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
                 </svg>
             </button>
-            <x-conversation-icon :currentConversation="$activeConversation" />
-            <div class="text-lg font-sans dark:text-gray-300 hidden lg:block">
-                {{ $activeConversation->getFriendlyName($activeConversation->id, 60)}}
-            </div>
-            <div class="text-lg font-sans dark:text-gray-300 lg:hidden">
-                {{ $activeConversation->getFriendlyName($activeConversation->id, 20)}}
-            </div>
+            <x-infobar-icon :activeConversation="$activeConversation" />
         </div>
     </div>
 </div>
