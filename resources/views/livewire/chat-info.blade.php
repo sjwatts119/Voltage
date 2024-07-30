@@ -25,7 +25,7 @@
 
                     @foreach($displayUsers as $user)
                         @if($user->profile->profile_photo)
-                            <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 object-cover" src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="{{ $user->name }}">
+                            <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 object-cover" src="{{ asset('storage/' . $user->profile->profile_photo) }}" title="{{ $user->name }}" alt="{{ $user->name }}">
                         @else
                             <div class="flex items-center justify-center w-10 h-10 text-md font-medium text-gray-800 bg-purple-400 border-2 border-white rounded-full dark:border-gray-800" title="{{ $user->name }}">
                                 {{ $user->name[0] }}
