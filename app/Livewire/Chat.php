@@ -127,11 +127,6 @@ class Chat extends Component
             // Refresh the conversations list
             $this->conversations = auth()->user()->conversations;
         }
-
-        // Check if the conversation is the active conversation
-        if($this->activeConversation && $this->activeConversation->id == $conversation->id) {
-            $this->reloadMessages();
-        }
     }
 
     #[On('refresh-chat')]

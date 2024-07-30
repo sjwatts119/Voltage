@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Events\CreatedConversation;
+use App\Events\MessageSent;
 use App\Models\Conversation;
 use Livewire\Attributes\On;
 use LivewireUI\Modal\ModalComponent;
@@ -56,7 +56,7 @@ class ChatInfo extends ModalComponent
         $this->dispatch('reload-messages');
 
         // Dispatch pusher event to update the other participants
-        CreatedConversation::dispatch($this->conversation->id);
+        MessageSent::dispatch($newSystemMessage->id, $this->conversation->id);
 
         // Set the message as being read by the current user
         $newSystemMessage->markAsRead();
