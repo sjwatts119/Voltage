@@ -14,7 +14,9 @@
                         @endphp
 
                         @foreach($messages as $message)
-                            @if($message['user_id'] === $currentUser->id)
+                            @if($message['type'] === 'system')
+                                <x-message-system :message="$message"/>
+                            @elseif($message['user_id'] === $currentUser->id)
                                 <x-message-user :message="$message" :user="$currentUser"/>
                             @else
                                 <x-message-not-user :message="$message" :participants="$otherParticipants"/>

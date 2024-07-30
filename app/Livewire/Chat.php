@@ -135,6 +135,12 @@ class Chat extends Component
         $this->dispatch('$refresh');
     }
 
+    #[On('reload-messages')]
+    public function reloadMessages(): void
+    {
+        $this->messages = $this->activeConversation->messages;
+    }
+
     public function render()
     {
         // Show most recently active conversations first

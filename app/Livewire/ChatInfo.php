@@ -34,9 +34,19 @@ class ChatInfo extends ModalComponent
         $this->conversation->save();
 
         $this->editMode = false;
-        $this->dispatch('refresh-chat');
 
-        // When System messages are implemented, send one to the conversation saying user has changed the group name
+        // Create a new message to notify the group of the name change
+        $newSystemMessage = $this->conversation->messages()->create([
+            'user_id' => null,
+            'type' => 'system',
+            'message' => 'Conversation name changed to ' . $this->newGroupName,
+        ]);
+
+        $this->dispatch('refresh-chat');
+        $this->dispatch('reload-messages');
+
+        // Set the message as being read by the current user
+        $newSystemMessage->markAsRead();
     }
 
     public function render()

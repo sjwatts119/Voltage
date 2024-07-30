@@ -72,8 +72,8 @@ class Conversation extends Model
 
     public function getFriendlyLastMessage($maxLength) : string
     {
-        // Get the last message in the conversation
-        $lastMessage = $this->messages->last();
+        // Get the last message in the that isn't a system message
+        $lastMessage = $this->messages->where('type', '!=', 'system')->last();
 
         if(!$lastMessage) {
             return '';
