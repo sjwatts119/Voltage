@@ -16,14 +16,32 @@
                         Private Chat
                     @endif
                 </h1>
-                <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-sans mb-2" title="{{ $conversation->getFriendlyName($conversation->id, 500) }}">{{ $conversation->getFriendlyName($conversation->id, 40) }}</h2>
-                <div class="flex -space-x-4 rtl:space-x-reverse mb-2">
-                    @php
-                        $displayUsers = $conversation->users->slice(0, 10);
-                        $remainingUsers = $conversation->users->count() - 10;
-                    @endphp
 
-                    @foreach($displayUsers as $user)
+                @if($conversation->is_group)
+                    @if($editMode)
+                        <div class="flex items-center">
+                            <input type="text" wire:model="newGroupName" class="mb-2 border rounded px-2 py-1 w-full dark:bg-gray-800 dark:text-white" />
+                            <button wire:click="saveGroupName" class="transition ml-2 mb-2 text-green-500 hover:text-green-700 focus:outline-none">Save</button>
+                            <button wire:click="toggleEditMode" class="transition ml-2 mb-2 text-red-500 hover:text-red-700 focus:outline-none">Discard</button>
+                        </div>
+                    @else
+                        <div class="flex items-center">
+                            <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-sans mb-2">{{ $conversation->getFriendlyName($conversation->id, 40) }}</h2>
+                            <button wire:click="toggleEditMode" class="transition mb-2 ml-2 text-blue-500 hover:text-blue-700 focus:outline-none">Edit</button>
+                        </div>
+                    @endif
+                @else
+                    <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-sans mb-2">{{ $conversation->getFriendlyName($conversation->id, 40) }}</h2>
+                @endif
+
+                <div class="flex -space-x-4 rtl:space-x-reverse mb-2">
+
+                @php
+                    $displayUsers = $conversation->users->slice(0, 10);
+                    $remainingUsers = $conversation->users->count() - 10;
+                @endphp
+
+                @foreach($displayUsers as $user)
                         @if($user->profile->profile_photo)
                             <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 object-cover" src="{{ asset('storage/' . $user->profile->profile_photo) }}" title="{{ $user->name }}" alt="{{ $user->name }}">
                         @else
@@ -40,11 +58,9 @@
                     @endif
                 </div>
 
-                {{--page divider--}}
                 <div class="border-t border-gray-100 dark:border-gray-700 my-4"></div>
 
                 <p class="text-gray-500 text-md font-sans">Conversation Created on {{ $conversation->created_at->format('F j, Y') }}</p>
-
                 <p class="text-gray-500 text-md font-sans">Number of Messages: {{ $conversation->messages->count() }}</p>
             </div>
         </div>
