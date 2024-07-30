@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Conversation;
+use Livewire\Attributes\On;
 use LivewireUI\Modal\ModalComponent;
 
 class ChatInfo extends ModalComponent
@@ -14,6 +15,12 @@ class ChatInfo extends ModalComponent
     public function mount()
     {
         $this->newGroupName = $this->conversation->name;
+    }
+
+    #[On('refresh-chat')]
+    public function refresh() : void
+    {
+        $this->dispatch('$refresh');
     }
 
     public function toggleEditMode()

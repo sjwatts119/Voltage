@@ -34,29 +34,38 @@
                     <h2 class="text-gray-800 dark:text-gray-200 text-2xl font-sans mb-2">{{ $conversation->getFriendlyName($conversation->id, 40) }}</h2>
                 @endif
 
-                <div class="flex -space-x-4 rtl:space-x-reverse mb-2">
+                <div class="flex inline-block">
 
-                @php
-                    $displayUsers = $conversation->users->slice(0, 10);
-                    $remainingUsers = $conversation->users->count() - 10;
-                @endphp
+                    <div class="flex -space-x-4 rtl:space-x-reverse mb-2">
 
-                @foreach($displayUsers as $user)
-                        @if($user->profile->profile_photo)
-                            <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 object-cover" src="{{ asset('storage/' . $user->profile->profile_photo) }}" title="{{ $user->name }}" alt="{{ $user->name }}">
-                        @else
-                            <div class="flex items-center justify-center w-10 h-10 text-md font-medium text-gray-800 bg-purple-400 border-2 border-white rounded-full dark:border-gray-800" title="{{ $user->name }}">
-                                {{ $user->name[0] }}
-                            </div>
+                        @php
+                            $displayUsers = $conversation->users->slice(0, 10);
+                            $remainingUsers = $conversation->users->count() - 10;
+                        @endphp
+
+                        @foreach($displayUsers as $user)
+                            @if($user->profile->profile_photo)
+                                <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 object-cover" src="{{ asset('storage/' . $user->profile->profile_photo) }}" title="{{ $user->name }}" alt="{{ $user->name }}">
+                            @else
+                                <div class="flex items-center justify-center w-10 h-10 text-md font-medium text-gray-800 bg-purple-400 border-2 border-white rounded-full dark:border-gray-800" title="{{ $user->name }}">
+                                    {{ $user->name[0] }}
+                                </div>
+                            @endif
+                        @endforeach
+
+                        @if($remainingUsers > 0)
+                            <a class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800" href="#">
+                                +{{ $remainingUsers }}
+                            </a>
                         @endif
-                    @endforeach
-
-                    @if($remainingUsers > 0)
-                        <a class="flex items-center justify-center w-10 h-10 text-xs font-medium text-white bg-gray-700 border-2 border-white rounded-full hover:bg-gray-600 dark:border-gray-800" href="#">
-                            +{{ $remainingUsers }}
-                        </a>
-                    @endif
+                        {{--manage conversation users--}}
+                    </div>
+                    <button wire:click="$dispatch('openModal', { component: 'manage-conversation-users', arguments: { conversation: {{ $conversation->id }} }})" class="transition ml-2 mb-2 text-blue-500 hover:text-blue-700 focus:outline-none">
+                        Manage
+                    </button>
                 </div>
+
+
 
                 <div class="border-t border-gray-100 dark:border-gray-700 my-4"></div>
 
