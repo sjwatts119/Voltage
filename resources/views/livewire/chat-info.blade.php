@@ -58,9 +58,11 @@
                         @endif
                         {{--manage conversation users--}}
                     </div>
-                    <button wire:click="$dispatch('openModal', { component: 'manage-conversation-users', arguments: { conversation: {{ $conversation->id }} }})" class="transition ml-2 mb-2 text-blue-500 hover:text-blue-700 focus:outline-none">
-                        Manage
-                    </button>
+                    @if($conversation->is_group)
+                        <button wire:click="$dispatch('openModal', { component: 'manage-conversation-users', arguments: { conversation: {{ $conversation->id }} }})" class="transition ml-2 mb-2 text-blue-500 hover:text-blue-700 focus:outline-none">
+                            Manage
+                        </button>
+                    @endif
                 </div>
 
                 <div class="border-t border-gray-100 dark:border-gray-700 my-4"></div>
