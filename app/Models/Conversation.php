@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 class Conversation extends Model
@@ -24,6 +25,18 @@ class Conversation extends Model
     public function messages() : HasMany
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function profile() : HasOne {
+        return $this->hasOne(ConversationProfile::class);
+    }
+
+    protected static function boot() : void {
+        parent::boot();
+
+        static::created(function($conversation) {
+            $conversation->profile()->create();
+        });
     }
 
     public static function getParticipants($id){
