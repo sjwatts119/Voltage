@@ -8,6 +8,7 @@ use LivewireUI\Modal\ModalComponent;
 class ChatInfo extends ModalComponent
 {
     public Conversation $conversation;
+
     public function render()
     {
         return view('livewire.chat-info');
