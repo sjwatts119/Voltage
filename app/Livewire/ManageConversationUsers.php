@@ -15,6 +15,14 @@ class ManageConversationUsers extends ModalComponent
         // Make a new record in the conversation_users table with the user_id and conversation_id
         $this->conversation->users()->attach($userId);
 
+        // For each message in the conversation, we need to make a new record in the message_reads table
+        $this->conversation->messages->each(function($message) use ($userId) {
+            $message->reads()->create([
+                'user_id' => $userId,
+                'read_at' => null,
+            ]);
+        });
+
         // Send a system message to the conversation to notify the participants of the new user
         $newSystemMessage = $this->conversation->messages()->create([
             'user_id' => null,
