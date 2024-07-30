@@ -35,9 +35,7 @@
                 @endif
 
                 <div class="flex inline-block">
-
                     <div class="flex -space-x-4 rtl:space-x-reverse mb-2">
-
                         @php
                             $displayUsers = $conversation->users->slice(0, 10);
                             $remainingUsers = $conversation->users->count() - 10;
@@ -65,12 +63,10 @@
                     </button>
                 </div>
 
-
-
                 <div class="border-t border-gray-100 dark:border-gray-700 my-4"></div>
 
                 <p class="text-gray-500 text-md font-sans">Conversation Created on {{ $conversation->created_at->format('F j, Y') }}</p>
-                <p class="text-gray-500 text-md font-sans">Number of Messages: {{ $conversation->messages->count() }}</p>
+                <p class="text-gray-500 text-md font-sans">Number of Messages: {{ $messageCount }}</p>
             </div>
         </div>
     </div>

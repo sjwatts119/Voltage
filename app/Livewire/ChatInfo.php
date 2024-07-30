@@ -12,6 +12,8 @@ class ChatInfo extends ModalComponent
     public $editMode = false;
     public $newGroupName = '';
 
+    public $messageCount;
+
     public function mount()
     {
         $this->newGroupName = $this->conversation->name;
@@ -58,6 +60,11 @@ class ChatInfo extends ModalComponent
 
     public function render()
     {
-        return view('livewire.chat-info');
+        // Message count only includes messages that are not system messages
+        $this->messageCount = $this->conversation->messages()->where('type', '!=', 'system')->count();
+
+        return view('livewire.chat-info', [
+            'messageCount' => $this->messageCount,
+        ]);
     }
 }
