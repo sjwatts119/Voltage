@@ -18,7 +18,7 @@ class CreatedConversation implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(public Conversation $conversation)
+    public function __construct(public $conversationID)
     {
         //
     }

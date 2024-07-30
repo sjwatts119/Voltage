@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\CreatedConversation;
 use App\Models\Conversation;
 use App\Models\User;
 use LivewireUI\Modal\ModalComponent;
@@ -38,6 +39,9 @@ class ManageConversationUsers extends ModalComponent
 
         // Clear the search field
         $this->search = '';
+
+        // Dispatch pusher event to update the other participants
+        CreatedConversation::dispatch($this->conversation->id);
 
         // Close the modal
         $this->dispatch('closeModal');

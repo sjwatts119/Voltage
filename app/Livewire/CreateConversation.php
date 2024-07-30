@@ -79,7 +79,7 @@ class CreateConversation extends ModalComponent
         }
 
         // Dispatch CreatedChat event to pusher
-        CreatedConversation::dispatch($conversation);
+        CreatedConversation::dispatch($conversation->id);
 
         $this->dispatch('conversation.open', $conversation->id);
 
@@ -113,7 +113,7 @@ class CreateConversation extends ModalComponent
             $newConversation->users()->attach([auth()->id(), $userId]);
 
             // Dispatch CreatedChat event to pusher
-            CreatedConversation::dispatch($newConversation);
+            CreatedConversation::dispatch($newConversation->id);
 
             // Fire an event to open the conversation.
             $this->dispatch('conversation.open', $newConversation->id);

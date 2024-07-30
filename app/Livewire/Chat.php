@@ -120,12 +120,17 @@ class Chat extends Component
     #[On('echo:Voltage-Status,.CreatedConversation')]
     public function addedToConversation($conversation): void
     {
-        $conversation = Conversation::find($conversation['conversation']['id']);
+        $conversation = Conversation::find($conversation['conversationID']);
 
         // Check if the user has been added to the conversation
         if (auth()->user()->conversations->contains($conversation)) {
             // Refresh the conversations list
             $this->conversations = auth()->user()->conversations;
+        }
+
+        // Check if the conversation is the active conversation
+        if($this->activeConversation && $this->activeConversation->id == $conversation->id) {
+            $this->reloadMessages();
         }
     }
 
