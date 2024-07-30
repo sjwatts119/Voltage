@@ -53,8 +53,8 @@ class SettingsProfile extends Component
     public function hasChanges() : bool
     {
         return $this->user->name !== $this->name
-            || $this->user->profile->pronouns !== $this->pronouns
-            || $this->user->profile->bio !== $this->bio
+            || ($this->user->profile->pronouns ?? '') !== ($this->pronouns ?? '')
+            || ($this->user->profile->bio ?? '') !== ($this->bio ?? '')
             || $this->profilePicture
             || $this->bannerPicture;
     }
