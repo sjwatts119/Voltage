@@ -129,6 +129,21 @@ class Chat extends Component
         }
     }
 
+    #[On('echo:Voltage-Actions,.RemovedFromConversation')]
+    public function removedFromConversation($payload): void
+    {
+        // Is it the user that has been removed from a conversation?
+        if (auth()->user()->id == $payload['user_id']) {
+            // Refresh the conversations list
+            $this->conversations = auth()->user()->conversations;
+
+            // If the user was removed from the active conversation, close the chat
+            if ($this->activeConversation && $this->activeConversation->id == $payload['conversation_id']) {
+                $this->closeChat();
+            }
+        }
+    }
+
     #[On('refresh-chat')]
     public function refresh(): void
     {
@@ -138,6 +153,8 @@ class Chat extends Component
     #[On('reload-messages')]
     public function reloadMessages(): void
     {
+        //get the messages from the active conversation
+        $this->activeConversation->load('messages');
         $this->messages = $this->activeConversation->messages;
     }
 

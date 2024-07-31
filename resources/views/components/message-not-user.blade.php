@@ -1,8 +1,8 @@
 <div class="col-start-1 col-end-12 lg:col-end-9 py-2 rounded-lg">
     <div class="flex flex-row items-center">
         @php
-            //participants collection passed in by parent, we need to find the user that sent this message;
-            $user = $participants->where('id', $message['user_id'])->first();
+            // We need to get the user from the model, as users can be removed as participants from the conversation
+            $user = \App\Models\User::find($message['user_id']);
         @endphp
         <button wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $user->id }} }})" class="focus:outline-none rounded-xl justify-start">
             <x-user-icon :user="$user" />
