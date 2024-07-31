@@ -120,7 +120,7 @@ class SettingsProfile extends Component
         $this->dispatch('profile-updated');
 
         //dispatch refresh-chat
-        $this->dispatch('refresh-chat');
+        $this->dispatch('refresh-chat-info');
 
         //dispatch profile-updated with name
         $this->dispatch('profile-updated', name: $this->user->name);

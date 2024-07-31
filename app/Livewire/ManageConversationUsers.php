@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\AddedToConversation;
 use App\Events\MessageSent;
 use App\Events\RemovedFromConversation;
 use App\Models\Conversation;
@@ -25,7 +26,7 @@ class ManageConversationUsers extends ModalComponent
         $newSystemMessage->markAsRead();
 
         $this->dispatch('reload-messages');
-        $this->dispatch('refresh-chat');
+        $this->dispatch('refresh-chat-info');
 
         MessageSent::dispatch($newSystemMessage->id, $this->conversation->id);
     }
@@ -41,6 +42,8 @@ class ManageConversationUsers extends ModalComponent
                 'read_at' => null
             ]);
         });
+
+        AddedToConversation::dispatch($this->conversation->id, $userId);
 
         // Send a system notification to the conversation
         $this->sendSystemNotification(User::find($userId)->name . ' has been added to the conversation.', "added");

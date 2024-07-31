@@ -20,7 +20,7 @@ class ChatInfo extends ModalComponent
         $this->newGroupName = $this->conversation->name;
     }
 
-    #[On('refresh-chat')]
+    #[On('refresh-chat-info')]
     public function refresh() : void
     {
         $this->dispatch('$refresh');
@@ -52,7 +52,7 @@ class ChatInfo extends ModalComponent
             'message' => 'Conversation name changed to ' . $this->newGroupName,
         ]);
 
-        $this->dispatch('refresh-chat');
+        $this->dispatch('refresh-chat-info');
         $this->dispatch('reload-messages');
 
         // Dispatch pusher event to update the other participants

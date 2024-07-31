@@ -118,12 +118,21 @@ class Chat extends Component
     }
 
     #[On('echo:Voltage-Status,.CreatedConversation')]
-    public function addedToConversation($conversation): void
+    public function createdConversation($conversation): void
     {
         $conversation = Conversation::find($conversation['conversationID']);
 
         // Check if the user has been added to the conversation
         if (auth()->user()->conversations->contains($conversation)) {
+            // Refresh the conversations list
+            $this->conversations = auth()->user()->conversations;
+        }
+    }
+
+    public function addedToConversation($payload): void
+    {
+        // Is it the user that has been added to a conversation?
+        if (auth()->user()->id == $payload['user_id']) {
             // Refresh the conversations list
             $this->conversations = auth()->user()->conversations;
         }
@@ -144,7 +153,7 @@ class Chat extends Component
         }
     }
 
-    #[On('refresh-chat')]
+    #[On('refresh-chat-info')]
     public function refresh(): void
     {
         $this->dispatch('$refresh');
