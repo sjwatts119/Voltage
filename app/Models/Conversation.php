@@ -63,6 +63,11 @@ class Conversation extends Model
             return $conversation->name;
         }
 
+        // If it is just the authenticated user in the conversation, return "Just You"
+        if ($participants->count() === 0) {
+            return 'Just You';
+        }
+
         // Get participant names as a comma-separated string
         $friendlyName = implode(', ', $participants->pluck('name')->toArray());
 
