@@ -52,16 +52,35 @@ class ManageConversationUsers extends ModalComponent
         $results = [];
 
         if(strlen($this->search) > 0) {
-            $results = User::where('name', 'like', '%' . $this->search . '%')
+            $searchResults = User::where('name', 'like', '%' . $this->search . '%')
                 ->orWhere('username', 'like', '%' . $this->search . '%')
                 ->limit(10)
                 ->get();
 
-            // Exclude the current user and existing participants from the results
-            $results = $results->filter(function ($user) {
+            // Exclude the current user and the existing participants from the search results
+            $searchResults = $searchResults->filter(function ($user) {
                 return $user->id !== auth()->id() && !$this->conversation->users->contains($user->id);
             });
 
+            // Get the existing participants in the conversation
+            $existingParticipants = $this->conversation->users;
+
+            // Exclude the current user from the existing participants
+            $existingParticipants = $existingParticipants->filter(function ($user) {
+                return $user->id !== auth()->id();
+            });
+
+            // Append the existing participants to the end of the search results
+            $results = $searchResults->concat($existingParticipants);
+        }
+        else{
+            // Show the existing participants in the conversation
+            $results = $this->conversation->users;
+
+            // Exclude the current user from the results
+            $results = $results->filter(function ($user) {
+                return $user->id !== auth()->id();
+            });
         }
 
         return view('livewire.manage-conversation-users', [

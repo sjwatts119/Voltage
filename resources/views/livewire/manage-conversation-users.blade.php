@@ -21,9 +21,15 @@
                                 <div class="text-sm font-sans text-gray-600 dark:text-gray-500">{{ $user->username }}</div>
                             </div>
                         </div>
-                        <button wire:click="addToConversation({{ $user->id }})" class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-lg text-white border dark:border-gray-700 px-4 py-1.5 flex-shrink-0 transition">
-                            Add
-                        </button>
+                        @if(!$user->conversations->contains($conversation->id))
+                            <button wire:click="addToConversation({{ $user->id }})" class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-lg text-white border dark:border-gray-700 px-4 py-1.5 flex-shrink-0 transition">
+                                Add
+                            </button>
+                        @else
+                            <button wire:click="removeFromConversation({{ $user->id }})" class="flex items-center justify-center bg-red-500 hover:bg-red-600 rounded-lg text-white border dark:border-gray-700 px-4 py-1.5 flex-shrink-0 transition">
+                                Remove
+                            </button>
+                        @endif
                     </div>
                 @endforeach
             </div>
