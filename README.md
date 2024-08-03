@@ -33,7 +33,7 @@ To run Voltage locally using Laravel Sail, follow these steps:
 4. **Start Docker Containers:** ```./vendor/bin/sail up``` (Ensure Docker is Running)
 5. **Generate Application Key:** ```./vendor/bin/sail artisan key:generate```
 6. **Run Database Migration and Seeder:** ```./vendor/bin/sail artisan migrate:fresh --seed```
-7. **Create Storage Symlink** ```./vendor/bin/sail artisan storage:link```
+7. **Create Storage Symlink:** ```./vendor/bin/sail artisan storage:link```
 8. **Install NPM Dependencies:** ```./vendor/bin/sail npm install```
 9. **Built Frontend Assets:** ```./vendor/bin/sail npm run-script build```
 10. **Access the Application:** Voltage should now be accessible at 127.0.0.1
@@ -42,7 +42,7 @@ To run Voltage locally using Laravel Sail, follow these steps:
 
 **Voltage** is currently in active development. As such, some bugs and issues are to be expected.
 
-For a list of known issues and bugs, as well as any planned enhancements, please refer to the [Issues](https://github.com/yourusername/voltage/issues) tab.
+For a list of known issues and bugs, as well as any planned enhancements, please refer to the [Issues](https://github.com/sjwatts119/voltage/issues) tab.
 
 ## 🧑‍💻 Authors & Contributors
 
