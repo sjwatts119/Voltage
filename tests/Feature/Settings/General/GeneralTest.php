@@ -39,6 +39,5 @@ class GeneralTest extends TestCase
 
         // Assert that the dark-mode event has been dispatched.
         $component->assertDispatched('dark-mode');
-
     }
 }
