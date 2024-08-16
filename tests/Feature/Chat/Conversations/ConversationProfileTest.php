@@ -63,5 +63,8 @@ class ConversationProfileTest extends TestCase
 
         // Assert the group conversation has been renamed
         $this->assertEquals('New Group Name', $conversation->name);
+
+        // Assert the group conversation has a system message
+        $this->assertNotNull($conversation->messages()->where('type', 'system')->first());
     }
 }

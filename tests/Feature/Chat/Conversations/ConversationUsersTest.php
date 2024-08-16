@@ -59,6 +59,9 @@ class ConversationUsersTest extends TestCase
 
         // Assert the group conversation contains the new user
         $this->assertTrue($conversation->users->contains($user3));
+
+        // Assert the group conversation has a system message
+        $this->assertNotNull($conversation->messages()->where('type', 'system')->first());
     }
 
     public function test_remove_user_from_group_conversation(): void
@@ -84,5 +87,8 @@ class ConversationUsersTest extends TestCase
 
         // Assert the group conversation does not contain the removed user
         $this->assertFalse($conversation->users->contains($user2));
+
+        // Assert the group conversation has a system message
+        $this->assertNotNull($conversation->messages()->where('type', 'system')->first());
     }
 }
