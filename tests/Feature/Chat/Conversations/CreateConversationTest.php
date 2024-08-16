@@ -13,17 +13,11 @@ class CreateConversationTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * Helper function to create users
-     */
     private function createUsers(array $emails)
     {
         return collect($emails)->map(fn($email) => User::factory()->create(['email' => $email]));
     }
 
-    /**
-     * Helper function to assert conversation details.
-     */
     private function assertConversationDetails(Conversation $conversation, array $expectedUsers, array $unexpectedUsers, bool $isGroup)
     {
         $this->assertNotNull($conversation);
