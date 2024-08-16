@@ -1,37 +1,26 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Settings\Account;
 
+use App\Livewire\Settings;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\Livewire;
 use Livewire\Volt\Volt;
 use Tests\TestCase;
 
-class ProfileTest extends TestCase
+class AccountTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_profile_page_is_displayed(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this->actingAs($user)->get('/profile');
-
-        $response
-            ->assertOk()
-            ->assertSeeVolt('profile.update-profile-information-form')
-            ->assertSeeVolt('profile.update-password-form')
-            ->assertSeeVolt('profile.delete-user-form');
-    }
-
-    public function test_profile_information_can_be_updated(): void
+    public function test_email_can_be_updated(): void
     {
         $user = User::factory()->create();
 
         $this->actingAs($user);
 
+        // It is only the email that can be updated from this view, so that is all there is to test.
         $component = Volt::test('profile.update-profile-information-form')
-            ->set('name', 'Test User')
             ->set('email', 'test@example.com')
             ->call('updateProfileInformation');
 
@@ -41,7 +30,6 @@ class ProfileTest extends TestCase
 
         $user->refresh();
 
-        $this->assertSame('Test User', $user->name);
         $this->assertSame('test@example.com', $user->email);
         $this->assertNull($user->email_verified_at);
     }
@@ -53,7 +41,6 @@ class ProfileTest extends TestCase
         $this->actingAs($user);
 
         $component = Volt::test('profile.update-profile-information-form')
-            ->set('name', 'Test User')
             ->set('email', $user->email)
             ->call('updateProfileInformation');
 
@@ -98,4 +85,6 @@ class ProfileTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    // This should be expanded upon when account deletion is properly implemented, ensuring their messages are preserved etc.
 }
