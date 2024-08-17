@@ -33,9 +33,15 @@
                     {{ $messageGroup[0]->message }}
                 </div>
             </div>
-            <div class="flex-shrink-0 flex flex-col items-center justify-center my-auto">
-                <button wire:click="deleteMessage({{ $messageGroup[0]->id }})" class="text-red-500 text-xl text-center justify-center invisible group-hover:visible transition">x</button>
-            </div>
+            @if($messageGroup[0]->user_id === auth()->id())
+                <div class="flex-shrink-0 flex flex-col items-center justify-center my-auto">
+                    <button wire:click="deleteMessage({{ $messageGroup[0]->id }})" class="text-red-500 text-xl text-center justify-center invisible group-hover:visible transition">x</button>
+                </div>
+            @else
+                <div class="flex-shrink-0 flex flex-col items-center justify-center my-auto">
+                    <div class="text-red-500 text-xl text-center justify-center invisible group-hover:visible transition">x</div>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -59,9 +65,15 @@
                 {{ $message->message }}
             </div>
 
-            <div class="flex-shrink-0 flex flex-col items-center justify-center my-auto">
-                <button wire:click="deleteMessage({{ $messageGroup[0]->id }})" class="text-red-500 text-xl text-center justify-center invisible group-hover:visible transition">x</button>
-            </div>
+            @if($message->user_id === auth()->id())
+                <div class="flex-shrink-0 flex flex-col items-center justify-center my-auto">
+                    <button wire:click="deleteMessage({{ $message->id }})" class="text-red-500 text-xl text-center justify-center invisible group-hover:visible transition">x</button>
+                </div>
+            @else
+                <div class="flex-shrink-0 flex flex-col items-center justify-center my-auto">
+                    <div class="text-red-500 text-xl text-center justify-center invisible group-hover:visible transition">x</div>
+                </div>
+            @endif
         </div>
     @endforeach
 </div>
