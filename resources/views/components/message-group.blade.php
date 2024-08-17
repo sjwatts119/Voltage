@@ -39,7 +39,7 @@
                 </div>
             @else
                 <div class="flex-shrink-0 flex flex-col items-center justify-center my-auto">
-                    <div class="text-red-500 text-xl text-center justify-center invisible group-hover:visible transition">x</div>
+                    <div class="text-red-500 text-xl text-center justify-center invisible transition">x</div>
                 </div>
             @endif
         </div>
@@ -71,7 +71,7 @@
                 </div>
             @else
                 <div class="flex-shrink-0 flex flex-col items-center justify-center my-auto">
-                    <div class="text-red-500 text-xl text-center justify-center invisible group-hover:visible transition">x</div>
+                    <div class="text-red-500 text-xl text-center justify-center invisible transition">x</div>
                 </div>
             @endif
         </div>
