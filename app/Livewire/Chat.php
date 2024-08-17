@@ -22,7 +22,6 @@ class Chat extends Component
 
     public function mount(): void
     {
-        // Assuming the user is authenticated INSECURE FIXME
         $this->conversations = auth()->user()->conversations;
         //$this->loadConversation($this->conversations->first()->id);
     }
@@ -94,7 +93,7 @@ class Chat extends Component
         $this->messageInput = '';
     }
 
-    #[NoReturn] #[On('echo:Voltage-Conversation,.NewMessage')]
+    #[On('echo:Voltage-Conversation,.NewMessage')]
     public function receivedMessage($message): void
     {
         // Check if the message belongs to the active conversation
@@ -167,6 +166,41 @@ class Chat extends Component
         $this->messages = $this->activeConversation->messages;
     }
 
+    public function groupMessages($messages): Collection
+    {
+        // We should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
+        $groupedMessages = new Collection();
+
+        $previousMessage = null;
+        $currentGroup = [];
+
+        foreach ($messages as $message) {
+            // If the current message is from the same user and sent within 5 minutes of the previous message, group them
+            if ($previousMessage && $previousMessage->user_id == $message->user_id
+                && $previousMessage->created_at->diffInMinutes($message->created_at) <= 5) {
+                $currentGroup[] = $message;
+            } else {
+                // We have a new group of messages, so add the previous group to the messages array
+                if (!empty($currentGroup)) {
+                    $groupedMessages->push($currentGroup);
+                }
+
+                // Start a new group with the current message
+                $currentGroup = [$message];
+            }
+
+            // Set the current message as the previous one for the next iteration
+            $previousMessage = $message;
+        }
+
+        // Add the last group of messages to the array (if there are any messages in the group)
+        if (!empty($currentGroup)) {
+            $groupedMessages->push($currentGroup);
+        }
+
+        return $groupedMessages;
+    }
+
     public function render()
     {
         // Show most recently active conversations first
@@ -174,6 +208,16 @@ class Chat extends Component
             return $conversation->messages->last()->created_at ?? $conversation->created_at;
         });
 
-        return view('livewire.pages.chat');
+        if($this->activeConversation) {
+            // Group the messages
+            $messageGroups = $this->groupMessages($this->messages);
+        } else {
+            // If there is no active conversation, there are no messages to group
+            $messageGroups = null;
+        }
+
+        return view('livewire.pages.chat', [
+            'messageGroups' => $messageGroups,
+        ]);
     }
 }
