@@ -210,14 +210,14 @@ class Chat extends Component
 
         if($this->activeConversation) {
             // Group the messages
-            $groupedMessages = $this->groupMessages($this->messages);
+            $messageGroups = $this->groupMessages($this->messages);
         } else {
             // If there is no active conversation, there are no messages to group
-            $groupedMessages = null;
+            $messageGroups = null;
         }
 
         return view('livewire.pages.chat', [
-            'groupedMessages' => $groupedMessages,
+            'messageGroups' => $messageGroups,
         ]);
     }
 }

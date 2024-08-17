@@ -4,7 +4,7 @@
             <div class="flex flex-col h-full w-full">
                 <x-chat-area-infobar :activeConversation="$activeConversation" />
                 <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full p-4">
-                    <div class="grid grid-cols-12 w-full">
+                    <div class="w-full">
                         @php
                             // Get the current user
                             $currentUser = auth()->user();
@@ -13,6 +13,17 @@
                             $otherParticipants = App\Models\Conversation::getParticipants($activeConversation->id)->where('id', '!=', $currentUser->id);
                         @endphp
 
+                        @foreach($messageGroups as $messageGroup)
+
+                            @if($messageGroup[0]['type'] === 'system')
+                                <x-message-system :messageGroup="$messageGroup"/>
+                            @else
+                                <x-message-group :messageGroup="$messageGroup" :currentUser="$currentUser" :otherParticipants="$otherParticipants"/>
+                            @endif
+
+                        @endforeach
+
+                        {{--
                         @foreach($messages as $message)
                             @if($message['type'] === 'system')
                                 <x-message-system :message="$message"/>
@@ -22,9 +33,10 @@
                                 <x-message-not-user :message="$message" :participants="$otherParticipants"/>
                             @endif
                         @endforeach
+                        --}}
                     </div>
 
-                    @if($messages->count() === 0)
+                    @if($messageGroups->count() === 0)
                         <div class="mx-auto p-6">
                             <div class="text-xl font-sans text-center dark:text-gray-500">
                                 No messages yet, start the conversation!
