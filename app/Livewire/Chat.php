@@ -5,8 +5,6 @@ namespace App\Livewire;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
-use Carbon\Carbon;
-use JetBrains\PhpStorm\NoReturn;
 use Livewire\Component;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
@@ -150,6 +148,40 @@ class Chat extends Component
                 $this->closeChat();
             }
         }
+    }
+
+    #[On('leave-conversation')]
+    public function leaveConversation($conversationId): void
+    {
+        // Create a new system message in the conversation
+        $newSystemMessage = $this->activeConversation->messages()->create([
+            'user_id' => null,
+            'type' => 'system',
+            'actioned_by_user_id' => auth()->id(),
+            'action' => 'left',
+            'message' => auth()->user()->name . ' has left the conversation.',
+        ]);
+
+        MessageSent::dispatch($newSystemMessage->id, $this->activeConversation->id);
+
+        // Remove the current user from the conversation
+        $this->activeConversation->users()->detach(auth()->id());
+
+        // We need to remove the user's entries in the message_reads table
+        // Where the conversation_id is the conversation we are removing the user from,
+        // and the user_id is the user we are removing
+        $this->activeConversation->messages->each(function ($message) {
+            $message->reads()->where('user_id', auth()->id())->delete();
+        });
+
+        // Set the active conversation to null
+        $this->closeChat();
+
+        //refresh the conversations list
+        $this->conversations = auth()->user()->conversations;
+
+        // Close the modal
+        $this->dispatch('closeModal');
     }
 
     #[On('refresh-chat-info')]

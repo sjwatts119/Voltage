@@ -64,6 +64,11 @@ class ChatInfo extends ModalComponent
         $newSystemMessage->markAsRead();
     }
 
+    public function leaveConversation() : void {
+        //dispatch leave conversation event so this can be handled in the Chat.php
+        $this->dispatch('leave-conversation', $this->conversation->id);
+    }
+
     public function render()
     {
         // Message count only includes messages that are not system messages

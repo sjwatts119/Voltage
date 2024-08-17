@@ -69,6 +69,11 @@
 
                 <p class="text-gray-500 text-md font-sans">Conversation Created on {{ $conversation->created_at->format('F j, Y') }}</p>
                 <p class="text-gray-500 text-md font-sans">Number of Messages: {{ $messageCount }}</p>
+
+                {{-- Leave Conversation button --}}
+                @if($conversation->is_group)
+                    <button wire:click="leaveConversation" class="transition mt-4 text-red-500 hover:text-red-700 focus:outline-none">Leave Conversation</button>
+                @endif
             </div>
         </div>
     </div>
