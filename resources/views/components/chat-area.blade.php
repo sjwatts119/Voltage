@@ -3,8 +3,8 @@
         <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full w-full">
             <div class="flex flex-col h-full w-full">
                 <x-chat-area-infobar :activeConversation="$activeConversation" />
-                <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full p-4">
-                    <div class="w-full">
+                <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full">
+                    <div class="w-ful mb-5">
                         @php
                             // Get the current user
                             $currentUser = auth()->user();
@@ -22,18 +22,6 @@
                             @endif
 
                         @endforeach
-
-                        {{--
-                        @foreach($messages as $message)
-                            @if($message['type'] === 'system')
-                                <x-message-system :message="$message"/>
-                            @elseif($message['user_id'] === $currentUser->id)
-                                <x-message-user :message="$message" :user="$currentUser"/>
-                            @else
-                                <x-message-not-user :message="$message" :participants="$otherParticipants"/>
-                            @endif
-                        @endforeach
-                        --}}
                     </div>
 
                     @if($messageGroups->count() === 0)

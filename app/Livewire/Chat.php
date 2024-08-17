@@ -114,6 +114,28 @@ class Chat extends Component
         $newMessage->markAsRead();
     }
 
+    public function deleteMessage($messageId) : void
+    {
+        // Find the message
+        $message = Message::find($messageId);
+
+        // Check if the user is allowed to delete the message
+        if($message->user_id != auth()->id()) {
+            return;
+        }
+
+        // Delete the message
+        $message->delete();
+
+        // Remove the message from the messages collection
+        $this->messages = $this->messages->reject(function($item) use ($messageId) {
+            return $item->id == $messageId;
+        });
+
+        //refresh the conversations list
+        $this->conversations = auth()->user()->conversations;
+    }
+
     #[On('echo:Voltage-Status,.CreatedConversation')]
     public function createdConversation($conversation): void
     {
