@@ -10,13 +10,16 @@
             </button>
         </div>
 
+        {{-- User Info and Messages --}}
         <div class="flex-grow">
-            <div class="flex items-center">
+            <div class="flex items-baseline space-x-2">
                 {{-- User's name --}}
-                <div wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $user->id }} }})" class="text-sm text-black dark:text-white break-all hover:underline cursor-pointer transition">{{$user->name}}</div>
+                <div wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $user->id }} }})" class="text-sm text-black dark:text-white break-all hover:underline cursor-pointer transition">
+                    {{$user->name}}
+                </div>
 
                 {{-- Timestamp --}}
-                <div class="ml-2 text-xs dark:text-slate-400">
+                <div class="text-xs dark:text-slate-400">
                     @if($messageGroup[0]->created_at->isToday())
                         <div>{{$messageGroup[0]->created_at->format('H:i')}}</div>
                     @else
