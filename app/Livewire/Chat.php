@@ -16,7 +16,10 @@ class Chat extends Component
     public $activeConversation;
     public $messages;
 
-    protected $listeners = ['messageReceived' => 'handleMessageReceived'];
+    protected $listeners = [
+        'messageReceived' => 'handleMessageReceived',
+        'refresh-flowbite' => '$refresh',
+    ];
 
     public function mount(): void
     {
@@ -116,8 +119,10 @@ class Chat extends Component
 
     public function deleteMessage($messageId) : void
     {
-        // Find the message
-        $message = Message::find($messageId);
+        // Check if the message exists and get it from the database
+        if(!$message = Message::find($messageId)) {
+            return;
+        }
 
         // Check if the user is allowed to delete the message
         if($message->user_id != auth()->id()) {
@@ -134,6 +139,9 @@ class Chat extends Component
 
         //refresh the conversations list
         $this->conversations = auth()->user()->conversations;
+
+        // Dispatch a refresh event to update the chat
+        $this->dispatch('messageDeleted');
     }
 
     #[On('echo:Voltage-Status,.CreatedConversation')]
