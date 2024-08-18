@@ -16,7 +16,6 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
     </head>
     {{--get the dark mode setting from the user's settings and set it on load--}}
     {{--also listen for the dark-mode and light-mode events to change the dark mode setting dynamically--}}
