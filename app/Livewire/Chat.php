@@ -15,7 +15,6 @@ class Chat extends Component
     public $messageInput = '';
     public $conversations;
     public $activeConversation;
-    public $messages;
 
     protected $listeners = [
         'messageReceived' => 'handleMessageReceived',
@@ -43,14 +42,12 @@ class Chat extends Component
 
         // Load the conversation
         $this->activeConversation = Conversation::with('messages')->findOrFail($id);
-        // We should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
-        $this->messages = new Collection($this->activeConversation->messages);
         $this->messageInput = '';
 
         // Are there any unread messages in the conversation?
         if($this->activeConversation->getUnreadCount() > 0) {
 
-            $unreadMessages = $this->messages->filter(function($message) {
+            $unreadMessages = $this->activeConversation->messages->filter(function($message) {
                 return !$message->isRead();
             });
 
@@ -75,7 +72,7 @@ class Chat extends Component
             'message' => $this->messageInput,
         ]);
 
-        $this->messages->push($newMessage);
+        $this->reloadMessages();
 
         // Mark the message as read for the sender
         $newMessage->markAsRead();
@@ -90,7 +87,6 @@ class Chat extends Component
     public function closeChat(): void
     {
         $this->activeConversation = null;
-        $this->messages = null;
         $this->messageInput = '';
     }
 
@@ -103,18 +99,10 @@ class Chat extends Component
         }
 
         // Get the new message from the database
-        $newMessage = Message::find($message['message_id']);
-
-        // Did the user send this message? If so, we don't need to append it as it would be displayed already
-        if ($newMessage->user_id == auth()->id()) {
-            return;
-        }
-
-        // Append the new message to the messages collection
-        $this->messages->push($newMessage);
+        $this->reloadMessages();
 
         //The message belongs to the chat which is currently open, so mark it as read
-        $newMessage->markAsRead();
+        $this->activeConversation->messages->where('id', $message['message_id'])->first()->markAsRead();
     }
 
     public function deleteMessage($messageId) : void
@@ -129,16 +117,11 @@ class Chat extends Component
             return;
         }
 
-        // Remove the message from the messages collection
-        $this->messages = $this->messages->reject(function($item) use ($messageId) {
-            return $item->id == $messageId;
-        });
-
         // Delete the message
         $message->delete();
 
-        // Refresh the conversations list
-        $this->conversations = auth()->user()->conversations;
+        // Refresh the messages
+        $this->reloadMessages();
 
         // Dispatch a refresh event to update the chat
         $this->dispatch('messageDeleted');
@@ -238,9 +221,7 @@ class Chat extends Component
     #[On('reload-messages')]
     public function reloadMessages(): void
     {
-        //get the messages from the active conversation
-        $this->activeConversation->load('messages');
-        $this->messages = $this->activeConversation->messages;
+        $this->conversations = auth()->user()->conversations;
     }
 
     public function groupMessages($messages): Collection
