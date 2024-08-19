@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\MessageDeleted;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -18,7 +19,6 @@ class Chat extends Component
 
     protected $listeners = [
         'messageReceived' => 'handleMessageReceived',
-        'refresh-flowbite' => '$refresh',
     ];
 
     public function mount(): void
@@ -129,19 +129,34 @@ class Chat extends Component
             return;
         }
 
-        // Delete the message
-        $message->delete();
-
         // Remove the message from the messages collection
         $this->messages = $this->messages->reject(function($item) use ($messageId) {
             return $item->id == $messageId;
         });
 
-        //refresh the conversations list
+        // Delete the message
+        $message->delete();
+
+        // Refresh the conversations list
         $this->conversations = auth()->user()->conversations;
 
         // Dispatch a refresh event to update the chat
         $this->dispatch('messageDeleted');
+
+        // Broadcast the message deletion
+        MessageDeleted::dispatch($messageId, $message->conversation_id);
+    }
+
+    #[On('echo:Voltage-Conversation,.MessageDeleted')]
+    public function messageDeleted($payload): void
+    {
+        // Check if the message belongs to the active conversation
+        if (!$this->activeConversation || $payload['conversation_id'] != $this->activeConversation->id) {
+            return;
+        }
+
+        // Refresh the active conversation's messages
+        $this->activeConversation->load('messages');
     }
 
     #[On('echo:Voltage-Status,.CreatedConversation')]
@@ -272,7 +287,7 @@ class Chat extends Component
 
         if($this->activeConversation) {
             // Group the messages
-            $messageGroups = $this->groupMessages($this->messages);
+            $messageGroups = $this->groupMessages($this->activeConversation->messages);
         } else {
             // If there is no active conversation, there are no messages to group
             $messageGroups = null;
