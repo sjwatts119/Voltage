@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Events\MessageDeleted;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -14,9 +15,10 @@ class Chat extends Component
     public $messageInput = '';
     public $conversations;
     public $activeConversation;
-    public $messages;
 
-    protected $listeners = ['messageReceived' => 'handleMessageReceived'];
+    protected $listeners = [
+        'messageReceived' => 'handleMessageReceived',
+    ];
 
     public function mount(): void
     {
@@ -40,14 +42,12 @@ class Chat extends Component
 
         // Load the conversation
         $this->activeConversation = Conversation::with('messages')->findOrFail($id);
-        // We should get all messages from the model, and make a new array with the messages to display, so we can append new messages to it
-        $this->messages = new Collection($this->activeConversation->messages);
         $this->messageInput = '';
 
         // Are there any unread messages in the conversation?
         if($this->activeConversation->getUnreadCount() > 0) {
 
-            $unreadMessages = $this->messages->filter(function($message) {
+            $unreadMessages = $this->activeConversation->messages->filter(function($message) {
                 return !$message->isRead();
             });
 
@@ -72,7 +72,7 @@ class Chat extends Component
             'message' => $this->messageInput,
         ]);
 
-        $this->messages->push($newMessage);
+        $this->reloadMessages();
 
         // Mark the message as read for the sender
         $newMessage->markAsRead();
@@ -87,7 +87,6 @@ class Chat extends Component
     public function closeChat(): void
     {
         $this->activeConversation = null;
-        $this->messages = null;
         $this->messageInput = '';
     }
 
@@ -100,18 +99,47 @@ class Chat extends Component
         }
 
         // Get the new message from the database
-        $newMessage = Message::find($message['message_id']);
+        $this->reloadMessages();
 
-        // Did the user send this message? If so, we don't need to append it as it would be displayed already
-        if ($newMessage->user_id == auth()->id()) {
+        //The message belongs to the chat which is currently open, so mark it as read
+        $this->activeConversation->messages->where('id', $message['message_id'])->first()->markAsRead();
+    }
+
+    public function deleteMessage($messageId) : void
+    {
+        // Check if the message exists and get it from the database
+        if(!$message = Message::find($messageId)) {
             return;
         }
 
-        // Append the new message to the messages collection
-        $this->messages->push($newMessage);
+        // Check if the user is allowed to delete the message
+        if($message->user_id != auth()->id()) {
+            return;
+        }
 
-        //The message belongs to the chat which is currently open, so mark it as read
-        $newMessage->markAsRead();
+        // Delete the message
+        $message->delete();
+
+        // Refresh the messages
+        $this->reloadMessages();
+
+        // Dispatch a refresh event to update the chat
+        $this->dispatch('messageDeleted', $messageId);
+
+        // Broadcast the message deletion
+        MessageDeleted::dispatch($messageId, $message->conversation_id);
+    }
+
+    #[On('echo:Voltage-Conversation,.MessageDeleted')]
+    public function messageDeleted($payload): void
+    {
+        // Check if the message belongs to the active conversation
+        if (!$this->activeConversation || $payload['conversation_id'] != $this->activeConversation->id) {
+            return;
+        }
+
+        // Refresh the active conversation's messages
+        $this->activeConversation->load('messages');
     }
 
     #[On('echo:Voltage-Status,.CreatedConversation')]
@@ -193,9 +221,7 @@ class Chat extends Component
     #[On('reload-messages')]
     public function reloadMessages(): void
     {
-        //get the messages from the active conversation
-        $this->activeConversation->load('messages');
-        $this->messages = $this->activeConversation->messages;
+        $this->conversations = auth()->user()->conversations;
     }
 
     public function groupMessages($messages): Collection
@@ -242,7 +268,7 @@ class Chat extends Component
 
         if($this->activeConversation) {
             // Group the messages
-            $messageGroups = $this->groupMessages($this->messages);
+            $messageGroups = $this->groupMessages($this->activeConversation->messages);
         } else {
             // If there is no active conversation, there are no messages to group
             $messageGroups = null;
