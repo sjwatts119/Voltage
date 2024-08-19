@@ -124,7 +124,7 @@ class Chat extends Component
         $this->reloadMessages();
 
         // Dispatch a refresh event to update the chat
-        $this->dispatch('messageDeleted');
+        $this->dispatch('messageDeleted', $messageId);
 
         // Broadcast the message deletion
         MessageDeleted::dispatch($messageId, $message->conversation_id);

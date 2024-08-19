@@ -1,4 +1,4 @@
-<div x-data="{ open: false, isLoadingDelete: false }" @keydown.escape.window="open = false" @click.away="open = false" class="relative">
+<div x-data="{ open: false, isLoadingDelete: false }" @keydown.escape.window="open = false" class="relative" id="dropdown-{{ $message->id }}">
     <!-- Dropdown button -->
     <button @click="open = !open" class="invisible group-hover:visible transition inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-200 dark:hover:text-gray-500" type="button">
         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 4 15">
@@ -8,6 +8,7 @@
 
     <!-- Dropdown menu -->
     <div x-show="open"
+         @click.away="open = false"
          x-transition:enter="transition ease-out duration-100"
          x-transition:enter-start="transform opacity-0 scale-95"
          x-transition:enter-end="transform opacity-100 scale-100"
@@ -43,10 +44,10 @@
 
 <script>
     document.addEventListener('livewire:load', function () {
-        Livewire.on('messageDeleted', () => {
-            const dropdown = document.querySelector('[x-data]');
+        Livewire.on('messageDeleted', (messageId) => {
+            const dropdown = document.querySelector(`#dropdown-${messageId}`);
             dropdown.__x.$data.isLoadingDelete = false;
-            dropdown.__x.$data.open = false; // Close the dropdown only after the delete event
+            dropdown.__x.$data.open = false; // Close the dropdown after delete
         });
     });
 </script>
