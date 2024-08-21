@@ -3,9 +3,11 @@
 namespace App\Livewire;
 
 use App\Events\MessageDeleted;
+use App\Events\MessageEdited;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
@@ -15,10 +17,22 @@ class Chat extends Component
     public $messageInput = '';
     public $conversations;
     public $activeConversation;
+    public $currentlyEditingId = null;
 
     protected $listeners = [
         'messageReceived' => 'handleMessageReceived',
     ];
+
+    public function validateMessage($message): bool
+    {
+        $rules = [
+            'message' => ['required', 'string', 'max:2000'],
+        ];
+
+        $validator = Validator::make(['message' => $message], $rules);
+
+        return !$validator->fails();
+    }
 
     public function mount(): void
     {
@@ -62,8 +76,8 @@ class Chat extends Component
 
     public function sendMessage(): void
     {
-        // Validate messageInput
-        if(empty($this->messageInput)) {
+        // Validate the message
+        if (!$this->validateMessage($this->messageInput)) {
             return;
         }
 
@@ -205,11 +219,88 @@ class Chat extends Component
         // Set the active conversation to null
         $this->closeChat();
 
-        //refresh the conversations list
+        // Refresh the conversations list
         $this->conversations = auth()->user()->conversations;
 
         // Close the modal
         $this->dispatch('closeModal');
+    }
+
+    public function startEditingMessage($messageId): void
+    {
+        // Does this message exist?
+        if(!$message = Message::find($messageId)) {
+            return;
+        }
+
+        // Is the user allowed to edit this message?
+        if($message->user_id != auth()->id()) {
+            return;
+        }
+
+        // Set the currently editing message ID to the message ID
+        $this->currentlyEditingId = $messageId;
+    }
+
+    #[On('edit-last-message')]
+    public function editLastMessage(): void
+    {
+        // Get the last message from the active conversation sent by the current user
+        $lastMessage = $this->activeConversation->messages->where('user_id', auth()->id())->last();
+
+        // If there is a last message, start editing it
+        if($lastMessage) {
+            $this->startEditingMessage($lastMessage->id);
+        }
+    }
+
+    #[On('cancel-editing-message')]
+    public function cancelEditingMessage(): void
+    {
+        // Clear the currently editing message ID
+        $this->currentlyEditingId = null;
+    }
+
+    public function updateMessage($currentlyEditingValue) : void
+    {
+        // Check if the message exists and get it from the database
+        if(!$message = Message::find($this->currentlyEditingId)) {
+            return;
+        }
+
+        // Check if the user is allowed to edit the message
+        if($message->user_id != auth()->id()) {
+            return;
+        }
+
+        // Validate the message
+        if(!$this->validateMessage($currentlyEditingValue)) {
+            return;
+        }
+
+        // Update the message
+        $message->update([
+            'message' => $currentlyEditingValue,
+            'edited_at' => now(),
+        ]);
+
+        // Clear the currently editing values
+        $this->currentlyEditingId = null;
+
+        // Broadcast the message update
+        MessageEdited::dispatch($message->id, $message->conversation_id);
+    }
+
+    #[On('echo:Voltage-Conversation,.MessageEdited')]
+    public function messageEdited($payload): void
+    {
+        // Check if the message belongs to any of the user's conversations
+        if (!$this->conversations->contains($payload['conversation_id'])) {
+            return;
+        }
+
+        // Refresh the active conversation's messages
+        $this->activeConversation->load('messages');
     }
 
     #[On('refresh-chat-info')]

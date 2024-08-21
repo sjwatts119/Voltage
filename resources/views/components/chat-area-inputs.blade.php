@@ -7,9 +7,19 @@
         </button>
     </div>--}}
     <div class="flex-grow ml-4">
-        <div class="relative w-full">
-            <input wire:model="messageInput" wire:keydown.enter="sendMessage()" type="text" class="flex w-full border dark:border-gray-700 rounded-xl focus:outline-none focus:border-indigo-300 dark:bg-gray-900 pl-4 h-10 transition dark:text-gray-100 transition" placeholder="Start typing..."/>
+        <div class="relative w-full" x-data="{ isFocused: false }">
+            <input
+                wire:model="messageInput"
+                wire:keydown.enter="sendMessage()"
+                type="text"
+                class="flex w-full border dark:border-gray-700 rounded-xl focus:outline-none focus:border-indigo-300 dark:bg-gray-900 pl-4 h-10 transition dark:text-gray-100 transition"
+                placeholder="Start typing..."
+                @focus="isFocused = true"
+                @blur="isFocused = false"
+                @keyup.arrow-up.window="if (isFocused) $dispatch('edit-last-message')"
+            />
         </div>
+
     </div>
     <div class="ml-4">
         <button wire:click="sendMessage()" class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-lg text-white border dark:border-gray-700 px-4 py-1.5 flex-shrink-0 transition">

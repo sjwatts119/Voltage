@@ -26,9 +26,16 @@
                     </div>
                 </div>
                 {{--for the first message include it on the same row as the user info--}}
-                <div class="text-sm dark:text-slate-300 py-1 break-all relative group">
-                    {{ $messageGroup[0]->message }}
-                </div>
+                @if($currentlyEditingId && $currentlyEditingId === $messageGroup[0]->id)
+                    <x-edit-message-input :message="$messageGroup[0]"/>
+                @else
+                    <div class="text-sm dark:text-slate-300 py-1 break-all relative group">
+                        {{ $messageGroup[0]->message }}
+                        @if($messageGroup[0]->edited_at)
+                            <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $messageGroup[0]->edited_at }}"> (edited)</span>
+                        @endif
+                    </div>
+                @endif
             </div>
             @if($messageGroup[0]->user_id === auth()->id())
                 <div class="transition min-w-8 max-w-8 text-xs dark:text-slate-400 my-auto">
@@ -61,9 +68,16 @@
 
             {{-- Message --}}
             <div class="text-sm dark:text-slate-300 py-1 break-all relative group flex-grow">
-                <div>
-                    {{ $message->message }}
-                </div>
+                @if($currentlyEditingId && $currentlyEditingId === $message->id)
+                    <x-edit-message-input :message="$message"/>
+                @else
+                    <div>
+                        {{ $message->message }}
+                        @if($message->edited_at)
+                            <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $message->edited_at }}"> (edited)</span>
+                        @endif
+                    </div>
+                @endif
             </div>
 
             @if($message->user_id === auth()->id())
