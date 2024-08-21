@@ -26,9 +26,23 @@
                     </div>
                 </div>
                 {{--for the first message include it on the same row as the user info--}}
-                <div class="text-sm dark:text-slate-300 py-1 break-all relative group">
-                    {{ $messageGroup[0]->message }}
-                </div>
+                @if($currentlyEditingId && $currentlyEditingId === $messageGroup[0]->id)
+                    <form wire:submit.prevent="updateMessage($event.target.elements.message.value)">
+                        <div class="flex items-center space-x-2 my-1">
+                            <input name="message" type="text" class="text-sm w-full dark:bg-gray-800 dark:text-white rounded-lg p-1 px-2 focus:outline-none" placeholder="Edit your message..." value="{{$messageGroup[0]->message}}">
+                            <button type="submit" class="text-sm text-white rounded-lg focus:outline-none">
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
+                                </svg>
+                            </button>
+                            <button wire:click="cancelEditingMessage()" type="button" class="text-md dark:text-white rounded-lg focus:outline-none">X</button>
+                        </div>
+                    </form>
+                @else
+                    <div class="text-sm dark:text-slate-300 py-1 break-all relative group">
+                        {{ $messageGroup[0]->message }}
+                    </div>
+                @endif
             </div>
             @if($messageGroup[0]->user_id === auth()->id())
                 <div class="transition min-w-8 max-w-8 text-xs dark:text-slate-400 my-auto">
@@ -61,9 +75,23 @@
 
             {{-- Message --}}
             <div class="text-sm dark:text-slate-300 py-1 break-all relative group flex-grow">
-                <div>
-                    {{ $message->message }}
-                </div>
+                @if($currentlyEditingId && $currentlyEditingId === $message->id)
+                    <form wire:submit.prevent="updateMessage($event.target.elements.message.value)">
+                        <div class="flex items-center space-x-2 my-1">
+                            <input name="message" type="text" class="text-sm w-full dark:bg-gray-800 dark:text-white rounded-lg p-1 px-2 focus:outline-none" placeholder="Edit your message..." value="{{$message->message}}">
+                            <button type="submit" class="text-sm text-white rounded-lg focus:outline-none">
+                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
+                                </svg>
+                            </button>
+                            <button wire:click="cancelEditingMessage()" type="button" class="text-md dark:text-white rounded-lg focus:outline-none">X</button>
+                        </div>
+                    </form>
+                @else
+                    <div>
+                        {{ $message->message }}
+                    </div>
+                @endif
             </div>
 
             @if($message->user_id === auth()->id())

@@ -15,6 +15,7 @@ class Chat extends Component
     public $messageInput = '';
     public $conversations;
     public $activeConversation;
+    public $currentlyEditingId = null;
 
     protected $listeners = [
         'messageReceived' => 'handleMessageReceived',
@@ -205,11 +206,56 @@ class Chat extends Component
         // Set the active conversation to null
         $this->closeChat();
 
-        //refresh the conversations list
+        // Refresh the conversations list
         $this->conversations = auth()->user()->conversations;
 
         // Close the modal
         $this->dispatch('closeModal');
+    }
+
+    public function startEditingMessage($messageId): void
+    {
+        // Does this message exist?
+        if(!$message = Message::find($messageId)) {
+            return;
+        }
+
+        // Is the user allowed to edit this message?
+        if($message->user_id != auth()->id()) {
+            return;
+        }
+
+        // Set the currently editing message ID to the message ID
+        $this->currentlyEditingId = $messageId;
+    }
+
+    public function cancelEditingMessage(): void
+    {
+        // Clear the currently editing message ID
+        $this->currentlyEditingId = null;
+    }
+
+    public function updateMessage($currentlyEditingValue) : void
+    {
+        // Check if the message exists and get it from the database
+        if(!$message = Message::find($this->currentlyEditingId)) {
+            return;
+        }
+
+        // Check if the user is allowed to edit the message
+        if($message->user_id != auth()->id()) {
+            return;
+        }
+
+        // Update the message
+        $message->message = $currentlyEditingValue;
+        $message->save();
+
+        // Clear the currently editing values
+        $this->currentlyEditingId = null;
+
+        // Refresh the messages
+        $this->reloadMessages();
     }
 
     #[On('refresh-chat-info')]

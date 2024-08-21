@@ -20,7 +20,9 @@
     >
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
             <li>
-                <a href="#" @click="open = false" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                <button @click="open = false; $wire.startEditingMessage({{ $message->id }})" class="w-full block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white text-left">
+                    Edit
+                </button>
             </li>
         </ul>
         <div class="py-2">

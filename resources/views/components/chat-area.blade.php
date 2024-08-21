@@ -18,7 +18,7 @@
                             @if($messageGroup[0]['type'] === 'system')
                                 <x-message-system :messageGroup="$messageGroup"/>
                             @else
-                                <x-message-group :messageGroup="$messageGroup" :currentUser="$currentUser" :otherParticipants="$otherParticipants"/>
+                                <x-message-group :messageGroup="$messageGroup" :currentUser="$currentUser" :otherParticipants="$otherParticipants" :currentlyEditingId="$currentlyEditingId"/>
                             @endif
 
                         @endforeach
