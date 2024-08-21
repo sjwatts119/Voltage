@@ -8,7 +8,15 @@
     </div>--}}
     <div class="flex-grow ml-4">
         <div class="relative w-full">
-            <input wire:model="messageInput" wire:keydown.enter="sendMessage()" type="text" class="flex w-full border dark:border-gray-700 rounded-xl focus:outline-none focus:border-indigo-300 dark:bg-gray-900 pl-4 h-10 transition dark:text-gray-100 transition" placeholder="Start typing..."/>
+            <input
+                wire:model="messageInput"
+                wire:keydown.enter="sendMessage()"
+                type="text"
+                class="flex w-full border dark:border-gray-700 rounded-xl focus:outline-none focus:border-indigo-300 dark:bg-gray-900 pl-4 h-10 transition dark:text-gray-100 transition"
+                placeholder="Start typing..."
+                x-data
+                @keyup.arrow-up.window="$dispatch('edit-last-message')"
+            />
         </div>
     </div>
     <div class="ml-4">

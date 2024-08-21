@@ -242,6 +242,19 @@ class Chat extends Component
         $this->currentlyEditingId = $messageId;
     }
 
+    #[On('edit-last-message')]
+    public function editLastMessage(): void
+    {
+        // Get the last message from the active conversation sent by the current user
+        $lastMessage = $this->activeConversation->messages->where('user_id', auth()->id())->last();
+
+        // If there is a last message, start editing it
+        if($lastMessage) {
+            $this->startEditingMessage($lastMessage->id);
+        }
+    }
+
+    #[On('cancel-editing-message')]
     public function cancelEditingMessage(): void
     {
         // Clear the currently editing message ID
