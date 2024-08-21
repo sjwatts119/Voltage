@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Events\MessageDeleted;
+use App\Events\MessageEdited;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -272,6 +273,21 @@ class Chat extends Component
 
         // Clear the currently editing values
         $this->currentlyEditingId = null;
+
+        // Broadcast the message update
+        MessageEdited::dispatch($message->id, $message->conversation_id);
+    }
+
+    #[On('echo:Voltage-Conversation,.MessageEdited')]
+    public function messageEdited($payload): void
+    {
+        // Check if the message belongs to any of the user's conversations
+        if (!$this->conversations->contains($payload['conversation_id'])) {
+            return;
+        }
+
+        // Refresh the active conversation's messages
+        $this->activeConversation->load('messages');
     }
 
     #[On('refresh-chat-info')]
