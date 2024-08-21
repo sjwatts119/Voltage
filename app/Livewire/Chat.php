@@ -78,6 +78,7 @@ class Chat extends Component
     {
         // Validate the message
         if (!$this->validateMessage($this->messageInput)) {
+            $this->dispatch('message-sent-loading-finished');
             return;
         }
 
@@ -96,6 +97,9 @@ class Chat extends Component
 
         // Clear the input field
         $this->messageInput = '';
+
+        // Close the loading spinner on the send button
+        $this->dispatch('message-sent-loading-finished');
     }
 
     public function closeChat(): void
