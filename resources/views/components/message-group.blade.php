@@ -31,7 +31,7 @@
                         <div class="flex items-center space-x-2 my-1">
                             <input name="message" type="text" class="text-sm w-full dark:bg-gray-800 dark:text-white rounded-lg p-1 px-2 focus:outline-none" placeholder="Edit your message..." value="{{$messageGroup[0]->message}}">
                             <button type="submit" class="text-sm text-white rounded-lg focus:outline-none">
-                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
                                 </svg>
                             </button>
@@ -41,6 +41,9 @@
                 @else
                     <div class="text-sm dark:text-slate-300 py-1 break-all relative group">
                         {{ $messageGroup[0]->message }}
+                        @if($messageGroup[0]->edited_at)
+                            <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $messageGroup[0]->edited_at }}"> (edited)</span>
+                        @endif
                     </div>
                 @endif
             </div>
@@ -80,7 +83,7 @@
                         <div class="flex items-center space-x-2 my-1">
                             <input name="message" type="text" class="text-sm w-full dark:bg-gray-800 dark:text-white rounded-lg p-1 px-2 focus:outline-none" placeholder="Edit your message..." value="{{$message->message}}">
                             <button type="submit" class="text-sm text-white rounded-lg focus:outline-none">
-                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
                                 </svg>
                             </button>
@@ -90,6 +93,9 @@
                 @else
                     <div>
                         {{ $message->message }}
+                        @if($message->edited_at)
+                            <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $message->edited_at }}"> (edited)</span>
+                        @endif
                     </div>
                 @endif
             </div>

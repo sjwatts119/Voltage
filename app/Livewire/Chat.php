@@ -267,6 +267,7 @@ class Chat extends Component
         // Update the message
         $message->update([
             'message' => $currentlyEditingValue,
+            'edited_at' => now(),
         ]);
 
         // Clear the currently editing values

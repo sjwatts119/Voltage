@@ -23,6 +23,7 @@ class Message extends Model
         'created_at',
         'updated_at',
         'id',
+        'edited_at'
     ];
 
     public function user()
