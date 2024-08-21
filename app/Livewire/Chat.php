@@ -6,6 +6,7 @@ use App\Events\MessageDeleted;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
+use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
@@ -20,6 +21,17 @@ class Chat extends Component
     protected $listeners = [
         'messageReceived' => 'handleMessageReceived',
     ];
+
+    public function validateMessage($message): bool
+    {
+        $rules = [
+            'message' => ['required', 'string', 'max:2000'],
+        ];
+
+        $validator = Validator::make(['message' => $message], $rules);
+
+        return !$validator->fails();
+    }
 
     public function mount(): void
     {
@@ -63,8 +75,8 @@ class Chat extends Component
 
     public function sendMessage(): void
     {
-        // Validate messageInput
-        if(empty($this->messageInput)) {
+        // Validate the message
+        if (!$this->validateMessage($this->messageInput)) {
             return;
         }
 
@@ -247,15 +259,18 @@ class Chat extends Component
             return;
         }
 
+        // Validate the message
+        if(!$this->validateMessage($currentlyEditingValue)) {
+            return;
+        }
+
         // Update the message
-        $message->message = $currentlyEditingValue;
-        $message->save();
+        $message->update([
+            'message' => $currentlyEditingValue,
+        ]);
 
         // Clear the currently editing values
         $this->currentlyEditingId = null;
-
-        // Refresh the messages
-        $this->reloadMessages();
     }
 
     #[On('refresh-chat-info')]
