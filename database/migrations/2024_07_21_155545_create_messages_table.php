@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('actioned_by_user_id')->nullable()->constrained('users')->onDelete('cascade'); // Only used for system messages
             $table->foreignId('affects_user_id')->nullable()->constrained('users')->onDelete('set null'); // Only used for system messages
             $table->enum('action', ['added', 'removed', 'left', 'name_change', 'banner_change'])->nullable(); // Only used for system messages
-            $table->text('message');
+            $table->text('message')->nullable();
             $table->timestamp('edited_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
