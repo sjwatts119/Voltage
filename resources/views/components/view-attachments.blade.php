@@ -8,7 +8,9 @@
             <x-view-attachments-gallery :attachments="$attachments"/>
         @endif
     @else
-
+        @foreach($attachments as $attachment)
+            <x-view-attachment-file :attachment="$attachment" :loop="$loop"/>
+        @endforeach
     @endif
 @endif
 
