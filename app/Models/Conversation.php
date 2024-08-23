@@ -84,7 +84,15 @@ class Conversation extends Model
             return '';
         }
 
-        $message = $lastMessage->user->name  . ': ' . $lastMessage->message;
+        // Is the message value null? If so, check if there are attachments, we should return a message like X sent y attachments
+        if(!$lastMessage->message) {
+            $attachmentCount = $lastMessage->attachments->count();
+            return $attachmentCount > 0 ? $lastMessage->user->name . ': ' . $attachmentCount . ' attachment' . ($attachmentCount > 1 ? 's' : '') : '';
+        }
+        else {
+            // Return the message as it exists
+            $message = $lastMessage->user->name  . ': ' . $lastMessage->message;
+        }
 
         // Limit the string to $maxLength characters, appending "..." if it's longer
         return Str::limit($message, $maxLength, '...');
