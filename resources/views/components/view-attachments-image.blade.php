@@ -1,5 +1,5 @@
 <div class="relative mt-2 inline-block">
-    <div class="absolute inset-0 bg-gray-900/50 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center w-full h-full">
+    <div class="absolute inset-0 bg-gray-900/50 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center h-full">
         <a href="{{ asset('storage/attachments/' . $attachment->attachment_path) }}" download>
             <button data-tooltip-target="download-image" class="inline-flex items-center justify-center rounded-full h-10 w-10 bg-white/30 hover:bg-white/50 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50">
                 <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
