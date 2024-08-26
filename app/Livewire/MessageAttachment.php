@@ -4,9 +4,13 @@ namespace App\Livewire;
 
 use App\Events\MessageSent;
 use App\Models\Message;
+use Intervention\Image\Encoders\JpegEncoder;
+use Intervention\Image\Encoders\PngEncoder;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class MessageAttachment extends ModalComponent
 {
@@ -53,8 +57,26 @@ class MessageAttachment extends ModalComponent
 
         // Loop through each attachment
         foreach ($this->attachments as $attachment) {
-            // Store the attachment
-            $attachment->store('attachments', 'public');
+            // Store the attachment under subdirectory of the message id
+            $attachment->storeAs('public/attachments/' . $message->id, $attachment->hashName());
+
+            // Create a thumbnail for images
+            if (str_contains($attachment->getMimeType(), 'image')) {
+                // Create an instance of the image manager
+                $manager = new ImageManager(new Driver());
+
+                // Read image from file system
+                $image = $manager->read(storage_path('app/public/attachments/' . $message->id . '/' . $attachment->hashName()));
+
+                // Resize the image to 300px height while maintaining the aspect ratio
+                $image->scale(height: 300);
+
+                // Encode to png format
+                $encoded = $image->encode(new PngEncoder());
+
+                // Save the thumbnail
+                $encoded->save(storage_path('app/public/attachments/' . $message->id . '/thumbnail-' . $attachment->hashName()));
+            }
 
             // Create the message attachment in the db
             $message->attachments()->create([
