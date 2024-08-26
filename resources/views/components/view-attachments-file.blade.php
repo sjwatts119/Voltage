@@ -1,6 +1,5 @@
 <div class="leading-1.5 flex w-full max-w-[350px] flex-col mt-2">
     <div class="flex items-start bg-white dark:bg-gray-800 rounded-xl p-2 shadow-sm">
-        <!-- Make this div grow to take up available space -->
         <div class="me-2 flex-grow">
             <span class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white pb-2">
                 <svg fill="none" aria-hidden="true" class="w-7 h-7 flex-shrink-0" viewBox="0 0 20 21">

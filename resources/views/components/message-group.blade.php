@@ -31,7 +31,7 @@
                 @else
                     <div class="text-sm dark:text-slate-300 py-1 break-all relative group">
                         @if($messageGroup[0]->message)
-                            {{ $messageGroup[0]->message }}
+                            {!! makeLinksClickable($messageGroup[0]->message) !!}
                             @if($messageGroup[0]->edited_at)
                                 <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $messageGroup[0]->edited_at }}"> (edited)</span>
                             @endif
@@ -78,7 +78,7 @@
                 @else
                     <div>
                         @if($message->message)
-                            {{ $message->message }}
+                            {!! makeLinksClickable($message->message) !!}
                             @if($message->edited_at)
                                 <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $message->edited_at }}"> (edited)</span>
                             @endif
