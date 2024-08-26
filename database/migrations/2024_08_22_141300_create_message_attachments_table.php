@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('message_attachments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('message_id')->constrained()->onDelete('cascade');
+            $table->string('original_filename');
             $table->string('attachment_path');
             $table->string('type'); // MIME type
             $table->timestamps();

@@ -46,7 +46,7 @@ class MessageAttachment extends ModalComponent
         // Create the message
         $message = Message::create([
             'user_id' => auth()->id(),
-            'message' => $this->messageInput,
+            'message' => "",
             'type' => 'user',
             'conversation_id' => $this->conversationId,
         ]);
@@ -56,8 +56,9 @@ class MessageAttachment extends ModalComponent
             // Store the attachment
             $attachment->store('attachments', 'public');
 
-            // Create the message attachment
+            // Create the message attachment in the db
             $message->attachments()->create([
+                'original_filename' => $attachment->getClientOriginalName(),
                 'attachment_path' => $attachment->hashName(),
                 'type' => $attachment->getMimeType(),
             ]);

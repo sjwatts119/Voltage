@@ -13,6 +13,7 @@ class MessageAttachment extends Model
 
     protected $fillable = [
         'message_id',
+        'original_filename',
         'attachment_path',
         'type',
     ];

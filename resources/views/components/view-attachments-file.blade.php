@@ -1,6 +1,7 @@
 <div class="leading-1.5 flex w-full max-w-[350px] flex-col mt-2">
     <div class="flex items-start bg-white dark:bg-gray-800 rounded-xl p-2 shadow-sm">
-        <div class="me-2">
+        <!-- Make this div grow to take up available space -->
+        <div class="me-2 flex-grow">
             <span class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white pb-2">
                 <svg fill="none" aria-hidden="true" class="w-7 h-7 flex-shrink-0" viewBox="0 0 20 21">
                     <g clip-path="url(#clip0_3173_1381)">
@@ -8,21 +9,21 @@
                         <path fill="#B0B7BD" d="M15.024 5.5h3.75l-5-5v3.75c0 .688.562 1.25 1.25 1.25z"/>
                         <path fill="#CAD1D8" d="M18.774 9.25l-3.75-3.75h3.75v3.75z"/>
                     </g>
-                <defs>
-                <clipPath id="clip0_3173_1381">
-                   <path fill="#fff" d="M0 0h20v20H0z" transform="translate(0 .5)"/>
-                </clipPath>
-             </defs>
-          </svg>
-            {{ basename($attachment->attachment_path) }}
-       </span>
-       <span class="flex text-xs font-normal text-gray-500 dark:text-gray-400 gap-2 ml-2 sm:ml-9">
-            {{ $attachment->getFileSize() }}
-          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="self-center" width="3" height="4" viewBox="0 0 3 4" fill="none">
-             <circle cx="1.5" cy="2" r="1.5" fill="#6B7280"/>
-          </svg>
-            {{ pathinfo($attachment->attachment_path, PATHINFO_EXTENSION) }}
-        </span>
+                    <defs>
+                        <clipPath id="clip0_3173_1381">
+                            <path fill="#fff" d="M0 0h20v20H0z" transform="translate(0 .5)"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+                {{ $attachment->original_filename }}
+            </span>
+            <span class="flex text-xs font-normal text-gray-500 dark:text-gray-400 gap-2 ml-2 sm:ml-9">
+                {{ $attachment->getFileSize() }}
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="self-center" width="3" height="4" viewBox="0 0 3 4" fill="none">
+                    <circle cx="1.5" cy="2" r="1.5" fill="#6B7280"/>
+                </svg>
+                {{ pathinfo($attachment->attachment_path, PATHINFO_EXTENSION) }}
+            </span>
         </div>
         <div class="inline-flex self-center items-center">
             <a href="{{ asset('storage/attachments/' . $attachment->attachment_path) }}" download>
