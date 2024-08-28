@@ -38,13 +38,23 @@ class MessageAttachment extends ModalComponent
 
     public function sendMessage() : void
     {
-        // Validate the attachments array
-        $this->validate([
-            'attachments.*' => 'file|max:10240', // 10MB max
-        ]);
+        try {
+            // Validate the attachments array
+            $this->validate([
+                'attachments.*' => 'required|file|max:10240', // 10MB max
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Handle the validation failure (e.g., set error messages or redirect back)
+            $this->dispatch('attachment-message-loading-finished');
+
+            // Optionally, return or rethrow the exception to stop further execution
+            return;
+        }
 
         // Send message with SendsMessage Trait
         $this->createMessage($this->activeConversation, $this->messageInput, $this->attachments);
+
+        $this->dispatch('attachment-message-loading-finished');
 
         // Dispatch the message sent event
         $this->dispatch('reload-messages');

@@ -12,7 +12,7 @@
                 wire:model="messageInput"
                 wire:keydown.enter="sendMessage(); $dispatch('message-loading-started')"
                 type="text"
-                class="flex w-full border dark:border-gray-700 rounded-xl focus:outline-none focus:border-indigo-300 dark:bg-gray-900 pl-4 h-10 transition dark:text-gray-100"
+                class="flex w-full border dark:border-gray-700 rounded-lg focus:outline-none focus:border-indigo-300 dark:bg-gray-900 pl-4 h-10 transition dark:text-gray-100"
                 placeholder="Start typing..."
                 @focus="isFocused = true"
                 @blur="isFocused = false"
