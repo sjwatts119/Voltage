@@ -32,7 +32,7 @@ class Chat extends Component
     {
         $rules = [
             'message' => ['required', 'string', 'max:2000'],
-        ];
+            ];
 
         $validator = Validator::make(['message' => $message], $rules);
 
@@ -275,8 +275,17 @@ class Chat extends Component
             ->where('user_id', auth()->id())
             ->first();
 
-        if (!$message || !$this->validateMessage($currentlyEditingValue)) {
+        // If message doesn't exist, return
+        if (!$message) {
             return;
+        }
+
+        // If there are no attachments, validate the message input.
+        // If there are attachments, allow null inputs but verify against length etc.
+        if ($this->editedAttachments->count() < 1 || $currentlyEditingValue != "") {
+            if (!$this->validateMessage($currentlyEditingValue)) {
+                return;
+            }
         }
 
         // Update the message content and timestamp

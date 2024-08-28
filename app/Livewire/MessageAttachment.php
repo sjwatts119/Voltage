@@ -44,10 +44,9 @@ class MessageAttachment extends ModalComponent
                 'attachments.*' => 'required|file|max:10240', // 10MB max
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Handle the validation failure (e.g., set error messages or redirect back)
+            // Stop the send button spinner
             $this->dispatch('attachment-message-loading-finished');
 
-            // Optionally, return or rethrow the exception to stop further execution
             return;
         }
 
