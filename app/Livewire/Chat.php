@@ -11,9 +11,12 @@ use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
+use App\Traits\SendsMessage;
 
 class Chat extends Component
 {
+    use SendsMessage;
+
     public $messageInput = '';
     public $conversations;
     public $activeConversation;
@@ -82,18 +85,10 @@ class Chat extends Component
             return;
         }
 
-        $newMessage = $this->activeConversation->messages()->create([
-            'user_id' => auth()->id(),
-            'message' => $this->messageInput,
-        ]);
+        // Send message with SendsMessage trait
+        $this->createMessage($this->activeConversation, $this->messageInput);
 
         $this->reloadMessages();
-
-        // Mark the message as read for the sender
-        $newMessage->markAsRead();
-
-        // Broadcast the message without including the message contents for security
-        MessageSent::dispatch($newMessage->id, $newMessage->conversation_id);
 
         // Clear the input field
         $this->messageInput = '';
