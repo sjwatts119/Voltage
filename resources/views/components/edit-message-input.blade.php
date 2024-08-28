@@ -26,9 +26,9 @@
     </div>
 </form>
 
-@if($message->attachments)
+@if($this->editedAttachments)
     <div class="flex space-x-3 my-3">
-        @foreach($message->attachments as $attachment)
+        @foreach($this->editedAttachments as $attachment)
             <div class="relative w-28 h-28">
                 {{-- If the attachment is an image, display the image --}}
                 @php
@@ -45,7 +45,7 @@
                         </svg>
                     </div>
                 @endif
-                <button wire:click="removeAttachment({{ $loop->index }})" class="transition absolute top-1 right-1 text-white bg-red-500 rounded-md hover:bg-red-700 hover:text-gray-200">
+                <button wire:click="removeAttachment({{ $attachment->id }})" class="transition absolute top-1 right-1 text-white bg-red-500 rounded-md hover:bg-red-700 hover:text-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>

@@ -2,7 +2,7 @@
     <div class="grid gap-4 grid-cols-1 md:grid-cols-2 mt-2 w-full lg:w-2/3 xl:w-1/2 2xl:w-1/3">
         @foreach($attachments as $attachment)
             <div class="relative">
-                <img src="{{ asset('storage/attachments/' . $attachment->message->id. '/thumbnail-' . $attachment->attachment_path)  }}" alt="An image sent by {{ $attachment->message->user->name }}" class="rounded-lg w-full h-[250px] object-cover cursor-pointer transition-transform duration-300 hover:scale-105" wire:click="$dispatch('openModal', { component: 'view-media', arguments: { message: {{ $attachment->message->id }} }})" />
+                <img src="{{ asset('storage/attachments/' . $attachment->message->id. '/thumbnail-' . $attachment->attachment_path)  }}" alt="An image sent by {{ $attachment->message->user->name }}" class="rounded-lg w-full h-[250px] object-cover cursor-pointer transition-transform duration-300 hover:scale-105" wire:click="$dispatch('openModal', { component: 'view-media', arguments: { message: {{ $attachment->message->id }}, currentImageIndex: {{ $loop->index }} }})" />
             </div>
         @endforeach
     </div>

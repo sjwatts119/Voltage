@@ -22,6 +22,8 @@ class Chat extends Component
     public $activeConversation;
     public $currentlyEditingId = null;
 
+    public $editedAttachments;
+
     protected $listeners = [
         'messageReceived' => 'handleMessageReceived',
     ];
@@ -239,6 +241,9 @@ class Chat extends Component
 
         // Set the currently editing message ID to the message ID
         $this->currentlyEditingId = $messageId;
+
+        // Set editedAttachments to the message's attachments
+        $this->editedAttachments = $message->attachments;
     }
 
     #[On('edit-last-message')]
@@ -258,36 +263,57 @@ class Chat extends Component
     {
         // Clear the currently editing message ID
         $this->currentlyEditingId = null;
+
+        // Clear edited attachments
+        $this->editedAttachments = null;
     }
 
     public function updateMessage($currentlyEditingValue) : void
     {
-        // Check if the message exists and get it from the database
-        if(!$message = Message::find($this->currentlyEditingId)) {
+        // Check if the message exists and if the user is allowed to edit it
+        $message = Message::where('id', $this->currentlyEditingId)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        if (!$message || !$this->validateMessage($currentlyEditingValue)) {
             return;
         }
 
-        // Check if the user is allowed to edit the message
-        if($message->user_id != auth()->id()) {
-            return;
-        }
-
-        // Validate the message
-        if(!$this->validateMessage($currentlyEditingValue)) {
-            return;
-        }
-
-        // Update the message
+        // Update the message content and timestamp
         $message->update([
             'message' => $currentlyEditingValue,
             'edited_at' => now(),
         ]);
 
+        // Get the IDs of the attachments that are still included after editing
+        $editedAttachmentIds = $this->editedAttachments->pluck('id')->toArray();
+
+        // Delete any attachments that are not in the editedAttachments array
+        $message->attachments()->whereNotIn('id', $editedAttachmentIds)->delete();
+
         // Clear the currently editing values
         $this->currentlyEditingId = null;
+        $this->editedAttachments = null;
 
         // Broadcast the message update
         MessageEdited::dispatch($message->id, $message->conversation_id);
+    }
+
+
+    public function removeAttachment($attachmentId) : void
+    {
+        // Get from MessageAttachments model where attachment id
+        $attachment = \App\Models\MessageAttachment::find($attachmentId);
+
+        // Is it the user that sent this message?
+        if (!auth()->id() == $attachment->message->user_id) {
+            return;
+        }
+
+        // Remove this attachment from editedAttachments
+        $this->editedAttachments = $this->editedAttachments->filter(function($editedAttachment) use ($attachmentId) {
+            return $editedAttachment->id !== $attachmentId;
+        });
     }
 
     #[On('echo:Voltage-Conversation,.MessageEdited')]
