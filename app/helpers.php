@@ -3,11 +3,15 @@
 use Illuminate\Support\Str;
 
 if (!function_exists('makeLinksClickable')) {
-    function makeLinksClickable($text) : string
+    function makeLinksClickable($text)
     {
-        return Str::of($text)->replaceMatches(
-            '/(https?:\/\/[^\s]+)/',
-            '<a href="$1" target="_blank" class="text-blue-500 hover:underline">$1</a>'
+        // Convert URLs into clickable links
+        $text = preg_replace(
+            '#(https?://[^\s]+)#',
+            '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">$1</a>',
+            e($text)
         );
+
+        return Blade::render($text);
     }
 }
