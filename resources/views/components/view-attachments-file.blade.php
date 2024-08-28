@@ -21,7 +21,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="self-center" width="3" height="4" viewBox="0 0 3 4" fill="none">
                     <circle cx="1.5" cy="2" r="1.5" fill="#6B7280"/>
                 </svg>
-                {{ pathinfo($attachment->attachment_path, PATHINFO_EXTENSION) }}
+                {{ $attachment->getFileExtension() }}
             </span>
         </div>
         <div class="inline-flex self-center items-center">

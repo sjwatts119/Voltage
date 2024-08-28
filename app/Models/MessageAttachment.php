@@ -35,4 +35,14 @@ class MessageAttachment extends Model
 
         return round($unformatted, 2) . $units[$i];
     }
+
+    public function getFileExtension() : string
+    {
+        if(!$extension = pathinfo($this->attachment_path, PATHINFO_EXTENSION))
+        {
+            $extension = "File";
+        }
+
+        return $extension;
+    }
 }
