@@ -24,6 +24,7 @@ trait SendsMessage {
 
                 // Create a thumbnail for images
                 if (str_contains($attachment->getMimeType(), 'image')) {
+
                     // Create an instance of the image manager
                     $manager = new ImageManager(new Driver());
 
@@ -33,11 +34,13 @@ trait SendsMessage {
                     // Resize the image to 300px height while maintaining the aspect ratio
                     $image->scale(height: 300);
 
-                    // Encode to png format
-                    $encoded = $image->encode(new PngEncoder());
+                    // If it's not a gif, encode to png
+                    if(!str_contains($attachment->getMimeType(), 'gif')) {
+                        $image->encode(new PngEncoder());
+                    }
 
                     // Save the thumbnail
-                    $encoded->save(storage_path('app/public/attachments/' . $newMessage->id . '/thumbnail-' . $attachment->hashName()));
+                    $image->save(storage_path('app/public/attachments/' . $newMessage->id . '/thumbnail-' . $attachment->hashName()));
                 }
 
                 // Create the message attachment in the db
