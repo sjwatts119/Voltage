@@ -30,9 +30,14 @@
                     <x-edit-message-input :message="$messageGroup[0]"/>
                 @else
                     <div class="text-sm dark:text-slate-300 py-1 break-all relative group">
-                        {{ $messageGroup[0]->message }}
-                        @if($messageGroup[0]->edited_at)
-                            <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $messageGroup[0]->edited_at }}"> (edited)</span>
+                        @if($messageGroup[0]->message)
+                            {!! makeLinksClickable($messageGroup[0]->message) !!}
+                            @if($messageGroup[0]->edited_at)
+                                <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $messageGroup[0]->edited_at }}"> (edited)</span>
+                            @endif
+                        @endif
+                        @if($messageGroup[0]->attachments)
+                            <x-view-attachments :attachments="$messageGroup[0]->attachments"/>
                         @endif
                     </div>
                 @endif
@@ -72,9 +77,14 @@
                     <x-edit-message-input :message="$message"/>
                 @else
                     <div>
-                        {{ $message->message }}
-                        @if($message->edited_at)
-                            <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $message->edited_at }}"> (edited)</span>
+                        @if($message->message)
+                            {!! makeLinksClickable($message->message) !!}
+                            @if($message->edited_at)
+                                <span class="text-xs dark:text-slate-400 cursor-default" title="Last edited at {{ $message->edited_at }}"> (edited)</span>
+                            @endif
+                        @endif
+                        @if($message->attachments)
+                            <x-view-attachments :attachments="$message->attachments"/>
                         @endif
                     </div>
                 @endif

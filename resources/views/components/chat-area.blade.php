@@ -40,7 +40,7 @@
                     @endif
                 </div>
 
-                <x-chat-area-inputs />
+                <x-chat-area-inputs :activeConversation="$activeConversation"/>
             </div>
         </div>
     </div>
