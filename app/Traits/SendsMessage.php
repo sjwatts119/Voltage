@@ -20,7 +20,7 @@ trait SendsMessage {
             // Loop through each attachment
             foreach ($this->attachments as $attachment) {
                 // Store the attachment under subdirectory of the message id
-                $attachment->storeAs('public/attachments/' . $newMessage->id, $attachment->hashName());
+                $attachment->store('attachments/' . $newMessage->id, 'public');
 
                 // Create a thumbnail for images
                 if (str_contains($attachment->getMimeType(), 'image')) {
