@@ -37,7 +37,7 @@
                 @if(in_array($attachment->getFileExtension(), $supportedImageExtensions))
                     <img src="{{ asset('storage/' . ($attachment->thumbnail_path ?: $attachment->attachment_path)) }}"
                          alt="An image sent by {{ $attachment->message->user->name }}"
-                         class="w-full h-full rounded-lg object-cover"
+                         class="w-full h-full rounded-lg object-cover bg-gray-200 dark:bg-gray-950"
                          wire:click="$dispatch('openModal', { component: 'view-media', arguments: { messageAttachment: {{ $attachment->id }} }})"
                     />
                 @else

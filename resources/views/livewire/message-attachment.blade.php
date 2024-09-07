@@ -32,7 +32,7 @@
                                             $supportedImageExtensions = ['svg', 'png', 'jpg', 'gif', 'jpeg', 'bmp', 'webp'];
                                         @endphp
                                         @if(in_array($attachment->guessExtension(), $supportedImageExtensions))
-                                            <img src="{{ $attachment->temporaryUrl() }}" alt="Attachment" class="w-full h-full rounded-lg object-cover"/>
+                                            <img src="{{ $attachment->temporaryUrl() }}" alt="Attachment" class="w-full h-full rounded-lg object-cover bg-gray-200 dark:bg-gray-950"/>
                                         @else
                                             <div class="flex flex-col items-center justify-center dark:bg-gray-900 h-full rounded-lg">
                                                 <span class="text-lg font-semibold text-gray-600 dark:text-gray-300 uppercase">{{ $attachment->guessExtension() }}</span>
