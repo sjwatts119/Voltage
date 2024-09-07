@@ -25,7 +25,7 @@
             </span>
         </div>
         <div class="inline-flex self-center items-center">
-            <a href="{{ asset('storage/attachments/' . $attachment->attachment_path) }}" download>
+            <a href="{{ asset('storage/' . $attachment->attachment_path) }}" download>
                 <button data-tooltip-target="download-attachment-{{ $loop->index + 1 }}" class="transition inline-flex items-center justify-center rounded-full h-8 w-8 text-gray-900 hover:text-gray-500 dark:text-white dark:hover:text-gray-500">
                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>

@@ -15,6 +15,7 @@ class MessageAttachment extends Model
         'message_id',
         'original_filename',
         'attachment_path',
+        'thumbnail_path',
         'type',
     ];
 
@@ -25,7 +26,7 @@ class MessageAttachment extends Model
 
     public function getFileSize() : string
     {
-        $unformatted = Storage::size("public/attachments/" . $this->message->id . "/" . $this->attachment_path);
+        $unformatted = Storage::size("public/" . $this->attachment_path);
 
         // Convert the bytes to a human readable format
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];

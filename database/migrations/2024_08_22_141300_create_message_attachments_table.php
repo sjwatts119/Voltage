@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('message_id')->constrained()->onDelete('cascade');
             $table->string('original_filename');
             $table->string('attachment_path');
+            $table->string('thumbnail_path')->nullable();
             $table->string('type'); // MIME type
             $table->timestamps();
         });

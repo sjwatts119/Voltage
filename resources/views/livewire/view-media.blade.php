@@ -1,6 +1,6 @@
 @if($messageAttachment)
     <div class="bg-white dark:bg-gray-900 p-3 flex justify-center items-center">
-        <img src="{{ asset('storage/attachments/' . $messageAttachment->message->id . '/' . $messageAttachment->attachment_path) }}" alt="Attachment" class="max-h-[80dvh] rounded-lg"/>
+        <img src="{{ asset('storage/' . $messageAttachment->attachment_path) }}" alt="Attachment" class="max-h-[80dvh] rounded-lg"/>
     </div>
 @elseif($message)
     {{-- Make a carousel of all images in the message, use $currentImageIndex to determine which image to show --}}
@@ -16,7 +16,7 @@
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
         </div>
-        <img src="{{ asset('storage/attachments/' . $message->id . '/' . $message->attachments[$currentImageIndex]->attachment_path) }}" alt="Attachment" class="max-h-[80dvh] max-w-[88%] rounded-lg"/>
+        <img src="{{ asset('storage/' . $message->attachments[$currentImageIndex]->attachment_path) }}" alt="Attachment" class="max-h-[80dvh] max-w-[88%] rounded-lg"/>
     </div>
 @else
     <div class="bg-gray-900 p-3 flex justify-center items-center">

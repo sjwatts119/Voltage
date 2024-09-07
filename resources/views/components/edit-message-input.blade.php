@@ -35,7 +35,11 @@
                     $supportedImageExtensions = ['svg', 'png', 'jpg', 'gif', 'jpeg', 'bmp', 'webp'];
                 @endphp
                 @if(in_array($attachment->getFileExtension(), $supportedImageExtensions))
-                    <img src="{{ asset('storage/attachments/' . $attachment->message->id. '/thumbnail-' . $attachment->attachment_path) }}" alt="Attachment" class="w-full h-full rounded-lg object-cover"/>
+                    <img src="{{ asset('storage/' . ($attachment->thumbnail_path ?: $attachment->attachment_path)) }}"
+                         alt="An image sent by {{ $attachment->message->user->name }}"
+                         class="w-full h-full rounded-lg object-cover"
+                         wire:click="$dispatch('openModal', { component: 'view-media', arguments: { messageAttachment: {{ $attachment->id }} }})"
+                    />
                 @else
                     <div class="flex flex-col items-center justify-center dark:bg-gray-800 h-full rounded-lg">
                         <span class="text-lg font-semibold text-gray-600 dark:text-gray-300 uppercase">{{ $attachment->getFileExtension() }}</span>
