@@ -24,6 +24,15 @@
                         @endforeach
                     </div>
 
+                    {{-- If there are any more messages to load --}}
+                    @if($loadedMessages < $activeConversation->messages->count())
+                        <div class="flex justify-center text-xs dark:text-gray-400 text-gray-600 my-10">
+                            <button wire:click="loadMoreMessages" class="text-xl font-sans text-center dark:text-gray-500 dark:hover:text-gray-200 transition">
+                                Load more messages
+                            </button>
+                        </div>
+                    @endif
+
                     @if($messageGroups->count() === 0)
                         <div class="mx-auto p-6">
                             <div class="text-xl font-sans text-center dark:text-gray-500">
