@@ -100,10 +100,12 @@ class Conversation extends Model
 
     public function getUnreadCount() : int
     {
-        // Get the unread messages in the conversation
-        return $this->messages->reduce(function($carry, $message) {
-            return $carry + $message->reads->where('user_id', '=', auth()->id())->whereNull('read_at')->count();
-        }, 0);
+        return $this->messages()
+            ->whereHas('reads', function($query) {
+                $query->where('user_id', auth()->id())
+                    ->whereNull('read_at');
+            })
+            ->count();
     }
 
     public function getFriendlyUnreadCount() : string
