@@ -23,6 +23,7 @@ class Chat extends Component
     public $currentlyEditingId = null;
 
     public $editedAttachments;
+    public $loadedMessages = 60;
 
     protected $listeners = [
         'messageReceived' => 'handleMessageReceived',
@@ -62,6 +63,9 @@ class Chat extends Component
         // Load the conversation
         $this->activeConversation = Conversation::with('messages')->findOrFail($id);
         $this->messageInput = '';
+
+        // Return loadedMessages to default value
+        $this->loadedMessages = 60;
 
         // Are there any unread messages in the conversation?
         if($this->activeConversation->getUnreadCount() > 0) {
@@ -384,6 +388,11 @@ class Chat extends Component
         return $groupedMessages;
     }
 
+    public function loadMoreMessages(): void
+    {
+        $this->loadedMessages += 20;
+    }
+
     public function render()
     {
         // Show most recently active conversations first
@@ -393,7 +402,7 @@ class Chat extends Component
 
         if($this->activeConversation) {
             // Group the messages
-            $messageGroups = $this->groupMessages($this->activeConversation->messages);
+            $messageGroups = $this->groupMessages($this->activeConversation->messages->slice(-$this->loadedMessages));
         } else {
             // If there is no active conversation, there are no messages to group
             $messageGroups = null;
