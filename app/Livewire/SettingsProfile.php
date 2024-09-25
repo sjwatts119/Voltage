@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\User;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -25,6 +27,26 @@ class SettingsProfile extends Component
         'pronouns' => 'nullable|string|max:255',
         'bio' => 'nullable|string|max:255',
     ];
+
+    public function createThumbnail($width) : string
+    {
+        // Create an instance of the image manager with the profile picture
+        $manager = new ImageManager(new Driver());
+        $image = $manager->read($this->profilePicture->getRealPath());
+
+        $image->scale(width: $width);
+
+        $image = $image->toWebp();
+
+        // Storage path for the final file
+        $finalPath = storage_path('app/public/profile-pictures/' . $this->user->id . '/thumb-' . $this->profilePicture->hashName());
+
+        // Store the final file
+        file_put_contents($finalPath, $image);
+
+        // Return the path to the final file
+        return 'profile-pictures/' . $this->user->id . '/thumb-' . $this->profilePicture->hashName();
+    }
 
     public function updatedBannerPicture() : void
     {
@@ -107,6 +129,22 @@ class SettingsProfile extends Component
             $this->user->profile->update([
                 'profile_photo' => $this->profilePicture->store('profile-pictures/' . $this->user->id, 'public'),
             ]);
+
+            if(!str_contains($this->profilePicture->getMimeType(), 'gif')) {
+                // We should wrap this in a try-catch block to prevent the thumbnail creation from failing for file types not supported by the image manager
+                try {
+                    // Set the profile picture path
+                    $this->user->profile->update([
+                        'profile_thumb' => $this->createThumbnail(200),
+                    ]);
+
+                } catch (\Exception $e) {
+                    // If the thumbnail creation fails, set the thumbnail path to null
+                    $this->user->profile->update([
+                        'profile_thumb' => null,
+                    ]);
+                }
+            }
         }
 
         //is there a new banner picture?

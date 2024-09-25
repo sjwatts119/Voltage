@@ -14,6 +14,7 @@ class Profile extends Model
         'pronouns',
         'bio',
         'profile_photo',
+        'profile_thumb',
         'banner_photo',
     ];
 

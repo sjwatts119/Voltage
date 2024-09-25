@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('bio')->nullable();
             $table->string('pronouns')->nullable();
             $table->string('profile_photo')->nullable();
+            $table->string('profile_thumb')->nullable();
             $table->string('banner_photo')->nullable();
             $table->timestamps();
         });
