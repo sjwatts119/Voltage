@@ -22,4 +22,15 @@ class Profile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // If thumbnail is accessed but not set, return the profile photo
+    public function getProfileThumbAttribute($value)
+    {
+        // If profile_thumb is null or empty, return profile_photo
+        if(!$value) {
+            return $this->profile_photo;
+        } else {
+            return $value;
+        }
+    }
 }
