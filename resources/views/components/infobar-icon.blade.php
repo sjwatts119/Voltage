@@ -15,8 +15,8 @@
         @endif
 
         <button wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $user->id }} }})" class="flex items-center justify-center h-10 w-10 min-w-10 rounded-full {{ $user->image ? '' : 'bg-purple-400' }}">
-            @if($user->profile->profile_photo)
-                <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="h-10 w-10 min-w-10 object-cover rounded-full">
+            @if($user->profile->profile_thumb)
+                <img src="{{ asset('storage/' . $user->profile->profile_thumb) }}" alt="User Image" class="h-10 w-10 min-w-10 object-cover rounded-full">
             @else
                 {{ $user->name[0] }}
             @endif
