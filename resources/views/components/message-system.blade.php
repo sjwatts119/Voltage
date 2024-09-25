@@ -14,46 +14,46 @@
                             @case('added')
                                 @if($actioningUser && $targetUser)
                                     <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> added
-                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span> to the conversation
+                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span> to the conversation.
                                 @elseif($actioningUser)
-                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> added an unknown user to the conversation
+                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> added a Deleted User to the conversation.
                                 @elseif($targetUser)
-                                    An unknown user was added to the conversation by <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span>
+                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span> was added to the conversation by a Deleted User.
                                 @else
-                                    <span>An unknown user was added to the conversation by an unknown user</span>
+                                    <span>A Deleted User was added to the conversation by a Deleted User</span>
                                 @endif
                                 @break
                             @case('removed')
                                 @if($actioningUser && $targetUser)
-                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> removed
-                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span> from the conversation
+                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span> was removed from the conversation by
+                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span>.
                                 @elseif($actioningUser)
-                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> removed an unknown user from the conversation
+                                    A Deleted User was removed from the conversation by
+                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span>.
                                 @elseif($targetUser)
-                                    An unknown user was removed from the conversation by <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span>
-                                @else
-                                    <span>An unknown user was removed from the conversation by an unknown user</span>
+                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span> was removed from the conversation by a Deleted User.
+                                    <span>A Deleted User was removed from the conversation by a Deleted User.</span>
                                 @endif
                                 @break
                             @case('name_change')
                                 @if($actioningUser)
                                     <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> changed the conversation name to <span class="font-bold">{{$message->message}}</span>
                                 @else
-                                    <span>An unknown user has changed the conversation name.</span>
+                                    <span>A Deleted User has changed the conversation name.</span>
                                 @endif
                                 @break
                             @case('left')
                                 @if($actioningUser)
                                     <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> left the conversation
                                 @else
-                                    <span>An unknown user has left the conversation.</span>
+                                    <span>A Deleted User has left the conversation.</span>
                                 @endif
                                 @break
                             @default
                                 @if($actioningUser)
-                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> performed an unknown action
+                                    <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span> performed an deleted action
                                 @else
-                                    <span>An action was performed by an unknown user.</span>
+                                    <span>An unknown action was performed by an Deleted User.</span>
                                 @endif
                         @endswitch
                     </div>

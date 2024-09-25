@@ -8,6 +8,12 @@
         </svg>
     </button>
 @else
+    {{-- If there's only one user, the other user has deleted their account --}}
+    @if($activeConversation->users->count() === 1)
+        <button wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $activeConversation->users->first()->id }} })" class="flex items-center justify-center h-10 w-10 min-w-10 rounded-full bg-gray-400">
+        </button>
+    @endif
+
     {{-- check if chat user that isn't the logged in user has an image --}}
     @foreach($activeConversation->users as $user)
         @if($user->id === auth()->id())
