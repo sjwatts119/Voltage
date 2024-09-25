@@ -32,6 +32,7 @@
                                     <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $actioningUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$actioningUser->name}}</span>.
                                 @elseif($targetUser)
                                     <span wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $targetUser->id }} }})" class="font-bold cursor-pointer hover:underline">{{$targetUser->name}}</span> was removed from the conversation by a Deleted User.
+                                @else
                                     <span>A Deleted User was removed from the conversation by a Deleted User.</span>
                                 @endif
                                 @break
