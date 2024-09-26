@@ -341,14 +341,6 @@ class Chat extends Component
         $this->activeConversation->load('messages');
     }
 
-    #[On('echo:Voltage-Status,.UserDeleted')]
-    public function userDeleted($userId): void
-    {
-        if(!auth()->id() == $userId) {
-            $this->refresh();
-        }
-    }
-
     #[On('refresh-chat-info')]
     public function refresh(): void
     {

@@ -17,13 +17,7 @@ new class extends Component {
             'password' => ['required', 'string', 'current_password'],
         ]);
 
-        // Store the user's ID before deleting the user.
-        $userId = auth()->id();
-
         tap(Auth::user(), $logout(...))->delete();
-
-        // Dispatch the user deletion event.
-        UserDeleted::dispatch($userId);
 
         $this->redirect('/', navigate: true);
     }
