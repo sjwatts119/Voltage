@@ -43,8 +43,8 @@
                         @foreach($results as $user)
                             <div class="flex items-center justify-between p-4 border-b dark:border-gray-700">
                                 <div class="flex items-center space-x-4">
-                                    @if($user->profile->profile_photo)
-                                        <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="w-12 h-12 rounded-full object-cover">
+                                    @if($user->profile->profile_thumb)
+                                        <img src="{{ asset('storage/' . $user->profile->profile_thumb) }}" alt="User Image" class="w-12 h-12 rounded-full object-cover">
                                     @else
                                         <div class="w-12 h-12 bg-purple-400 rounded-full flex items-center justify-center">
                                             <div class="text-xl font-sans text-gray-800">{{ $user->name[0] }}</div>
@@ -84,8 +84,8 @@
                         @foreach($results as $user)
                             <div class="flex items-center justify-between p-4 border-b dark:border-gray-700 cursor-pointer transition transform hover:bg-gray-100 dark:hover:bg-gray-700 {{ in_array($user->id, $selectedUserIds) ? 'bg-gray-200 dark:bg-gray-600' : '' }}" wire:click="{{ in_array($user->id, $selectedUserIds) ? 'removeUser(' . $user->id . ')' : 'addUser(' . $user->id . ')' }}">
                                 <div class="flex items-center space-x-4">
-                                    @if($user->profile->profile_photo)
-                                        <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="w-12 h-12 rounded-full object-cover">
+                                    @if($user->profile->profile_thumb)
+                                        <img src="{{ asset('storage/' . $user->profile->profile_thumb) }}" alt="User Image" class="w-12 h-12 rounded-full object-cover">
                                     @else
                                         <div class="w-12 h-12 bg-purple-400 rounded-full flex items-center justify-center">
                                             <div class="text-xl font-sans text-gray-800">{{ $user->name[0] }}</div>

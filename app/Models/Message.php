@@ -4,20 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Message extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
         'message',
         'type',
+        'actioned_by_user_id',
+        'affects_user_id',
+        'action',
         'conversation_id',
         'created_at',
         'updated_at',
         'id',
+        'edited_at'
     ];
 
     public function user()
@@ -33,6 +40,11 @@ class Message extends Model
     public function conversation()
     {
         return $this->belongsTo(Conversation::class);
+    }
+
+    public function attachments() : HasMany
+    {
+        return $this->hasMany(MessageAttachment::class);
     }
 
     public function createMessageReads() : void

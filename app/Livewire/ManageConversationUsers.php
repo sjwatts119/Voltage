@@ -14,11 +14,14 @@ class ManageConversationUsers extends ModalComponent
     public $search = '';
     public Conversation $conversation;
 
-    public function sendSystemNotification($message, $messageType) : void {
+    public function sendSystemNotification($message, $messageType, $affectsUID) : void {
         // Create a new system message in the conversation
         $newSystemMessage = $this->conversation->messages()->create([
             'user_id' => null,
             'type' => 'system',
+            'actioned_by_user_id' => auth()->id(),
+            'affects_user_id' => $affectsUID,
+            'action' => $messageType,
             'message' => $message,
         ]);
 
@@ -46,7 +49,7 @@ class ManageConversationUsers extends ModalComponent
         AddedToConversation::dispatch($this->conversation->id, $userId);
 
         // Send a system notification to the conversation
-        $this->sendSystemNotification(User::find($userId)->name . ' has been added to the conversation.', "added");
+        $this->sendSystemNotification(User::find($userId)->name . ' has been added to the conversation.', "added", $userId);
 
         // Close the modal
         $this->dispatch('closeModal');
@@ -66,7 +69,7 @@ class ManageConversationUsers extends ModalComponent
         RemovedFromConversation::dispatch($this->conversation->id, $userId);
 
         // Send a system notification to the conversation
-        $this->sendSystemNotification(User::find($userId)->name . ' has been removed from the conversation.', "removed");
+        $this->sendSystemNotification(User::find($userId)->name . ' has been removed from the conversation.', "removed", $userId);
 
         // Close the modal
         $this->dispatch('closeModal');

@@ -48,8 +48,10 @@ class ChatInfo extends ModalComponent
         // Create a new message to notify the group of the name change
         $newSystemMessage = $this->conversation->messages()->create([
             'user_id' => null,
+            'actioned_by_user_id' => auth()->id(),
             'type' => 'system',
-            'message' => 'Conversation name changed to ' . $this->newGroupName,
+            'action' => 'name_change',
+            'message' => $this->newGroupName,
         ]);
 
         $this->dispatch('refresh-chat-info');
@@ -60,6 +62,11 @@ class ChatInfo extends ModalComponent
 
         // Set the message as being read by the current user
         $newSystemMessage->markAsRead();
+    }
+
+    public function leaveConversation() : void {
+        //dispatch leave conversation event so this can be handled in the Chat.php
+        $this->dispatch('leave-conversation', $this->conversation->id);
     }
 
     public function render()

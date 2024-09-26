@@ -10,13 +10,18 @@
 @else
     {{-- check if chat user that isn't the logged in user has an image --}}
     @foreach($currentConversation->users as $user)
+        {{-- If there's only one user, the other user has deleted their account --}}
+        @if($currentConversation->users->count() === 1)
+            <div class="flex items-center justify-center h-10 w-10 min-w-10 rounded-full bg-gray-400"></div>
+        @endif
+
         @if($user->id === auth()->id())
             @continue
         @endif
 
         <div class="flex items-center justify-center h-10 w-10 min-w-10 rounded-full {{ $user->image ? '' : 'bg-purple-400' }}">
-            @if($user->profile->profile_photo)
-                <img src="{{ asset('storage/' . $user->profile->profile_photo) }}" alt="User Image" class="h-10 w-10 min-w-10 object-cover rounded-full">
+            @if($user->profile->profile_thumb)
+                <img src="{{ asset('storage/' . $user->profile->profile_thumb) }}" alt="User Image" class="h-10 w-10 min-w-10 object-cover rounded-full">
             @else
                 {{ $user->name[0] }}
             @endif

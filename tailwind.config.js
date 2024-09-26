@@ -1,6 +1,7 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 
+
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
@@ -9,7 +10,7 @@ export default {
         './resources/views/**/*.blade.php',
         './vendor/wire-elements/modal/src/ModalComponent.php',
         './config/livewire-ui-modal.php',
-
+        "./node_modules/flowbite/**/*.js"
     ],
 
     theme: {
@@ -20,8 +21,12 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [
+        forms,
+        require('flowbite/plugin')
+    ],
 
     darkMode: 'selector',
     // ...
+
 };

@@ -3,8 +3,8 @@
         <div class="flex flex-col flex-auto flex-shrink-0 rounded-none bg-gray-100 dark:bg-gray-900 h-full w-full">
             <div class="flex flex-col h-full w-full">
                 <x-chat-area-infobar :activeConversation="$activeConversation" />
-                <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full p-4">
-                    <div class="grid grid-cols-12 w-full">
+                <div class="flex flex-col-reverse flex-auto h-0 overflow-x-auto w-full">
+                    <div class="mb-5">
                         @php
                             // Get the current user
                             $currentUser = auth()->user();
@@ -13,18 +13,27 @@
                             $otherParticipants = App\Models\Conversation::getParticipants($activeConversation->id)->where('id', '!=', $currentUser->id);
                         @endphp
 
-                        @foreach($messages as $message)
-                            @if($message['type'] === 'system')
-                                <x-message-system :message="$message"/>
-                            @elseif($message['user_id'] === $currentUser->id)
-                                <x-message-user :message="$message" :user="$currentUser"/>
+                        @foreach($messageGroups as $messageGroup)
+
+                            @if($messageGroup[0]['type'] === 'system')
+                                <x-message-system :messageGroup="$messageGroup"/>
                             @else
-                                <x-message-not-user :message="$message" :participants="$otherParticipants"/>
+                                <x-message-group :messageGroup="$messageGroup" :currentUser="$currentUser" :otherParticipants="$otherParticipants" :currentlyEditingId="$currentlyEditingId"/>
                             @endif
+
                         @endforeach
                     </div>
 
-                    @if($messages->count() === 0)
+                    {{-- If there are any more messages to load --}}
+                    @if($loadedMessages < $activeConversation->messages->count())
+                        <div class="flex justify-center text-xs dark:text-gray-400 text-gray-600 my-10">
+                            <button wire:click="loadMoreMessages" class="text-xl font-sans text-center dark:text-gray-500 dark:hover:text-gray-200 transition">
+                                Load more messages
+                            </button>
+                        </div>
+                    @endif
+
+                    @if($messageGroups->count() === 0)
                         <div class="mx-auto p-6">
                             <div class="text-xl font-sans text-center dark:text-gray-500">
                                 No messages yet, start the conversation!
@@ -40,7 +49,7 @@
                     @endif
                 </div>
 
-                <x-chat-area-inputs />
+                <x-chat-area-inputs :activeConversation="$activeConversation"/>
             </div>
         </div>
     </div>
@@ -57,3 +66,4 @@
         </div>
     </div>
 @endif
+

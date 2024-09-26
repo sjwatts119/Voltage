@@ -10,14 +10,14 @@
     <x-conversation-icon :currentConversation="$currentConversation" />
     <div class="flex flex-col text-left max-w-[70%]">
         @if($currentConversation)
-        <div class="ml-2 text-md font-sans dark:text-gray-300 truncate">
-                {{ $currentConversation->getFriendlyName($currentConversation->id, 100) }}
-        </div>
+            <div class="ml-2 text-md font-sans dark:text-gray-300 truncate">
+                    {{ $currentConversation->getFriendlyName($currentConversation->id, 100) }}
+            </div>
         @endif
         @if($currentConversation->messages->count())
-        <div class="ml-2 text-sm font-sans dark:text-gray-400 truncate">
-                {{ $currentConversation->getFriendlyLastMessage(100) }}
-        </div>
+            <div class="ml-2 text-sm font-sans dark:text-gray-400 truncate">
+                    {{ $currentConversation->getFriendlyLastMessage(100) }}
+            </div>
         @endif
     </div>
     @if($currentConversation->getFriendlyUnreadCount())

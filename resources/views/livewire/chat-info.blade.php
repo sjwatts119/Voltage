@@ -42,8 +42,8 @@
                         @endphp
 
                         @foreach($displayUsers as $user)
-                            @if($user->profile->profile_photo)
-                                <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 object-cover" src="{{ asset('storage/' . $user->profile->profile_photo) }}" title="{{ $user->name }}" alt="{{ $user->name }}">
+                            @if($user->profile->profile_thumb)
+                                <img class="w-10 h-10 border-2 border-white rounded-full dark:border-gray-800 object-cover" src="{{ asset('storage/' . $user->profile->profile_thumb) }}" title="{{ $user->name }}" alt="{{ $user->name }}">
                             @else
                                 <div class="flex items-center justify-center w-10 h-10 text-md font-medium text-gray-800 bg-purple-400 border-2 border-white rounded-full dark:border-gray-800" title="{{ $user->name }}">
                                     {{ $user->name[0] }}
@@ -69,6 +69,11 @@
 
                 <p class="text-gray-500 text-md font-sans">Conversation Created on {{ $conversation->created_at->format('F j, Y') }}</p>
                 <p class="text-gray-500 text-md font-sans">Number of Messages: {{ $messageCount }}</p>
+
+                {{-- Leave Conversation button --}}
+                @if($conversation->is_group)
+                    <button wire:click="leaveConversation" class="transition mt-4 text-red-500 hover:text-red-700 focus:outline-none">Leave Conversation</button>
+                @endif
             </div>
         </div>
     </div>

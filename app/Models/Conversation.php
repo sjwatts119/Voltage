@@ -53,11 +53,6 @@ class Conversation extends Model
             return $user->id != auth()->id();
         });
 
-        // If not a group chat, return the name of the other participant
-        if (!$conversation->is_group) {
-            return $participants->first()->name;
-        }
-
         // Return the conversation name if it exists
         if ($conversation->name) {
             return $conversation->name;
@@ -65,7 +60,19 @@ class Conversation extends Model
 
         // If it is just the authenticated user in the conversation, return "Just You"
         if ($participants->count() === 0) {
+            // This could either be a private chat where the other user deleted their account
+            // or a group chat where all users left. Either way, it's just the authenticated user
+
+            if(!$conversation->is_group) {
+                return 'Deleted User';
+            }
+
             return 'Just You';
+        }
+
+        // If not a group chat, return the name of the other participant
+        if (!$conversation->is_group) {
+            return $participants->first()->name;
         }
 
         // Get participant names as a comma-separated string
@@ -84,7 +91,24 @@ class Conversation extends Model
             return '';
         }
 
-        $message = $lastMessage->user->name  . ': ' . $lastMessage->message;
+        if(!$lastMessage->user) {
+            $lastMessageUser = 'Deleted User';
+        } else {
+            $lastMessageUser = $lastMessage->user->name;
+        }
+
+        // Is the message value null? If so, check if there are attachments, we should return a message like X sent y attachments
+        if(!$lastMessage->message) {
+            $attachmentCount = $lastMessage->attachments->count();
+
+            return $attachmentCount > 0 ? $lastMessageUser . ': ' . $attachmentCount . ' attachment' . ($attachmentCount > 1 ? 's' : '') : '';
+        }
+        else {
+
+
+            // Return the message as it exists
+            $message = $lastMessageUser  . ': ' . $lastMessage->message;
+        }
 
         // Limit the string to $maxLength characters, appending "..." if it's longer
         return Str::limit($message, $maxLength, '...');
@@ -92,10 +116,12 @@ class Conversation extends Model
 
     public function getUnreadCount() : int
     {
-        // Get the unread messages in the conversation
-        return $this->messages->reduce(function($carry, $message) {
-            return $carry + $message->reads->where('user_id', '=', auth()->id())->whereNull('read_at')->count();
-        }, 0);
+        return $this->messages()
+            ->whereHas('reads', function($query) {
+                $query->where('user_id', auth()->id())
+                    ->whereNull('read_at');
+            })
+            ->count();
     }
 
     public function getFriendlyUnreadCount() : string
