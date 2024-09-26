@@ -362,6 +362,18 @@ class Chat extends Component
         $currentGroup = [];
 
         foreach ($messages as $message) {
+            // Is the message a system message?
+            if ($message->type == 'system') {
+                // System messages should always be in their own group
+                if (!empty($currentGroup)) {
+                    $groupedMessages->push($currentGroup);
+                }
+
+                $groupedMessages->push([$message]);
+                $currentGroup = [];
+                continue;
+            }
+
             // If the current message is from the same user and sent within 5 minutes of the previous message, group them
             if ($previousMessage && $previousMessage->user_id == $message->user_id
                 && $previousMessage->created_at->diffInMinutes($message->created_at) <= 5) {

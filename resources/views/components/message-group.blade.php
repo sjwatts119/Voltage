@@ -3,18 +3,29 @@
         <div class="flex items-start space-x-4">
             {{-- User Icon --}}
             <div class="flex-shrink-0 pt-1.5">
-                <button wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $messageGroup[0]->user->id }} }})" class="focus:outline-none rounded-full">
-                    <x-user-icon :user="$messageGroup[0]->user" class="h-10 w-10"/>
-                </button>
+                @if(optional($messageGroup[0]->user)->exists)
+                    <button wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $messageGroup[0]->user->id }} }})" class="focus:outline-none rounded-full">
+                        <x-user-icon :user="$messageGroup[0]->user" class="h-10 w-10"/>
+                    </button>
+                @else
+                    <div class="h-10 w-10 bg-gray-400 rounded-full flex items-center justify-center">
+                    </div>
+                @endif
             </div>
 
             {{-- User Info and Messages --}}
             <div class="flex-grow">
                 <div class="flex items-baseline space-x-2 pt-1">
                     {{-- User's name --}}
-                    <div wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $messageGroup[0]->user->id }} }})" class="text-sm text-black dark:text-white break-all hover:underline cursor-pointer transition">
-                        {{$messageGroup[0]->user->name}}
-                    </div>
+                    @if(optional($messageGroup[0]->user)->exists)
+                        <div wire:click="$dispatch('openModal', { component: 'user-profile', arguments: { user: {{ $messageGroup[0]->user->id }} }})" class="text-sm text-black dark:text-white break-all hover:underline cursor-pointer transition">
+                            {{$messageGroup[0]->user->name}}
+                        </div>
+                    @else
+                        <div class="text-sm text-gray-600 dark:text-gray-400 break-all">
+                            Deleted User
+                        </div>
+                    @endif
 
                     {{-- Timestamp --}}
                     <div class="text-xs dark:text-slate-400">
@@ -42,7 +53,7 @@
                     </div>
                 @endif
             </div>
-            @if($messageGroup[0]->user_id === auth()->id())
+            @if(optional($messageGroup[0]->user)->id === auth()->id())
                 <div class="transition min-w-8 max-w-8 text-xs dark:text-slate-400 my-auto">
                     <x-message-dropdown-menu :message="$messageGroup[0]"/>
                 </div>
@@ -90,7 +101,7 @@
                 @endif
             </div>
 
-            @if($message->user_id === auth()->id())
+            @if(optional($message->user)->id === auth()->id())
                 <div class="transition min-w-8 max-w-8 text-xs dark:text-slate-400">
                     <x-message-dropdown-menu :message="$message"/>
                 </div>
@@ -104,4 +115,3 @@
         </div>
     @endforeach
 </div>
-
