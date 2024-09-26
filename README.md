@@ -15,6 +15,8 @@
   - **Add/Remove Users:** Dynamically add or remove participants from group chats.
   - **Group Management:** Rename group chats.
 - **Read Status Tracking:** Keep track of any new messages so you are always in the loop.
+- **Image & File Sharing:** Users can send images and files as part of their messages.
+- **Message Deletion & Editing:** Users can delete or edit their own messages.
 
 ### 🌐 Real-Time Updates
 - **Live Messaging:** Instant updates on new messages without refreshing the page.
